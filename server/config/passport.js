@@ -5,7 +5,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const Config = require('./index');
 
-const UserModel = require('../model/User');
+const UserModel = require('../models/User');
 
 passport.use('register', new LocalStrategy(
   { 

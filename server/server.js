@@ -3,16 +3,14 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
-const flash = require("connect-flash");
 require('./config/passport');
 
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes');
 const apiRouter = require('./routes/api');
 
 const app = express();
 
 app.use(logger('dev'));
-app.use(flash());
 app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
