@@ -5,6 +5,11 @@ const passport = require('passport');
 const AuthHelper = require('../../../util/helper/auth');
 const router = express.Router();
 
+/**
+ * @route POST /api/register
+ * @desc: 
+ * @access Private ?
+ */
 router.post('/register', async (req, res, next) => {
     passport.authenticate('register', async (err, user, info) => {
       if (err) {
@@ -26,6 +31,11 @@ router.post('/register', async (req, res, next) => {
     })(req, res, next);
   });
   
+  /**
+ * @route POST /api/login
+ * @desc: 
+ * @access Private ?
+ */
   router.post('/login', async (req, res, next) => {
     passport.authenticate('login', async (err, user, info) => {
       if (err) {

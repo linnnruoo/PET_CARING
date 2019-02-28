@@ -6,6 +6,11 @@ const userSubRouter = require('./users');
 
 const db = require('../../controller/db');
 
+/**
+ * @route POST /api/me
+ * @desc: Test token auth
+ * @access Private
+ */
 router.post('/me', passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     res.json({

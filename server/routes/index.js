@@ -2,11 +2,20 @@ const express = require('express');
 const router = express.Router();
 const db = require('../controller/db');
 
-/* GET home page. */
+/**
+ * @route GET /
+ * @desc: GET home page
+ * @access Public
+ */
 router.get('/', (req, res, next) => {
   res.render('index', { title: 'Test' });
 });
 
+/**
+ * @route GET /concheck
+ * @desc: Check DB connection
+ * @access Public
+ */
 router.get('/concheck', async (req, res, next) => {
 
   try {
