@@ -25,12 +25,12 @@
 							"raw": "{\n\t\"email\": \"petsitter@gmail.com\",\n\t\"password\": \"password\"\t\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/user/register",
+							"raw": "http://localhost:5000/api/user/register",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "5000",
 							"path": [
 								"api",
 								"user",
@@ -60,12 +60,12 @@
 							"raw": "{\n\t\"email\": \"petsitter@gmail.com\",\n\t\"password\": \"password\"\t\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/user/login",
+							"raw": "http://localhost:5000/api/user/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "5000",
 							"path": [
 								"api",
 								"user",
@@ -93,12 +93,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/concheck",
+							"raw": "http://localhost:5000/concheck",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "5000",
 							"path": [
 								"concheck"
 							]
@@ -120,7 +120,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZXRzaXR0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTUxMTkxNjcyLCJleHAiOjE1NTEyNzgwNzJ9.KPeOTSdUlS4_Ww6Ln-UnLuT_D4v9KDwbEKXBKtrQP6E",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZXRzaXR0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTUxNDIyMTgyLCJleHAiOjE1NTE1MDg1ODJ9.zrR0oArTuY7De5axA1rpucPQ1F3Pm0Pg3Wk0Gyz3DFk",
 									"type": "string"
 								}
 							]
@@ -132,12 +132,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/me",
+							"raw": "http://localhost:5000/api/me",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "3000",
+							"port": "5000",
 							"path": [
 								"api",
 								"me"
