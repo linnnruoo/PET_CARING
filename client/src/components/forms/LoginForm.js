@@ -11,7 +11,7 @@ const RegisterForm = ({
   _onSubmit
 }) => {
   return (
-    <form onClick={_onSubmit}>
+    <form onSubmit={_onSubmit}>
       <GridContainer spacing={16}>
         <GridItem xs={12}>
           <TextField
@@ -26,11 +26,12 @@ const RegisterForm = ({
             label='Password'
             value={password}
             name="password"
+            type="password"
             onChange={_onTextFieldChange}
           />
         </GridItem>
         <GridItem xs={12} align="right">
-          <DefaultButton>Login</DefaultButton>
+          <DefaultButton type="submit">Login</DefaultButton>
         </GridItem>
       </GridContainer>
     </form>

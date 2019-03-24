@@ -22,7 +22,7 @@ const Modal = ({ classes, open, onClose, label, children, ...rest }) => {
         <Typography style={{fontSize: '22px'}}>
           <strong>{label}</strong>
         </Typography>
-        <SVGIconButton onClick={onClose} color="#000" iconPath={CloseIcon} />
+        <SVGIconButton onClick={onClose} color="#000" pathName={CloseIcon} />
       </DialogTitle>
       <DialogContent className={classes.dialog_form}>
         { children }

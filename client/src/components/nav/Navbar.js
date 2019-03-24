@@ -162,14 +162,15 @@ class Navbar extends Component {
             <p>Profile</p>
           </MenuItem>
         ) : (
-          <>
+          // TODO: remove div but react fragment is not accepted?
+          <div>
             <MenuItem onClick={this._onModalOpen('openRegisterModal')}>
               <p>Sign Up</p>
             </MenuItem>
             <MenuItem onClick={this._onModalOpen('openLoginModal')}>
               <p>Login</p>
             </MenuItem>
-          </>
+          </div>
         )}
       </Menu>
     );

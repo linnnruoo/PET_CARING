@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+import { ToastContainer } from 'react-toastify';
 
 import Navbar from './components/nav/Navbar';
 
@@ -22,6 +23,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Navbar />
           <Route exact path="/" component={HomePage} />
+          <ToastContainer />
         </MuiThemeProvider>
       </Router>
     );
