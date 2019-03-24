@@ -47,7 +47,6 @@ passport.use('login', new LocalStrategy(
   async (email, password, done) => {
     try {
       const user = await UserModel.findOne(email);
-      console.log(user);
       if (user) {
         const verified = await UserModel.verify(password, user.password);
 

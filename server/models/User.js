@@ -24,7 +24,6 @@ const User = {
       const { rows } = await db.query(insertQuery, values);
       
       const matches = await AuthHelper.compareHash(password, rows[0].password);
-      console.log("matches ? :", matches);
 
       return rows[0];
     } catch (error) {
@@ -41,7 +40,6 @@ const User = {
 
     try {
       const { rows } = await db.query(findQuery, values);
-      console.log(rows);
       if (rows.length === 1) {
         const user = rows[0];
         return user;
