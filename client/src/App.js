@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { ToastContainer } from 'react-toastify';
