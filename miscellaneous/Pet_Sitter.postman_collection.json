@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"petsitter2@gmail.com\",\n\t\"password\": \"password\",\n\t\"firstname\": \"Pet\",\n\t\"lastname\": \"Sitter 2\"\n}"
+							"raw": "{\n\t\"email\": \"petsitter2@gmail.com\",\n\t\"password\": \"password\",\n\t\"firstname\": \"Pet\",\n\t\"lastname\": \"Sitter 2\",\n\t\"role\": \"petowner\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/api/user/register",
@@ -57,7 +57,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"petsitter@gmail.com\",\n\t\"password\": \"password\"\t\n}"
+							"raw": "{\n\t\"email\": \"petsitter2@gmail.com\",\n\t\"password\": \"password\"\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/api/user/login",

@@ -4,19 +4,20 @@ const AuthHelper = require('../util/helper/auth');
 const db = require('../controller/db')
 
 const User = {
-  create : async (email, password, firstname, lastname) => {
+  create : async (email, password, firstname, lastname, role) => {
 
     const passwordHash = await AuthHelper.hashPassword(password);
 
     const insertQuery = `INSERT INTO
         users(email, password, first_name, last_name, role_id)
-        VALUES($1, $2, $3, $4, 2)
+        VALUES($1, $2, $3, $4, (SELECT id FROM user_roles WHERE name = $5))
         returning *`;
     const values = [
       email,
       passwordHash,
       firstname, 
-      lastname
+      lastname,
+      role
     ];
 
     try {
@@ -33,13 +34,14 @@ const User = {
 
   findOne : async (email) => {
 
-    const findQuery = `SELECT id, email, password, ur.name as role FROM users natural join user_roles as ur WHERE email = $1`;
+    const findQuery = `SELECT u.id, u.email, u.password, ur.name as role FROM users u join user_roles as ur on u.role_id = ur.id WHERE u.email = $1`;
     const values = [
       email,
     ];
 
     try {
       const { rows } = await db.query(findQuery, values);
+      console.log(rows);
       if (rows.length === 1) {
         const user = rows[0];
         return user;
@@ -61,7 +63,7 @@ const User = {
   },
   findOneUsingToken : async (id, email) => {
 
-    const findQuery = `SELECT id, email, ur.name as role FROM users natural join user_roles as ur WHERE id = $1 AND email = $2 LIMIT 1`;
+    const findQuery = `SELECT u.id, u.email, ur.name as role FROM users u join user_roles as ur on u.role_id = ur.id WHERE id = $1 AND email = $2 LIMIT 1`;
     const values = [
       id, email
     ];

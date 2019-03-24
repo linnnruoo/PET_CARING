@@ -14,12 +14,15 @@ passport.use('register', new LocalStrategy(
     passReqToCallback: true
   }, 
   async (req, email, password, done) => {
-    if (!req.body.firstname || !req.body.lastname) {
+    if (!req.body.firstname || !req.body.lastname || !req.body.role) {
       return done(null, false, { message : 'Missing parameters in request'});
     }
-    const { firstname, lastname} = req.body;
+    if ( !(req.body.role == "petowner" || req.body.role == "caretaker")) {
+      return done(null, false, { message : 'Invalid parameters in request'});
+    }
+    const { firstname, lastname, role} = req.body;
     try {
-      const user = await UserModel.create(email, password, firstname, lastname);
+      const user = await UserModel.create(email, password, firstname, lastname, role);
       return done(null, user);
     } catch (error) {
       console.log(error);
@@ -44,7 +47,7 @@ passport.use('login', new LocalStrategy(
   async (email, password, done) => {
     try {
       const user = await UserModel.findOne(email);
-      
+      console.log(user);
       if (user) {
         const verified = await UserModel.verify(password, user.password);
 
