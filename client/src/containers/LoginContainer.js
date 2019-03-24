@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import LoginForm from '../components/forms/LoginForm';
 
 class LoginContainer extends Component {
@@ -18,6 +19,16 @@ class LoginContainer extends Component {
   }
   _onSubmit = (e) => {
     e.preventDefault();
+    const userAccInfo = {
+      email: this.state.email,
+      password: this.state.password
+    }
+
+    axios
+      .post('/api/user/login', userAccInfo)
+      .then(res => {
+        console.log(res);
+      }).catch(err => console.log(err))
   }
 
   render() {
