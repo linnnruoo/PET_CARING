@@ -5,6 +5,8 @@ import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import Navbar from './components/nav/Navbar';
 import RegisterPage from './pages/RegisterPage';
 
+import './App.css';
+
 const theme = createMuiTheme({
   palette: {
     primary: { main: '#f48b94' },

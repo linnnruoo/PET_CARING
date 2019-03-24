@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+
+import SVGIconButton from '../buttons/SVGIconButton';
+import { PetIcon, AccountIcon, MoreIcon } from '../../constants/icon_list';
+
+import RegisterModal from '../modals/RegisterModal';
+import LoginModal from '../modals/LoginModal';
 
 const styles = theme => ({
   root: {
@@ -55,6 +55,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    color: '#ffffff'
   },
   inputRoot: {
     color: 'inherit',
@@ -85,45 +86,65 @@ const styles = theme => ({
   },
 });
 
-class PrimarySearchAppBar extends React.Component {
-  state = {
-    anchorEl: null,
-    mobileMoreAnchorEl: null,
-  };
-
-  handleProfileMenuOpen = event => {
+class Navbar extends Component {
+  constructor() {
+    super();
+    this.state = {
+      anchorEl: null,
+      mobileMoreAnchorEl: null,
+      openRegisterModal: false,
+      openLoginModal: false
+    }
+    this._handleProfileMenuOpen = this._handleProfileMenuOpen.bind(this);
+    this._handleMenuClose = this._handleMenuClose.bind(this);
+    this._handleMobileMenuOpen = this._handleMobileMenuOpen.bind(this);
+    this._handleMobileMenuClose = this._handleMobileMenuClose.bind(this);
+    this._onModalOpen = this._onModalOpen.bind(this);
+    this._onModalClose = this._onModalClose.bind(this);
+  }
+  _handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleMenuClose = () => {
+  _handleMenuClose = () => {
     this.setState({ anchorEl: null });
-    this.handleMobileMenuClose();
+    this._handleMobileMenuClose();
   };
 
-  handleMobileMenuOpen = event => {
+  _handleMobileMenuOpen = event => {
     this.setState({ mobileMoreAnchorEl: event.currentTarget });
   };
 
-  handleMobileMenuClose = () => {
+  _handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
   };
 
+  _onModalOpen = (modalName) => (e) => {
+    this.setState({ [modalName]: true });
+  }
+
+  _onModalClose = (modalName) => (e) => {
+    this.setState({ [modalName]: false });
+  }
+
   render() {
-    const { anchorEl, mobileMoreAnchorEl } = this.state;
+    const { anchorEl, mobileMoreAnchorEl, openLoginModal, openRegisterModal } = this.state;
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const isAuthenticated = false;
 
-    const renderMenu = (
+    const renderAuthMenu = (
       <Menu
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMenuOpen}
-        onClose={this.handleMenuClose}
+        onClose={this._handleMenuClose}
       >
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        <MenuItem onClick={this._handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={this._handleMenuClose}>Dashboard</MenuItem>
+        <MenuItem onClick={this._handleMenuClose}>Logout</MenuItem>
       </Menu>
     );
 
@@ -133,30 +154,23 @@ class PrimarySearchAppBar extends React.Component {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isMobileMenuOpen}
-        onClose={this.handleMenuClose}
+        onClose={this._handleMenuClose}
       >
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </IconButton>
-          <p>Messages</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleMobileMenuClose}>
-          <IconButton color="inherit">
-            <Badge badgeContent={11} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p>Profile</p>
-        </MenuItem>
+        {(isAuthenticated) ? (
+          <MenuItem onClick={this._handleProfileMenuOpen}>
+            <SVGIconButton pathName={AccountIcon} color="#000" />
+            <p>Profile</p>
+          </MenuItem>
+        ) : (
+          <>
+            <MenuItem onClick={this._onModalOpen('openRegisterModal')}>
+              <p>Sign Up</p>
+            </MenuItem>
+            <MenuItem onClick={this._onModalOpen('openLoginModal')}>
+              <p>Login</p>
+            </MenuItem>
+          </>
+        )}
       </Menu>
     );
 
@@ -164,9 +178,7 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Pet Sitter
-            </Typography>
+            <SVGIconButton pathName={PetIcon} href="/" />
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -181,37 +193,37 @@ class PrimarySearchAppBar extends React.Component {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
+              {(isAuthenticated) ? (
+                <SVGIconButton
+                  aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                  aria-haspopup="true"
+                  onClick={this._handleProfileMenuOpen}
+                  pathName={AccountIcon}
+                />
+              ) : (
+                // open modal
+                <>
+                  <Button onClick={this._onModalOpen('openRegisterModal')}>Sign Up</Button>
+                  <Button onClick={this._onModalOpen('openLoginModal')}>Login</Button>
+                </>
+              )}
             </div>
             <div className={classes.sectionMobile}>
-              <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                <MoreIcon />
-              </IconButton>
+              <SVGIconButton aria-haspopup="true" onClick={this._handleMobileMenuOpen} pathName={MoreIcon} />
             </div>
           </Toolbar>
         </AppBar>
-        {renderMenu}
+        {isAuthenticated ? renderAuthMenu : null}
         {renderMobileMenu}
+        {openRegisterModal && (
+          <RegisterModal open={openRegisterModal} onClose={this._onModalClose('openRegisterModal')} />
+        )}
+        {openLoginModal && (
+          <LoginModal open={openLoginModal} onClose={this._onModalClose('openLoginModal')} />
+        )}
       </div>
     );
   }
 }
 
-export default withStyles(styles)(PrimarySearchAppBar);
+export default withStyles(styles)(Navbar);
