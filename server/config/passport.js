@@ -10,11 +10,16 @@ const UserModel = require('../models/User');
 passport.use('register', new LocalStrategy(
   { 
     usernameField: 'email',  
-    passwordField: 'password'
+    passwordField: 'password',
+    passReqToCallback: true
   }, 
-  async (email, password, done) => {
+  async (req, email, password, done) => {
+    if (!req.body.firstname || !req.body.lastname) {
+      return done(null, false, { message : 'Missing parameters in request'});
+    }
+    const { firstname, lastname} = req.body;
     try {
-      const user = await UserModel.create(email, password);
+      const user = await UserModel.create(email, password, firstname, lastname);
       return done(null, user);
     } catch (error) {
       console.log(error);

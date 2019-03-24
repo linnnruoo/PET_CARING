@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"petsitter@gmail.com\",\n\t\"password\": \"password\"\t\n}"
+							"raw": "{\n\t\"email\": \"petsitter2@gmail.com\",\n\t\"password\": \"password\",\n\t\"firstname\": \"Pet\",\n\t\"lastname\": \"Sitter 2\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:5000/api/user/register",
@@ -120,7 +120,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZXRzaXR0ZXJAZ21haWwuY29tIiwiaWF0IjoxNTUxNDIyMTgyLCJleHAiOjE1NTE1MDg1ODJ9.zrR0oArTuY7De5axA1rpucPQ1F3Pm0Pg3Wk0Gyz3DFk",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZXRzaXR0ZXJAZ21haWwuY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTUzNDA4NzA0LCJleHAiOjE1NTM0OTUxMDR9.qUsyrhIrt-atvTupuztcZhOFWfCqD5AIR017C7V4zng",
 									"type": "string"
 								}
 							]

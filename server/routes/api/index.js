@@ -15,7 +15,7 @@ router.post('/me', passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     res.json({
       me: {
-        email: req.user.email
+        ...req.user
       }
     });
   }

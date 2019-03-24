@@ -4,17 +4,19 @@ const AuthHelper = require('../util/helper/auth');
 const db = require('../controller/db')
 
 const User = {
-  create : async (email, password) => {
+  create : async (email, password, firstname, lastname) => {
 
     const passwordHash = await AuthHelper.hashPassword(password);
 
     const insertQuery = `INSERT INTO
-        users(email, password)
-        VALUES($1, $2)
+        users(email, password, first_name, last_name, role_id)
+        VALUES($1, $2, $3, $4, 2)
         returning *`;
     const values = [
       email,
       passwordHash,
+      firstname, 
+      lastname
     ];
 
     try {
@@ -31,7 +33,7 @@ const User = {
 
   findOne : async (email) => {
 
-    const findQuery = `SELECT id, email, password FROM users WHERE email = $1 LIMIT 1`;
+    const findQuery = `SELECT id, email, password, ur.name as role FROM users natural join user_roles as ur WHERE email = $1`;
     const values = [
       email,
     ];
@@ -59,7 +61,7 @@ const User = {
   },
   findOneUsingToken : async (id, email) => {
 
-    const findQuery = `SELECT id, email FROM users WHERE id = $1 AND email = $2 LIMIT 1`;
+    const findQuery = `SELECT id, email, ur.name as role FROM users natural join user_roles as ur WHERE id = $1 AND email = $2 LIMIT 1`;
     const values = [
       id, email
     ];
