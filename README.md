@@ -1,4 +1,4 @@
-# CS2102 TEAM 38 TOPIC PET_CARING
+# CS2102 TEAM 35 TOPIC PET_CARING
 
 ## Quick Start
 First, clone repo and login when prompted
