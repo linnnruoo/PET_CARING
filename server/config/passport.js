@@ -21,6 +21,7 @@ passport.use('register', new LocalStrategy(
     passReqToCallback: true
   }, 
   async (req, email, password, done) => {
+    console.log(req.body);
     if (!req.body.firstname || !req.body.lastname || !req.body.role) {
       return done(null, false, { message : 'Missing parameters in request'});
     }

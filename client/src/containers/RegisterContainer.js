@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import RegisterForm from '../components/forms/RegisterForm';
 
 class RegisterContainer extends Component {
@@ -27,6 +28,23 @@ class RegisterContainer extends Component {
   }
   _onSubmit = (e) => {
     e.preventDefault();
+
+    const registrationInfo = {
+      email:      this.state.email,
+      firstname:  this.state.firstName,
+      lastname:   this.state.lastName,
+      password:   this.state.password,
+      role:       this.state.role
+    }
+
+    axios
+      .post('/api/user/register', registrationInfo)
+      .then(
+        res => {
+          console.log(res);
+        }
+      )
+      .catch(err => console.log(err))
   }
 
   render() {
