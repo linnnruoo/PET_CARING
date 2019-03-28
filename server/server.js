@@ -17,7 +17,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Http requests to /
 app.use('/', indexRouter);
+
+// Http requests to /api
+// Example: /api/
 app.use('/api', apiRouter);
 
 if(process.env.NODE_ENV === 'production') {

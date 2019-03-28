@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-const saltRounds = 12;
 const AuthHelper = require('../util/helper/auth');
 const db = require('../controller/db')
 

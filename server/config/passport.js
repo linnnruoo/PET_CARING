@@ -1,3 +1,6 @@
+/**
+ * @description Configuration for Passport Middleware
+ */
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
@@ -7,6 +10,10 @@ const Config = require('./index');
 
 const UserModel = require('../models/User');
 
+/**
+ * @description LocalStrategy used by 
+ * /api/routes/user/register endpoint
+ */
 passport.use('register', new LocalStrategy(
   { 
     usernameField: 'email',  
@@ -39,6 +46,10 @@ passport.use('register', new LocalStrategy(
   }
 ));
 
+/**
+ * @description LocalStrategy used by 
+ * /api/routes/user/login endpoint
+ */
 passport.use('login', new LocalStrategy(
   { 
     usernameField: 'email',  
@@ -72,6 +83,10 @@ let jwtOpts = {};
 jwtOpts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOpts.secretOrKey = Config.JWT_SECRET;
 
+/**
+ * @description When JWT Passport middleware is used in route api
+ * such as router.post('/me', passport.authenticate('jwt', { session: false })
+ */
 passport.use(new JwtStrategy(jwtOpts, async(payload, done) => {
   const { iat, exp, ...userPart} = payload;   
   try {

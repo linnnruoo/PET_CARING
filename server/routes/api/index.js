@@ -21,6 +21,11 @@ router.post('/me', passport.authenticate('jwt', { session: false }),
   }
 );
 
+/**
+ * @route * /api/user/*
+ * @desc: API related to user endpoint such as /api/user/register
+ * @access Public
+ */
 router.use('/user', userSubRouter);
 
 module.exports = router;
