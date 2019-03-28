@@ -1,3 +1,7 @@
+/**
+ * @description Global Postgres Connection Pool
+ * All queries will be run using connection pool
+ */
 const { Pool } = require('pg');
 const Config = require('../../config');
 

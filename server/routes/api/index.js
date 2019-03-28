@@ -9,6 +9,8 @@ const db = require('../../controller/db');
 /**
  * @route POST /api/me
  * @desc: Test token auth
+ * Note the chained middleware usage : Passport Auth Middleware -> async(req,res) handler
+ * If auth fails, async handler will never be reached
  * @access Private
  */
 router.post('/me', passport.authenticate('jwt', { session: false }),
