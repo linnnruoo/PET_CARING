@@ -16,6 +16,7 @@ const CareTaker = {
       
       return rows[0];
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -32,6 +33,7 @@ const CareTaker = {
       
       return rows;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }

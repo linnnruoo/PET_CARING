@@ -19,6 +19,7 @@ const Pet = {
 
       return rows[0];
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -35,6 +36,7 @@ const Pet = {
       
       return rows;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }

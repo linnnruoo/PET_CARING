@@ -19,6 +19,7 @@ const Service = {
       
       return rows[0];
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -35,6 +36,7 @@ const Service = {
       
       return rows;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -55,6 +57,7 @@ const Service = {
 
       return rows;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }
