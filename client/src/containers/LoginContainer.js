@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import LoginForm from '../components/forms/LoginForm';
+import AuthService from '../utilities/AuthService';
+import { toast } from 'react-toastify';
 
+const Auth = new AuthService(process.env.CLIENT_URL)
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +30,9 @@ class LoginContainer extends Component {
     axios
       .post('/api/user/login', userAccInfo)
       .then(res => {
-        console.log(res);
+        console.log(res)
+        toast(res.data.message);
+        Auth.loginUser(res.data.token);
       }).catch(err => console.log(err))
   }
 

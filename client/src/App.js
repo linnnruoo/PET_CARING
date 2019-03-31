@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import Navbar from './components/nav/Navbar';
 
 import HomePage from './pages/HomePage';
+import DashboardPage from './pages/DashboardPage';
 
 const theme = createMuiTheme({
   palette: {
@@ -25,6 +26,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Navbar />
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/dashboard" component={DashboardPage} />
           <ToastContainer />
         </MuiThemeProvider>
       </Router>
