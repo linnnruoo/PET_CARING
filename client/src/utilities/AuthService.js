@@ -3,7 +3,7 @@ import setAuthToken from './SetAuthToken';
 
 export default class AuthService {
   constructor(domain) {
-    this.domain = domain || process.env.CLIENT_URL
+    this.domain = domain || process.env.REACT_APP_CLIENT_URL
   }
 
   loginUser(token) {
@@ -44,40 +44,40 @@ export default class AuthService {
 
   // Token
   setToken(token) {
-    localStorage.setItem(process.env.JWT_HEADER, token);
+    localStorage.setItem(process.env.REACT_APP_JWT_HEADER, token);
   }
 
   getToken() {
-    return localStorage.getItem(process.env.JWT_HEADER);
+    return localStorage.getItem(process.env.REACT_APP_JWT_HEADER);
   }
 
   removeToken() {
-    localStorage.removeItem(process.env.JWT_HEADER);
+    localStorage.removeItem(process.env.REACT_APP_JWT_HEADER);
   }
 
   // UserRole
   setRole(role) {
-    localStorage.setItem(process.env.USER_ROLE, role);
+    localStorage.setItem(process.env.REACT_APP_USER_ROLE, role);
   }
 
   getRole() {
-    return localStorage.getItem(process.env.USER_ROLE);
+    return localStorage.getItem(process.env.REACT_APP_USER_ROLE);
   }
 
   removeRole() {
-    localStorage.removeItem(process.env.USER_ROLE);
+    localStorage.removeItem(process.env.REACT_APP_USER_ROLE);
   }
 
   // ID
   setID(id) {
-    localStorage.setItem(process.env.USER_ID, id);
+    localStorage.setItem(process.env.REACT_APP_USER_ID, id);
   } 
 
   getID() {
-    return localStorage.getItem(process.env.USER_ID);
+    return localStorage.getItem(process.env.REACT_APP_USER_ID);
   }
 
   removeID() {
-    localStorage.removeItem(process.env.USER_ID);
+    localStorage.removeItem(process.env.REACT_APP_USER_ID);
   }
 }
