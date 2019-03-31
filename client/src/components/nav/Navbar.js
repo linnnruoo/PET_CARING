@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
@@ -14,6 +16,10 @@ import { PetIcon, AccountIcon, MoreIcon } from '../../constants/icon_list';
 
 import RegisterModal from '../modals/RegisterModal';
 import LoginModal from '../modals/LoginModal';
+import { AuthConsumer } from '../../utilities/AuthContext';
+import AuthService from '../../utilities/AuthService';
+
+const Auth = new AuthService(process.env.REACT_APP_CLIENT_URL)
 
 const styles = theme => ({
   root: {
@@ -86,6 +92,21 @@ const styles = theme => ({
   },
 });
 
+const LogoutMenuItem = withRouter(({ history }) => (
+  <MenuItem onClick={() => {
+    history.push('/');
+    Auth.logoutUser();
+  }}>Logout</MenuItem>
+))
+
+const ProfileMenuItem = withRouter(({ history }) => (
+  <MenuItem onClick={() => history.push('/profile')}>Profile</MenuItem>
+))
+
+const DashboardMenuItem = withRouter(({ history }) => (
+  <MenuItem onClick={() => history.push('/dashboard')}>Dashboard</MenuItem>
+))
+
 class Navbar extends Component {
   constructor() {
     super();
@@ -93,7 +114,7 @@ class Navbar extends Component {
       anchorEl: null,
       mobileMoreAnchorEl: null,
       openRegisterModal: false,
-      openLoginModal: false
+      openLoginModal: false,
     }
     this._handleProfileMenuOpen = this._handleProfileMenuOpen.bind(this);
     this._handleMenuClose = this._handleMenuClose.bind(this);
@@ -101,6 +122,7 @@ class Navbar extends Component {
     this._handleMobileMenuClose = this._handleMobileMenuClose.bind(this);
     this._onModalOpen = this._onModalOpen.bind(this);
     this._onModalClose = this._onModalClose.bind(this);
+    // this._onLogoutClick = this._onLogoutClick.bind(this);
   }
   _handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -132,7 +154,6 @@ class Navbar extends Component {
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const isAuthenticated = false;
 
     const renderAuthMenu = (
       <Menu
@@ -142,13 +163,13 @@ class Navbar extends Component {
         open={isMenuOpen}
         onClose={this._handleMenuClose}
       >
-        <MenuItem onClick={this._handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this._handleMenuClose}>Dashboard</MenuItem>
-        <MenuItem onClick={this._handleMenuClose}>Logout</MenuItem>
+        <ProfileMenuItem />
+        <DashboardMenuItem />
+        <LogoutMenuItem />
       </Menu>
     );
 
-    const renderMobileMenu = (
+    const renderMobileMenu = (isLoggedIn) => (
       <Menu
         anchorEl={mobileMoreAnchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -156,7 +177,7 @@ class Navbar extends Component {
         open={isMobileMenuOpen}
         onClose={this._handleMenuClose}
       >
-        {(isAuthenticated) ? (
+        {(isLoggedIn) ? (
           <MenuItem onClick={this._handleProfileMenuOpen}>
             <SVGIconButton pathName={AccountIcon} color="#000" />
             <p>Profile</p>
@@ -177,51 +198,58 @@ class Navbar extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <SVGIconButton pathName={PetIcon} href="/" />
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-              />
-            </div>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              {(isAuthenticated) ? (
-                <SVGIconButton
-                  aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this._handleProfileMenuOpen}
-                  pathName={AccountIcon}
-                />
-              ) : (
-                // open modal
-                <>
-                  <Button onClick={this._onModalOpen('openRegisterModal')}>Sign Up</Button>
-                  <Button onClick={this._onModalOpen('openLoginModal')}>Login</Button>
-                </>
-              )}
-            </div>
-            <div className={classes.sectionMobile}>
-              <SVGIconButton aria-haspopup="true" onClick={this._handleMobileMenuOpen} pathName={MoreIcon} />
-            </div>
-          </Toolbar>
-        </AppBar>
-        {isAuthenticated ? renderAuthMenu : null}
-        {renderMobileMenu}
-        {openRegisterModal && (
-          <RegisterModal open={openRegisterModal} onClose={this._onModalClose('openRegisterModal')} />
+        <AuthConsumer>
+        {({ isLoggedIn }) => (
+          <>
+            <AppBar position="static">
+              <Toolbar>
+                <SVGIconButton pathName={PetIcon} href="/" />
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                  />
+                </div>
+                <div className={classes.grow} />
+                <div className={classes.sectionDesktop}>
+                  {(isLoggedIn) ? (
+                    <SVGIconButton
+                      aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                      aria-haspopup="true"
+                      onClick={this._handleProfileMenuOpen}
+                      pathName={AccountIcon}
+                    />
+                  ) : (
+                    // open modal
+                    <>
+                      <Button onClick={this._onModalOpen('openRegisterModal')}>Sign Up</Button>
+                      <Button onClick={this._onModalOpen('openLoginModal')}>Login</Button>
+                    </>
+                  )}
+                </div>
+                <div className={classes.sectionMobile}>
+                  <SVGIconButton aria-haspopup="true" onClick={this._handleMobileMenuOpen} pathName={MoreIcon} />
+                </div>
+              </Toolbar>
+            </AppBar>
+            {isLoggedIn ? renderAuthMenu : null}
+            {renderMobileMenu(isLoggedIn)}
+            {openRegisterModal && (
+              <RegisterModal open={openRegisterModal} onClose={this._onModalClose('openRegisterModal')} />
+            )}
+            {openLoginModal && (
+              <LoginModal open={openLoginModal} onClose={this._onModalClose('openLoginModal')} />
+            )}
+          </>
         )}
-        {openLoginModal && (
-          <LoginModal open={openLoginModal} onClose={this._onModalClose('openLoginModal')} />
-        )}
+        </AuthConsumer>
+
       </div>
     );
   }
