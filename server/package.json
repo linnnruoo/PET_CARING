@@ -7,7 +7,7 @@
     "start": "node ./bin/www",
     "debug": "nodemon --inspect ./bin/www"
   },
-  "author": "CS2102 TEAM 38 AY18/19",
+  "author": "CS2102 TEAM 35 AY18/19",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.18.9"
