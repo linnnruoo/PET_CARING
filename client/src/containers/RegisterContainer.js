@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import RegisterForm from '../components/forms/RegisterForm';
+import { toast } from 'react-toastify';
 
 class RegisterContainer extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class RegisterContainer extends Component {
       .post('/api/user/register', registrationInfo)
       .then(
         res => {
-          console.log(res);
+          toast.success(res.data.message);  
         }
       )
       .catch(err => console.log(err))

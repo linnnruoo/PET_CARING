@@ -30,7 +30,6 @@ class LoginContainer extends Component {
     axios
       .post('/api/user/login', userAccInfo)
       .then(res => {
-        console.log(res)
         toast(res.data.message);
         Auth.loginUser(res.data.token);
       }).catch(err => console.log(err))
