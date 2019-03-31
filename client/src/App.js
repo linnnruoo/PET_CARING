@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { ToastContainer } from 'react-toastify';
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { AuthProvider } from './utilities/AuthContext';
+import ProtectedRoute from './utilities/ProtectedRoute';
 
 import Navbar from './components/nav/Navbar';
 
@@ -23,12 +26,14 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <MuiThemeProvider theme={theme}>
-          <Navbar />
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/dashboard" component={DashboardPage} />
-          <ToastContainer />
-        </MuiThemeProvider>
+        <AuthProvider>
+          <MuiThemeProvider theme={theme}>
+            <Navbar />
+            <Route exact path="/" component={HomePage} />
+            <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+            <ToastContainer />
+          </MuiThemeProvider>
+        </AuthProvider>
       </Router>
     );
   }
