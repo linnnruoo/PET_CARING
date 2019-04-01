@@ -1,3 +1,5 @@
+drop table if exists pets cascade;
+
 create table pets
 (
   pid           serial                              not null,

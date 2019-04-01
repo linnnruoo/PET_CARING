@@ -1,3 +1,5 @@
+drop table if exists services cascade;
+
 create table services
 (
   sid           	serial                          not null,

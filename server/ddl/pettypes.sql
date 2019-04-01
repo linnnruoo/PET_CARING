@@ -1,3 +1,5 @@
+drop table if exists pettypes cascade;
+
 create table pettypes
 (
   tid           serial                              not null,

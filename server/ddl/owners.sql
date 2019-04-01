@@ -1,3 +1,5 @@
+drop table if exists owners cascade;
+
 create table owners
 (
   id           serial                              not null,

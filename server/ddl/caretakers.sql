@@ -1,3 +1,5 @@
+drop table if exists caretakers cascade;
+
 create table caretakers
 (
   id           serial                              not null,
