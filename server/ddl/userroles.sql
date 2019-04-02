@@ -1,3 +1,5 @@
+drop table if exists user_roles cascade;
+
 create table user_roles
 (
   id   serial       not null,

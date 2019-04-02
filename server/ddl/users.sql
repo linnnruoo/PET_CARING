@@ -1,3 +1,5 @@
+drop table if exists users cascade;
+
 create table users
 (
   id           serial                              not null,
