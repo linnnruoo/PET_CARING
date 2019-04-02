@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 // Register a new user
 export const registerUser = (registrationInfo, history) => dispatch => {
   axios
-    .post("/api/users/register", registrationInfo)
+    .post("/api/user/register", registrationInfo)
     .then(res => {
       toast.success(res.data.message);
       history.push("/");

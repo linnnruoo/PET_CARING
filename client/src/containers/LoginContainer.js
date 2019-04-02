@@ -41,7 +41,7 @@ class LoginContainer extends Component {
       email: this.state.email,
       password: this.state.password
     };
-
+    this.props.onClose();
     this.props.loginUser(userAccInfo);
   };
 

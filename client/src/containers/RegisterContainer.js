@@ -50,6 +50,7 @@ class RegisterContainer extends Component {
       password: this.state.password,
       role: this.state.role
     };
+    this.props.onClose();
     this.props.registerUser(registrationInfo, this.props.history);
   };
 
