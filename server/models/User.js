@@ -40,7 +40,17 @@ const User = {
 
   findOne : async (email) => {
 
-    const findQuery = `SELECT u.id, u.email, u.password, ur.name as role FROM users u join user_roles as ur on u.role_id = ur.id WHERE u.email = $1`;
+    const findQuery = `
+      SELECT u.id, u.email, u.password, 
+        CASE 
+          WHEN EXISTS (SELECT 1 FROM caretakers c WHERE c.id = u.id)
+          THEN 'caretaker' 
+          WHEN EXISTS (SELECT 1 FROM owners o WHERE o.id = u.id)
+          THEN 'petowner' 
+          WHEN EXISTS (SELECT 1 FROM admins a WHERE a.id = u.id)
+          THEN 'admin'
+        END AS role
+      FROM users u WHERE u.email = $1`;
     const values = [
       email,
     ];
@@ -68,7 +78,18 @@ const User = {
   },
   findOneUsingToken : async (id, email) => {
 
-    const findQuery = `SELECT u.id, u.email, ur.name as role FROM users u join user_roles as ur on u.role_id = ur.id WHERE id = $1 AND email = $2 LIMIT 1`;
+    const findQuery = `
+      SELECT u.id, u.email,  
+        CASE 
+          WHEN EXISTS (SELECT 1 FROM caretakers c WHERE c.id = u.id)
+          THEN 'caretaker' 
+          WHEN EXISTS (SELECT 1 FROM owners o WHERE o.id = u.id)
+          THEN 'petowner' 
+          WHEN EXISTS (SELECT 1 FROM admins a WHERE a.id = u.id)
+          THEN 'admin'
+        END AS role
+      FROM users u WHERE u.id = $1 AND u.email = $2 LIMIT 1`;
+    //const findQuery = `SELECT u.id, u.email, ur.name as role FROM users u join user_roles as ur on u.role_id = ur.id WHERE id = $1 AND email = $2 LIMIT 1`;
     const values = [
       id, email
     ];
