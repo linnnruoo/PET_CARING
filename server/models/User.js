@@ -6,10 +6,19 @@ const User = {
 
     const passwordHash = await AuthHelper.hashPassword(password);
 
-    const insertQuery = `INSERT INTO
-        users(email, password, first_name, last_name, role_id)
-        VALUES($1, $2, $3, $4, (SELECT id FROM user_roles WHERE name = $5))
-        returning *`;
+    const insertQuery = `WITH 
+        new_user AS (
+          INSERT INTO users(email, password, first_name, last_name)
+          VALUES($1, $2, $3, $4)
+          RETURNING *
+        ),
+        new_caretaker AS (
+          INSERT INTO caretakers(id) SELECT (lastval()) WHERE $5 = 'caretaker' RETURNING *
+        ),
+        new_petowner AS (
+          INSERT INTO owners(id) SELECT (lastval()) WHERE $5 = 'petowner' RETURNING *
+        )
+        SELECT * FROM new_user`;
     const values = [
       email,
       passwordHash,
