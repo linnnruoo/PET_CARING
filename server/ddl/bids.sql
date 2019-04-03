@@ -6,7 +6,7 @@ create table bids
   sid				serial							not null,
   amount			int								not null,
   petName			varchar(100)					not null,
-  accepted			boolean,
+  accepted			boolean							default FALSE,
   primary key (id, sid, petName),
   foreign key (id) references owners,
   foreign key (sid) references services,

@@ -1,19 +1,18 @@
 const db = require('../controller/db')
 
-const Service = {
-  create : async (ownerId, startTime, endTime, expected, typeName) => {
+const Bid = {
+  create : async (ownerId, serviceId, amount, petName) => {
 
     const insertQuery = `INSERT INTO 
-        services(id, startTime, endTime, expected, typeName)
-        VALUES($1, $2, $3, $4, $5)
+        services(id, sid, amount, petName)
+        VALUES($1, $2, $3, $4)
         returning *`;
 
     const values = [
       ownerId,
-      startTime,
-      endTime,
-      expected,
-      typeName
+      serviceId,
+      amount,
+      petName
     ];
 
     try {
@@ -26,16 +25,18 @@ const Service = {
     }
   },
 
-  filterByType: async (typeName) => {
-    const filterQuery = `SELECT * FROM services s WHERE pt.typeName = $1`;
+  filterByService: async (sid) => {
+    const filterQuery = `SELECT *
+                         FROM bids b
+                         WHERE b.sid = $1`;
 
     const values = [
-      typeName
+      sid
     ];
 
     try {
       const { rows } = await db.query(filterQuery, values);
-      
+
       return rows;
     } catch (error) {
       console.log(error);
@@ -43,15 +44,13 @@ const Service = {
     }
   },
 
-  filterByTime: async (startTime, endTime) => {
-    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName 
-                         FROM services s
-                         WHERE s.startTime >= $1
-                         AND s.endTime <= $2`;
+  filterByAmount: async (amount) => {
+    const filterQuery = `SELECT *
+                         FROM bids b
+                         WHERE b.amount <= $1`;
 
     const values = [
-      startTime,
-      endTime
+      amount
     ];
 
     try {
@@ -65,4 +64,4 @@ const Service = {
   }
 };
 
-module.exports = Service;
+module.exports = Bid;

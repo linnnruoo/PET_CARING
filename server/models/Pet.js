@@ -1,17 +1,16 @@
 const db = require('../controller/db')
 
 const Pet = {
-  create : async (name, id, tid) => {
+  create : async (name, id, breedName) => {
 
-    const insertQuery = `INSERT INTO
-        pets(name, id, tid)
+    const insertQuery = `INSERT INTO pets
         VALUES($1, $2, $3)
         returning *`;
 
     const values = [
       name,
       id,
-      tid
+      breedName
     ];
 
     try {
@@ -24,11 +23,11 @@ const Pet = {
     }
   },
 
-  filterByType: async (typeName) => {
-    const filterQuery = `SELECT p.name, pt.name FROM pets p natural join pettypes pt WHERE pt.name = $1`;
+  filterByType: async (breedName) => {
+    const filterQuery = `SELECT p.name, pt.breedName FROM pets p natural join pettypes pt WHERE pt.breedName = $1`;
 
     const values = [
-      typeName
+      breedName
     ];
 
     try {

@@ -7,8 +7,8 @@ create table services
   startTime			timestamp						not null,
   endTime			timestamp						not null,
   expected			int,
-  type				serial,
+  typeName			varchar(100),
   primary key (sid),
-  foreign key (type) references pettypes,
+  foreign key (typeName) references pettypes,
   foreign key (id) references caretakers 
 );
