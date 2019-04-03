@@ -10,7 +10,9 @@ const Pet = {
     const values = [
       name,
       id,
-      breedName
+      breedName,
+      age,
+      gender
     ];
 
     try {
