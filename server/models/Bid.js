@@ -4,7 +4,7 @@ const Bid = {
   create : async (ownerId, serviceId, amount, petName) => {
 
     const insertQuery = `INSERT INTO 
-        services(id, sid, amount, petName)
+        bids(id, sid, amount, petName)
         VALUES($1, $2, $3, $4)
         returning *`;
 

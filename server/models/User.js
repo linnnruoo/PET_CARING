@@ -89,8 +89,8 @@ const User = {
           THEN 'admin'
         END AS role
       FROM users u WHERE u.id = $1 AND u.email = $2 LIMIT 1`;
-    //const findQuery = `SELECT u.id, u.email, ur.name as role FROM users u join user_roles as ur on u.role_id = ur.id WHERE id = $1 AND email = $2 LIMIT 1`;
-    const values = [
+    
+      const values = [
       id, email
     ];
 
