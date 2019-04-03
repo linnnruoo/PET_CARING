@@ -1,10 +1,10 @@
 const db = require('../controller/db')
 
 const Pet = {
-  create : async (name, id, breedName) => {
+  create : async (name, id, breedName, age, gender) => {
 
     const insertQuery = `INSERT INTO pets
-        VALUES($1, $2, $3)
+        VALUES($1, $2, $3, $4, $5)
         returning *`;
 
     const values = [
@@ -23,11 +23,33 @@ const Pet = {
     }
   },
 
-  filterByType: async (breedName) => {
-    const filterQuery = `SELECT p.name, pt.breedName FROM pets p natural join pettypes pt WHERE pt.breedName = $1`;
+  filterByType: async (typeName) => {
+    const filterQuery = `SELECT p.name, p.breedName, pb.typeName, u.first_name 
+                         FROM pets p natural join petbreed pb 
+                                     inner join users ON p.id = u.id
+                         WHERE pb.typeName = $1`;
 
     const values = [
-      breedName
+      typeName
+    ];
+
+    try {
+      const { rows } = await db.query(filterQuery, values);
+      
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  filterByOwner: async (id) => {
+    const filterQuery = `SELECT p.name, p.breedName, p.age, p.gender 
+                         FROM pets p 
+                         WHERE p.id = $1`;
+
+    const values = [
+      id
     ];
 
     try {

@@ -4,7 +4,7 @@ const PetType = {
   create : async (name) => {
 
     const insertQuery = `INSERT INTO
-        pettypes(name)
+        pettypes(typeName)
         VALUES($1)
         returning *`;
 

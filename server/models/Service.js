@@ -1,7 +1,7 @@
 const db = require('../controller/db')
 
 const Service = {
-  create : async (ownerId, startTime, endTime, expected, typeName) => {
+  create : async (id, startTime, endTime, expected, typeName) => {
 
     const insertQuery = `INSERT INTO 
         services(id, startTime, endTime, expected, typeName)
@@ -9,7 +9,7 @@ const Service = {
         returning *`;
 
     const values = [
-      ownerId,
+      id,
       startTime,
       endTime,
       expected,
@@ -26,8 +26,27 @@ const Service = {
     }
   },
 
+  findCaretakerService: async (id) => {
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName
+                         FROM services s WHERE s.id = $1`;
+
+    const values = [
+      id
+    ];
+
+    try {
+      const { rows } = await db.query(filterQuery, values);
+      
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   filterByType: async (typeName) => {
-    const filterQuery = `SELECT * FROM services s WHERE pt.typeName = $1`;
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
+                         FROM services s WHERE s.typeName = $1`;
 
     const values = [
       typeName
@@ -44,7 +63,7 @@ const Service = {
   },
 
   filterByTime: async (startTime, endTime) => {
-    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName 
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
                          FROM services s
                          WHERE s.startTime >= $1
                          AND s.endTime <= $2`;
