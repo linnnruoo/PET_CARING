@@ -1,44 +1,22 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { AuthConsumer } from './AuthContext';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-class ProtectedRoute extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      isLoading: true
+const ProtectedRoute = ({ component: Component, auth, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      auth.isAuthenticated === true ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
     }
-  }
+  />
+);
 
-  componentDidMount = () => {
-    this.setState({
-      isLoading: false
-    })
-  }
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-  render() {
-    const { component: Component, ...rest } = this.props;
-
-    if (this.state.isLoading) return null;
-
-    return (
-      <AuthConsumer>
-        {({ isLoggedIn }) => {
-          return (
-            <Route
-              render={
-                props =>
-                  isLoggedIn 
-                  ? <Component {...props} /> 
-                  : <Redirect to="/" />
-              }
-              {...rest}
-            />
-          )
-        }}
-      </AuthConsumer>
-    )
-  }
-}
-
-export default ProtectedRoute;
+export default connect(mapStateToProps)(ProtectedRoute);

@@ -1,40 +1,49 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import LoginForm from '../components/forms/LoginForm';
-import AuthService from '../utilities/AuthService';
-import { toast } from 'react-toastify';
-
-const Auth = new AuthService(process.env.REACT_APP_CLIENT_URL)
+import React, { Component } from "react";
+import LoginForm from "../components/forms/LoginForm";
+import { loginUser } from "../actions/authActions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: ''
-    }
+      email: "",
+      password: ""
+    };
     this._onTextFieldChange = this._onTextFieldChange.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
   }
-  _onTextFieldChange = (e) => {
+  componentDidMount = () => {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  };
+  componentWillReceiveProps = nextProps => {
+    if (this.props.auth !== nextProps.auth && nextProps.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+    if (nextProps.errors) {
+      // TODO: ERROR HANDLING
+      // this.setState({
+      //   errors: nextProps.errors
+      // });
+    }
+  };
+  _onTextFieldChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
-  }
-  _onSubmit = (e) => {
+  };
+  _onSubmit = e => {
     e.preventDefault();
     const userAccInfo = {
       email: this.state.email,
       password: this.state.password
-    }
+    };
 
-    axios
-      .post('/api/user/login', userAccInfo)
-      .then(res => {
-        toast.success(res.data.message);
-        Auth.loginUser(res.data.token);
-      }).catch(err => console.log(err))
-  }
+    this.props.loginUser(userAccInfo);
+  };
 
   render() {
     return (
@@ -44,8 +53,16 @@ class LoginContainer extends Component {
         _onTextFieldChange={this._onTextFieldChange}
         _onSubmit={this._onSubmit}
       />
-    )
-  } 
+    );
+  }
 }
 
-export default LoginContainer;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withRouter(LoginContainer));
