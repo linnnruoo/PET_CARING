@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -155,8 +156,12 @@ class Navbar extends Component {
         open={isMenuOpen}
         onClose={this._handleMenuClose}
       >
-        <MenuItem href="/profile">Profile</MenuItem>
-        <MenuItem href="/dashboard">Dashboard</MenuItem>
+        <MenuItem onClick={() => this.props.history.push("/profile")}>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={() => this.props.history.push("/dashboard")}>
+          Dashboard
+        </MenuItem>
         <MenuItem onClick={this._onLogoutClick}>Logout</MenuItem>
       </Menu>
     );
@@ -261,4 +266,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logoutUser }
-)(withStyles(styles)(Navbar));
+)(withStyles(styles)(withRouter(Navbar)));

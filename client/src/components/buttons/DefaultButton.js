@@ -1,12 +1,25 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
+import React from "react";
+import Button from "@material-ui/core/Button";
 
-const DefaultButton = ({ children, ...rest }) => {
+const DefaultButton = ({ children, styles, ...rest }) => {
   return (
-    <Button variant="contained" size="large" color="primary" {...rest}>
-    { children }
+    <Button
+      variant="contained"
+      size="large"
+      color="primary"
+      styles={{
+        textTransform: "none",
+        borderRadius: "36px",
+        padding: "8px 30px",
+        margin: "0px 5px 0px 5px",
+        fontSize: 18,
+        ...styles
+      }}
+      {...rest}
+    >
+      {children}
     </Button>
-  )
-}
+  );
+};
 
 export default DefaultButton;
