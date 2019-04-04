@@ -1,21 +1,24 @@
+import React from "react";
+import { TextField as CustomTextField, Typography } from "@material-ui/core";
 
-import React from 'react';
-import { TextField as CustomTextField, Typography } from '@material-ui/core';
-
-const TextField = ({ classes, label, errorMsg, ...rest }) => {
+const TextField = ({ classes, required = true, label, errorMsg, ...rest }) => {
   return (
     <>
       <CustomTextField
-        required
+        required={required}
         autoFocus
         fullWidth
         label={label}
         variant="outlined"
         margin="dense"
-        InputProps={{shrink: 'true'}}
+        InputProps={{ shrink: "true" }}
         {...rest}
       />
-      {errorMsg && (<Typography variant="caption" color="error">{errorMsg}</Typography>)}
+      {errorMsg && (
+        <Typography variant="caption" color="error">
+          {errorMsg}
+        </Typography>
+      )}
     </>
   );
 };

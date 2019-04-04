@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -93,11 +94,13 @@ class Navbar extends Component {
   constructor() {
     super();
     this.state = {
+      searchInput: "",
       anchorEl: null,
       mobileMoreAnchorEl: null,
       openRegisterModal: false,
       openLoginModal: false
     };
+    this._onChange = this._onChange.bind(this);
     this._handleProfileMenuOpen = this._handleProfileMenuOpen.bind(this);
     this._handleMenuClose = this._handleMenuClose.bind(this);
     this._handleMobileMenuOpen = this._handleMobileMenuOpen.bind(this);
@@ -106,6 +109,14 @@ class Navbar extends Component {
     this._onModalClose = this._onModalClose.bind(this);
     this._onLogoutClick = this._onLogoutClick.bind(this);
   }
+  _onChange = e => {
+    this.setState({ searchInput: e.target.value });
+  };
+  _onKeyPress = e => {
+    if (e.key === "Enter") {
+      this.props.history.push("/browse?title=" + this.state.searchInput);
+    }
+  };
   _handleProfileMenuOpen = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -137,6 +148,7 @@ class Navbar extends Component {
 
   render() {
     const {
+      searchInput,
       anchorEl,
       mobileMoreAnchorEl,
       openLoginModal,
@@ -155,8 +167,12 @@ class Navbar extends Component {
         open={isMenuOpen}
         onClose={this._handleMenuClose}
       >
-        <MenuItem href="/profile">Profile</MenuItem>
-        <MenuItem href="/dashboard">Dashboard</MenuItem>
+        <MenuItem onClick={() => this.props.history.push("/profile")}>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={() => this.props.history.push("/dashboard")}>
+          Dashboard
+        </MenuItem>
         <MenuItem onClick={this._onLogoutClick}>Logout</MenuItem>
       </Menu>
     );
@@ -198,11 +214,14 @@ class Navbar extends Component {
                 <SearchIcon />
               </div>
               <InputBase
-                placeholder="Search…"
+                placeholder="Search services…"
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput
                 }}
+                value={searchInput}
+                onChange={this._onChange}
+                onKeyPress={this._onKeyPress}
               />
             </div>
             <div className={classes.grow} />
@@ -261,4 +280,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { logoutUser }
-)(withStyles(styles)(Navbar));
+)(withStyles(styles)(withRouter(Navbar)));
