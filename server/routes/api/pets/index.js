@@ -2,7 +2,7 @@
 
 const express = require('express');
 const passport = require('passport');
-const AuthHelper = require('../../../util/helper/auth');
+// const AuthHelper = require('../../../util/helper/auth');
 const router = express.Router();
 
 /**
