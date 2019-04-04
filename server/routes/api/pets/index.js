@@ -1,4 +1,4 @@
-/* /api/pet/{x} */
+/* /api/pets/{x} */
 
 const express = require('express');
 const passport = require('passport');
@@ -6,7 +6,7 @@ const AuthHelper = require('../../../util/helper/auth');
 const router = express.Router();
 
 /**
- * @route POST /api/pet/add
+ * @route POST /api/pets/add
  * @desc: 
  * @access Private ?
  */
@@ -30,7 +30,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }),
   );
       
 /**
- * @route * /api/pet/*
+ * @route * /api/pets/*
  * @desc: API related to user endpoint such as /api/user/register
  * @access Public
  */

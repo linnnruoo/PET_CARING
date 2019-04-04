@@ -33,10 +33,10 @@ router.post('/me', passport.authenticate('jwt', { session: false }),
 router.use('/user', userSubRouter);
 
 /**
- * @route * /api/pet/*
+ * @route * /api/pets/*
  * @desc: API related to user endpoint such as /api/pet/add
  * @access Public
  */
-router.use('/pet', petSubRouter);
+router.use('/pets', petSubRouter);
 
 module.exports = router;
