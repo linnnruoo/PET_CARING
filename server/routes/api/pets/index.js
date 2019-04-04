@@ -16,7 +16,7 @@ router.post('/add', passport.authenticate('jwt', { session: false }),
         res.json({
             me: {
               ...req.pets,
-              message = 'Pet added!',
+              message: 'Pet added!',
             }
           });
       try {
@@ -28,12 +28,5 @@ router.post('/add', passport.authenticate('jwt', { session: false }),
       }    
     },
   );
-      
-/**
- * @route * /api/pets/*
- * @desc: API related to user endpoint such as /api/user/register
- * @access Public
- */
-router.use('/user', userSubRouter);
   
 module.exports = router;

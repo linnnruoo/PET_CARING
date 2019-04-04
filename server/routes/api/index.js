@@ -4,7 +4,7 @@ const router = express.Router();
 
 const userSubRouter = require('./users');
 
-const petSubRouter = require('./pet');
+const petSubRouter = require('./pets');
 
 const db = require('../../controller/db');
 
