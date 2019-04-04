@@ -7,7 +7,8 @@ const DefaultButton = ({ children, styles, ...rest }) => {
       variant="contained"
       size="large"
       color="primary"
-      styles={{
+      style={{
+        color: "#fff",
         textTransform: "none",
         borderRadius: "36px",
         padding: "8px 30px",
