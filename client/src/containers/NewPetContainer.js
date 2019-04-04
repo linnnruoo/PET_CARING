@@ -23,7 +23,7 @@ class NewPetContainer extends Component {
   };
   _onCheckboxChange = e => {
     this.setState({
-      role: e.target.value
+      gender: e.target.value
     });
   };
   _onSubmit = e => {

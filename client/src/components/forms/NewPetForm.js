@@ -55,14 +55,14 @@ const NewPetForm = ({
             onChange={_onCheckboxChange}
           >
             <FormControlLabel
-              value="petowner"
+              value="female"
               control={<Radio color="primary" />}
-              label="Pet Owner"
+              label="Female"
             />
             <FormControlLabel
-              value="caretaker"
+              value="male"
               control={<Radio color="primary" />}
-              label="Care Taker"
+              label="Male"
             />
           </RadioGroup>
         </GridItem>

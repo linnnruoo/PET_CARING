@@ -4,9 +4,8 @@ import DefaultButton from "../components/buttons/DefaultButton";
 import NewPetModal from "../components/modals/NewPetModal";
 
 /**
- * @todo: owner container / caretaker container routing
+ * @todo: owner container
  * @todo: create pet container
- * @todo: create service container
  */
 class OwnerDashboardContainer extends Component {
   constructor() {
@@ -25,7 +24,7 @@ class OwnerDashboardContainer extends Component {
   render() {
     return (
       <div>
-        <DefaultButton onClick={this._on}>Add Pet</DefaultButton>
+        <DefaultButton onClick={this._onModalOpen}>Add Pet</DefaultButton>
         {this.state.isModalOpen ? (
           <NewPetModal
             open={this.state.isModalOpen}
