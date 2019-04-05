@@ -25,13 +25,17 @@ const Bid = {
     }
   },
 
-  accept : async (sid) => {
+  accept : async (id, sid, petName) => {
     const updateQuery = `UPDATE bids
                          SET accepted = true
-                         WHERE sid = $1`;
+                         WHERE id = $1 
+                         AND sid = $2
+                         AND petName = $3`;
 
     const values = [
-      sid
+      id,
+      sid,
+      petName
     ];
 
     try {
@@ -86,7 +90,7 @@ const Bid = {
     }
   },
 
-  getServiceStats: async (sid) => {
+  getBidStats: async (sid) => {
     const selectQuery = `SELECT MIN(amount) as minimum, MAX(amount) as maximum,
                          ROUND(AVG(amount), 2) as average, COUNT(*) as num
                          FROM bids
@@ -112,7 +116,8 @@ const Bid = {
     const selectQuery = `SELECT s.startTime, s.endTime, b.petName, b.amount
                          FROM bids b inner join services s 
                          ON b.sid = s.sid
-                         WHERE s.id = $1`;
+                         WHERE s.id = $1
+                         AND b.accepted = true`;
 
     const values = [
       caretakerId
