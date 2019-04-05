@@ -44,7 +44,7 @@ const PetBreed = {
   getAll: async () => {
     const getQuery = `SELECT *
                       FROM petbreeds pb
-                      ORDER_BY breedName`;
+                      ORDER BY breedName asc`;
 
     try {
       const { rows } = await db.query(getQuery);

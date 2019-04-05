@@ -26,7 +26,7 @@ const Service = {
     }
   },
 
-  findCaretakerService: async (id) => {
+  getCaretakerService: async (id) => {
     const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName
                          FROM services s WHERE s.id = $1`;
 

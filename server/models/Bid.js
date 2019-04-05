@@ -25,9 +25,29 @@ const Bid = {
     }
   },
 
+  accept : async (sid) => {
+    const updateQuery = `UPDATE bids
+                         SET accepted = true
+                         WHERE sid = $1`;
+
+    const values = [
+      sid
+    ];
+
+    try {
+      const { rows } = await db.query(updateQuery, values);
+      
+      return rows[0];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   filterByService: async (sid) => {
-    const filterQuery = `SELECT *
-                         FROM bids b
+    const filterQuery = `SELECT u.first_name, u.email, b.petName, b.amount
+                         FROM bids b inner join users u 
+                         ON b.id = u.id
                          WHERE b.sid = $1`;
 
     const values = [
@@ -44,17 +64,62 @@ const Bid = {
     }
   },
 
-  filterByAmount: async (amount) => {
-    const filterQuery = `SELECT *
-                         FROM bids b
-                         WHERE b.amount <= $1`;
+  getTopThreeBidsForService: async (sid) => {
+    const topKQuery = `SELECT u.first_name, u.email, b.petName, b.amount
+                       FROM bids b inner join users u 
+                       ON b.id = u.id
+                       WHERE b.sid = $1
+                       ORDER BY b.amount DESC
+                       LIMIT 3`;
 
     const values = [
-      amount
+      sid
     ];
 
     try {
-      const { rows } = await db.query(filterQuery, values);
+      const { rows } = await db.query(topKQuery, values);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  getServiceStats: async (sid) => {
+    const selectQuery = `SELECT MIN(amount) as minimum, MAX(amount) as maximum,
+                         ROUND(AVG(amount), 2) as average, COUNT(*) as num
+                         FROM bids
+                         WHERE sid = $1
+                         GROUP BY sid
+                         ORDER BY sid;`;
+
+    const values = [
+      sid
+    ];
+
+    try {
+      const { rows } = await db.query(selectQuery, values);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  getAcceptedServiceOfCaretaker: async (caretakerId) => {
+    const selectQuery = `SELECT s.startTime, s.endTime, b.petName, b.amount
+                         FROM bids b inner join services s 
+                         ON b.sid = s.sid
+                         WHERE s.id = $1`;
+
+    const values = [
+      caretakerId
+    ];
+
+    try {
+      const { rows } = await db.query(selectQuery, values);
 
       return rows;
     } catch (error) {
