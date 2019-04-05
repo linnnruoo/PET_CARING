@@ -62,6 +62,27 @@ const Service = {
     }
   },
 
+  filterByTypeAndAmount: async (typeName, amount) => {
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
+                         FROM services s 
+                         WHERE s.typeName = $1
+                         AND s.expected <= $2`;
+
+    const values = [
+      typeName,
+      amount
+    ];
+
+    try {
+      const { rows } = await db.query(filterQuery, values);
+      
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   filterByTime: async (startTime, endTime) => {
     const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
                          FROM services s
