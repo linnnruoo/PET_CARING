@@ -19,6 +19,7 @@ import HomePage from "./pages/HomePage";
 import DashboardPage from "./pages/DashboardPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BrowsePage from "./pages/BrowsePage";
+import ServiceDetailPage from "./pages/ServiceDetailPage";
 
 const theme = createMuiTheme({
   palette: {
@@ -50,6 +51,11 @@ class App extends Component {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/browse" component={BrowsePage} />
             <Route exact path="/profile/:userId" component={UserProfilePage} />
+            <Route
+              exact
+              path="/service/:serviceId"
+              component={ServiceDetailPage}
+            />
             <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
             <ToastContainer />
           </MuiThemeProvider>
