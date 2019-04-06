@@ -4,15 +4,15 @@ const UserProfile = {
   retrieveWithId : async (id) => {
 
     const findQuery = `
-      SELECT u.firstname, u.lastname, u.email, u.role, u.id
-        CASE 
-            WHEN EXISTS (SELECT 1 FROM caretakers c WHERE c.id = u.id)
-            THEN 'caretaker' 
-            WHEN EXISTS (SELECT 1 FROM owners o WHERE o.id = u.id)
-            THEN 'petowner' 
-            WHEN EXISTS (SELECT 1 FROM admins a WHERE a.id = u.id)
-            THEN 'admin'
-        END AS role
+      SELECT u.first_name, u.last_name, u.email, u.id,
+      CASE 
+          WHEN EXISTS (SELECT 1 FROM caretakers c WHERE c.id = u.id)
+          THEN 'caretaker' 
+          WHEN EXISTS (SELECT 1 FROM owners o WHERE o.id = u.id)
+          THEN 'petowner' 
+          WHEN EXISTS (SELECT 1 FROM admins a WHERE a.id = u.id)
+          THEN 'admin'
+      END AS role
       FROM users u WHERE u.id = $1`;
     const values = [
       id,
@@ -32,16 +32,16 @@ const UserProfile = {
   retrieveWithEmail: async (email) => {
 
     const findQuery = `
-    SELECT u.firstname, u.lastname, u.email, u.role, u.id
-        CASE 
-            WHEN EXISTS (SELECT 1 FROM caretakers c WHERE c.id = u.id)
-            THEN 'caretaker' 
-            WHEN EXISTS (SELECT 1 FROM owners o WHERE o.id = u.id)
-            THEN 'petowner' 
-            WHEN EXISTS (SELECT 1 FROM admins a WHERE a.id = u.id)
-            THEN 'admin'
-        END AS role
-    FROM users u WHERE u.email = $1`;
+    SELECT u.first_name, u.last_name, u.email, u.id,
+      CASE 
+          WHEN EXISTS (SELECT 1 FROM caretakers c WHERE c.id = u.id)
+          THEN 'caretaker' 
+          WHEN EXISTS (SELECT 1 FROM owners o WHERE o.id = u.id)
+          THEN 'petowner' 
+          WHEN EXISTS (SELECT 1 FROM admins a WHERE a.id = u.id)
+          THEN 'admin'
+      END AS role
+      FROM users u WHERE u.email = $1`;
     
       const values = [
       email,
