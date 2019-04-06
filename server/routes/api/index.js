@@ -2,8 +2,9 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-const userSubRouter = require('./users');
 const petTypeSubRouter = require('./pettypes');
+const serviceSubRouter = require('./services');
+const userSubRouter = require('./users');
 
 const db = require('../../controller/db');
 
@@ -25,6 +26,13 @@ router.post('/me', passport.authenticate('jwt', { session: false }),
 );
 
 /**
+ * @route * /api/pettypes/*
+ * @desc: API related to user endpoint such as /api/user/register
+ * @access Variable
+ */
+router.use('/pettypes', petTypeSubRouter);
+
+/**
  * @route * /api/user/*
  * @desc: API related to user endpoint such as /api/user/register
  * @access Public
@@ -32,10 +40,10 @@ router.post('/me', passport.authenticate('jwt', { session: false }),
 router.use('/user', userSubRouter);
 
 /**
- * @route * /api/pettypes/*
- * @desc: API related to user endpoint such as /api/user/register
+ * @route * /api/services/*
+ * @desc: API related to services endpoint such as /api/service/:serviceid
  * @access Variable
  */
-router.use('/pettypes', petTypeSubRouter);
+router.use('/services', serviceSubRouter);
 
 module.exports = router;
