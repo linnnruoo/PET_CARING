@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 import NewPetForm from "../components/forms/NewPetForm";
-import { toast } from "react-toastify";
+import { createNewPet } from "../actions/petActions";
+import { connect } from "react-redux";
 
 class NewPetContainer extends Component {
   constructor() {
@@ -9,6 +9,7 @@ class NewPetContainer extends Component {
     this.state = {
       name: "",
       breedName: "",
+      petType: "",
       age: undefined,
       gender: ""
     };
@@ -30,23 +31,21 @@ class NewPetContainer extends Component {
     e.preventDefault();
     const newPetInfo = {
       name: this.state.name,
+      ownerId: this.props.auth.user.id,
       breedName: this.state.breedName,
+      typeName: this.state.petType,
       age: this.state.age,
       gender: this.state.gender
     };
-    axios
-      .post("/api/pet", newPetInfo)
-      .then(res => {
-        console.log(res);
-        toast.success(res.data.message);
-      })
-      .catch(err => console.log(err));
+    this.props.createNewPet(newPetInfo);
   };
   render() {
     return (
       <NewPetForm
+        pets={this.props.pets}
         name={this.state.name}
         breedName={this.state.breedName}
+        petType={this.state.petType}
         age={this.state.age}
         gender={this.state.gender}
         _onSubmit={this._onSubmit}
@@ -57,4 +56,13 @@ class NewPetContainer extends Component {
   }
 }
 
-export default NewPetContainer;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  pets: state.pets,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { createNewPet }
+)(NewPetContainer);

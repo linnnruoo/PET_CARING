@@ -42,6 +42,22 @@ const Pet = {
   },
 
   filterByType: async typeName => {
+    const filterQuery = `SELECT p.name, p.typeName, p.breedName
+                         WHERE pb.typeName = $1`;
+
+    const values = [typeName];
+
+    try {
+      const { rows } = await db.query(filterQuery, values);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  filterByTypeAndOwner: async typeName => {
     const filterQuery = `SELECT p.name, p.typeName, p.breedName, u.first_name, u.email 
                          FROM pets p inner join users ON p.id = u.id
                          WHERE pb.typeName = $1`;
