@@ -6,6 +6,7 @@ const petTypeSubRouter = require("./pettypes");
 const serviceSubRouter = require("./services");
 const userSubRouter = require("./users");
 const petSubRouter = require("./pets");
+const petBreedSubRouter = require("./petbreeds");
 
 const db = require("../../controller/db");
 
@@ -29,8 +30,15 @@ router.post(
 );
 
 /**
+ * @route * /api/petbreeds/*
+ * @desc: API related to petbreeds endpoint such as /api/petbreeds
+ * @access Variable
+ */
+router.use("/petbreeds", petBreedSubRouter);
+
+/**
  * @route * /api/pettypes/*
- * @desc: API related to user endpoint such as /api/user/register
+ * @desc: API related to pettypes endpoint such as /api/pettypes
  * @access Variable
  */
 router.use("/pettypes", petTypeSubRouter);
