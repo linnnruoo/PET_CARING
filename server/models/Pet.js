@@ -43,7 +43,7 @@ const Pet = {
       console.log(error);
       throw error;
     }
-  }
+  },
 
   filterByType: async (typeName) => {
     const filterQuery = `SELECT p.name, p.typeName, p.breedName, u.first_name, u.email 

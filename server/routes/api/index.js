@@ -36,7 +36,6 @@ router.use('/user', userSubRouter);
  * @desc: API related to user endpoint such as /api/pet/add	
  * @access Public	
  */	
-router.use('/pets', petSubRouter);	
-
+router.use('/pets', petSubRouter);
 
 module.exports = router;
