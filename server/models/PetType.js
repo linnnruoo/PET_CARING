@@ -20,7 +20,24 @@ const PetType = {
       console.log(error);
       throw error;
     }
+  },
+
+  getAll : async () => {
+
+    const getQuery = `SELECT * FROM pettypes
+                         ORDER BY typeName`;
+
+
+    try {
+      const { rows } = await db.query(getQuery);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
+
 };
 
 module.exports = PetType;

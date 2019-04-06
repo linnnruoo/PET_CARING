@@ -26,7 +26,7 @@ const Service = {
     }
   },
 
-  findCaretakerService: async (id) => {
+  getCaretakerService: async (id) => {
     const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName
                          FROM services s WHERE s.id = $1`;
 
@@ -50,6 +50,27 @@ const Service = {
 
     const values = [
       typeName
+    ];
+
+    try {
+      const { rows } = await db.query(filterQuery, values);
+      
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  filterByTypeAndAmount: async (typeName, amount) => {
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
+                         FROM services s 
+                         WHERE s.typeName = $1
+                         AND s.expected <= $2`;
+
+    const values = [
+      typeName,
+      amount
     ];
 
     try {
