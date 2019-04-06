@@ -7,7 +7,7 @@ import BidPanelCard from "../components/cards/BidPanel";
 
 /**
  * @todo: current bids
- * @todo: all the bidders
+ * @todo: all the bidders for service
  * @todo: owner -> able to bid services / update bid
  * @todo: care taker -> close bid
  * @todo: timer to count down
@@ -17,6 +17,10 @@ class ServiceDetailContainer extends React.Component {
     super();
     this.state = {};
   }
+  _onCreateBid = () => {};
+  _onUpdateBid = () => {};
+  _onCloseBid = () => {};
+
   render() {
     const { auth } = this.props;
 
