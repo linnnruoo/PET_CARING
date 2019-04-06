@@ -18,7 +18,8 @@ const ServiceList = ({ serviceListings }) => {
   };
 
   return (
-    <Paper>
+    <Paper style={{ minLength: 400 }}>
+      <Typography variant="h6">Services Listings</Typography>
       {serviceListings && serviceListings.length > 0
         ? renderList()
         : renderNon()}

@@ -24,7 +24,7 @@ const PetType = {
 
   getAll : async () => {
 
-    const getQuery = `SELECT * FROM pets
+    const getQuery = `SELECT * FROM pettypes
                          ORDER BY typeName`;
 
 
