@@ -8,7 +8,7 @@ const PetBreed = {
         returning *`;
 
     const values = [
-      breedName
+      breedName,
       typeName
     ];
 
