@@ -32,7 +32,6 @@ class DeletePetModal extends Component {
     };
     this.props.onClose();
     this.props.deletePet(petToDelete);
-    this.props.fetchPetsOfOwner(petToDelete.ownerId);
   };
 
   render() {

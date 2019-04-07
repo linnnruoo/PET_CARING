@@ -80,6 +80,7 @@ export const deletePet = petInfo => async dispatch => {
         type: DELETE_PET,
         payload: res.data
       });
+      dispatch(fetchPetsOfOwner(petInfo.ownerId));
       if (res.data.deleted) toast("Deleted!");
     })
     .catch(err =>
@@ -100,7 +101,7 @@ export const updatePet = petInfo => async dispatch => {
         payload: res.data
       });
       toast("Updated!");
-      
+
       dispatch(fetchPetsOfOwner(petInfo.ownerId));
     })
     .catch(err =>
