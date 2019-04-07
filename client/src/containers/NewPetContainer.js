@@ -37,6 +37,7 @@ class NewPetContainer extends Component {
       age: this.state.age,
       gender: this.state.gender
     };
+    this.props.onClose();
     this.props.createNewPet(newPetInfo);
   };
   render() {

@@ -6,8 +6,11 @@ import CaretakerDashboardContainer from "../containers/CaretakerDashboardContain
 // to add home page
 const DashboardPage = ({ auth }) => {
   const { user } = auth;
-  if (user.role === "petowner") return <OwnerDashboardContainer />;
-  else return <CaretakerDashboardContainer />;
+  const renderDashboard = () => {
+    if (user.role === "petowner") return <OwnerDashboardContainer />;
+    else return <CaretakerDashboardContainer />;
+  };
+  return <div className="container">{renderDashboard()}</div>;
 };
 
 const mapStateToProps = state => ({

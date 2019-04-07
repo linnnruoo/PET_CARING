@@ -23,8 +23,8 @@ import ServiceDetailPage from "./pages/ServiceDetailPage";
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#f48b94" },
-    secondary: { main: "#f6a7a5" }
+    primary: { main: "#6F9283" },
+    secondary: { main: "#cdc6a5" }
   },
   typography: { fontFamily: '"Open Sans", sans-serif' }
 });
