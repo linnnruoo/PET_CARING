@@ -10,16 +10,19 @@ import Typography from "@material-ui/core/Typography";
 const PetCard = ({ classes, petProfile }) => {
   return (
     <Card className={classes.card}>
-      <CardHeader title="Cat" />
+      <CardHeader title={petProfile.name} />
       <CardMedia
         className={classes.media}
         image="https://images.pexels.com/photos/20787/pexels-photo.jpg?cs=srgb&dl=adorable-animal-cat-20787.jpg&fm=jpg"
         title="neko"
       />
       <CardContent>
-        <Typography>Gender: </Typography>
-        <Typography>Breed: </Typography>
-        <Typography>Age: </Typography>
+        <Typography>
+          Gender: {petProfile.gender === "F" ? "Female" : "Male"}
+        </Typography>
+        <Typography>Breed: {petProfile.breedname}</Typography>
+        <Typography>Type: {petProfile.typename}</Typography>
+        <Typography>Age: {petProfile.age}</Typography>
       </CardContent>
     </Card>
   );
@@ -27,7 +30,8 @@ const PetCard = ({ classes, petProfile }) => {
 
 const styles = theme => ({
   card: {
-    maxWidth: 400
+    maxWidth: 400,
+    minWidth: 400
   },
   media: {
     height: 0,

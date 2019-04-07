@@ -3,7 +3,7 @@ drop table if exists services cascade;
 create table services
 (
   sid           	serial                          not null,
-  id				serial							not null,
+  id				int							not null,
   startTime			timestamp						not null,
   endTime			timestamp						not null,
   expected			int,
