@@ -20,7 +20,7 @@ const Admin = {
       throw error;
     }
   },
-    // To search for all admins
+    // To search for admin info
   getFullInfo: async (id) => {
     const findQuery = `SELECT u.first_name, u.last_name, u.email
                         FROM admins a inner join users u
@@ -36,7 +36,20 @@ const Admin = {
       console.log(error);
       throw error;
     }
-  }
+  },
+    // To search for all admins
+    getAllAdmins: async () => {
+        const findQuery = `SELECT u.first_name, u.last_name, u.email
+                            From users u
+                            WHERE exists (select a.id from admins a where u.id = a.id)`;
+        try {
+            const { rows } = await db.query(findQuery, values);
+            return rows;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
 };
 
 module.exports = Admin;
