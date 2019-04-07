@@ -3,7 +3,9 @@ import {
   GET_PET_TYPES,
   GET_BREEDS,
   FETCH_OWNER_PETS,
-  PETS_LOADING
+  PETS_LOADING,
+  DELETE_PET,
+  UPDATE_PET
 } from "../actions/types";
 
 const initialState = {
@@ -42,6 +44,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         breeds: action.payload,
+        loading: false
+      };
+    case DELETE_PET:
+      return {
+        ...state,
+        loading: false
+      };
+    case UPDATE_PET:
+      return {
+        ...state,
         loading: false
       };
     default:

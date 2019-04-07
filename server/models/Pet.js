@@ -1,6 +1,18 @@
 const db = require("../controller/db");
 
 const Pet = {
+  findOne: async (name, ownerId) => {
+    const getOneQuery = `SELECT * FROM pets p where p.name = $1 AND p.ownerId = $2`;
+    const values = [name, ownerId];
+    try {
+      const { rows } = await db.query(getOneQuery, values);
+      return rows[0];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   findAll: async () => {
     const getAllPetsQuery = `SELECT * FROM pets p`;
     const { rows } = await db.query(getAllPetsQuery);
@@ -70,6 +82,49 @@ const Pet = {
       return rows;
     } catch (error) {
       console.log(error);
+      throw error;
+    }
+  },
+
+  deleteOne: async (name, ownerId) => {
+    const deleteQuery = `DELETE FROM pets p WHERE p.name = $1 AND p.id = $2`;
+    const values = [name, ownerId];
+
+    try {
+      return await db.query(deleteQuery, values);
+    } catch (err) {
+      console.log(err);
+      throw error;
+    }
+  },
+
+  updateOne: async (
+    oldName,
+    newName,
+    ownerId,
+    typeName,
+    breedName,
+    age,
+    gender
+  ) => {
+    const updateQuery = `UPDATE pets p
+      SET name = $2, typename = $4, breedname = $5, age = $6, gender = $7
+      WHERE p.name = $1 AND p.id = $3`;
+
+    const values = [
+      oldName,
+      newName,
+      ownerId,
+      typeName,
+      breedName,
+      age,
+      gender
+    ];
+
+    try {
+      return await db.query(updateQuery, values);
+    } catch (err) {
+      console.log(err);
       throw error;
     }
   }

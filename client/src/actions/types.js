@@ -9,3 +9,5 @@ export const CREATE_NEW_PET = "CREATE_NEW_PET";
 export const GET_BREEDS = "GET_BREEDS";
 export const GET_PET_TYPES = "GET_PET_TYPES";
 export const PETS_LOADING = "PETS_LOADING_MEOW";
+export const DELETE_PET = "DELETE_PET";
+export const UPDATE_PET = "UPDATE_PET";

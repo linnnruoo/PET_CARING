@@ -4,7 +4,9 @@ import {
   GET_BREEDS,
   FETCH_OWNER_PETS,
   PETS_LOADING,
-  GET_ERRORS
+  GET_ERRORS,
+  DELETE_PET,
+  UPDATE_PET
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -70,23 +72,42 @@ export const getPetBreedsAll = () => dispatch => {
     );
 };
 
-// export const getPetBreedsByType = petType => dispatch => {
-//   dispatch(setPetLoading());
-//   axios
-//     .get("/api/petbreeds/petType", petType)
-//     .then(res => {
-//       dispatch({
-//         type: GET_BREEDS,
-//         payload: res.data
-//       });
-//     })
-//     .catch(err =>
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: err.response.data
-//       })
-//     );
-// };
+export const deletePet = petInfo => async dispatch => {
+  await axios
+    .delete("/api/pets/delete", { data: petInfo })
+    .then(res => {
+      dispatch({
+        type: DELETE_PET,
+        payload: res.data
+      });
+      if (res.data.deleted) toast("Deleted!");
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+export const updatePet = petInfo => async dispatch => {
+  console.log(petInfo);
+  await axios
+    .patch("/api/pets/update", petInfo)
+    .then(res => {
+      dispatch({
+        type: UPDATE_PET,
+        payload: res.data
+      });
+      toast("Updated!");
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
 
 export const fetchPetsOfOwner = ownerId => dispatch => {
   dispatch(setPetLoading());

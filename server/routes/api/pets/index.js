@@ -33,9 +33,9 @@ router.post(
 );
 
 /**
- * @route GET /api/pets/add
+ * @route GET /api/pets/:ownerId
  * @desc: Get all the pets under this owner
- * @access Private to pet owner
+ * @access Public
  */
 router.get("/:ownerId", async (req, res) => {
   const ownerId = req.params.ownerId;
@@ -43,5 +43,55 @@ router.get("/:ownerId", async (req, res) => {
     .then(pets => res.json(pets))
     .catch(err => res.status(404).json("No pets found under this user."));
 });
+
+// this route is kinda ugly, by right it should just be DELETE /api/pet/
+/**
+ * @route: DELETE /api/pets/delete
+ * @desc: Delete a pet of this owner
+ * @access: Private | Pet Owner
+ */
+router.delete(
+  "/delete",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { name, ownerId } = req.body;
+    PetModel.deleteOne(name, ownerId)
+      .then(result => res.json({ deleted: true }))
+      .catch(err => res.status(500).json("Failed to delete pet!"));
+  }
+);
+
+/**
+ * @route: Patch /api/pets/update
+ * @desc: Delete a pet of this owner
+ * @access: Private | Pet Owner
+ */
+router.patch(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const {
+      oldName,
+      newName,
+      ownerId,
+      typeName,
+      breedName,
+      age,
+      gender
+    } = req.body;
+    console.log(req.body);
+    PetModel.updateOne(
+      oldName,
+      newName,
+      ownerId,
+      typeName,
+      breedName,
+      age,
+      gender
+    )
+      .then(result => res.json({ success: true }))
+      .catch(err => console.log(err));
+  }
+);
 
 module.exports = router;
