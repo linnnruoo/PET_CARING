@@ -2,7 +2,7 @@ const db = require("../controller/db");
 
 const Pet = {
   findOne: async (name, ownerId) => {
-    const getOneQuery = `SELECT * FROM pets p where p.name = $1 AND p.ownerId = $2`;
+    const getOneQuery = `SELECT * FROM pets p where p.name = $1 AND p.id = $2`;
     const values = [name, ownerId];
     try {
       const { rows } = await db.query(getOneQuery, values);
