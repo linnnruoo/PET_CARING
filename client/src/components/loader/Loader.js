@@ -3,7 +3,7 @@ import "./Loader.css";
 
 export default () => {
   return (
-    <div class="lds-ring">
+    <div className="lds-ring mx-auto">
       <div />
     </div>
   );

@@ -6,7 +6,7 @@ const DefaultButton = ({ children, styles, ...rest }) => {
     <Button
       variant="contained"
       size="large"
-      color="primary"
+      color="secondary"
       style={{
         color: "#fff",
         textTransform: "none",

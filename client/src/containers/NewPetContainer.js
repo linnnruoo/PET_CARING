@@ -10,7 +10,7 @@ class NewPetContainer extends Component {
       name: "",
       breedName: "",
       petType: "",
-      age: undefined,
+      age: "",
       gender: ""
     };
     this._onTextFieldChange = this._onTextFieldChange.bind(this);
@@ -37,6 +37,7 @@ class NewPetContainer extends Component {
       age: this.state.age,
       gender: this.state.gender
     };
+    this.props.onClose();
     this.props.createNewPet(newPetInfo);
   };
   render() {

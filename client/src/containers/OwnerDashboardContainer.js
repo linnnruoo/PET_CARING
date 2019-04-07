@@ -8,10 +8,11 @@ import { fetchPetsOfOwner } from "../actions/petActions";
 import { getPetBreedsAll, getPetTypes } from "../actions/petActions";
 import GridContainer from "../components/grid/GridContainer";
 import GridItem from "../components/grid/GridItem";
+import PetInfoTable from "../components/table/PetInfoTable";
 
 /**
- * @todo: owner container
- * @todo: create pet container
+ * @desc: owner container
+ * @todo: list of the all pets, list of all the bids
  */
 class OwnerDashboardContainer extends Component {
   constructor() {
@@ -37,19 +38,15 @@ class OwnerDashboardContainer extends Component {
     return (
       <>
         <GridContainer justify="center" alignItems="flex-start" spacing={16}>
-          <GridItem xs={12}>
+          <GridItem xs={12} align="right">
             <DefaultButton onClick={this._onModalOpen}>Add Pet</DefaultButton>
           </GridItem>
           <GridItem xs={12}>
-            <div>
-              {!pets.loading ? (
-                pets.userPets.map((pet, index) => {
-                  return <PetCard petProfile={pet} />;
-                })
-              ) : (
-                <Loader />
-              )}
-            </div>
+            {!pets.loading ? (
+              <PetInfoTable userPets={pets.userPets} />
+            ) : (
+              <Loader />
+            )}
           </GridItem>
         </GridContainer>
         {this.state.isModalOpen ? (
