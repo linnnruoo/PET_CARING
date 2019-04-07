@@ -4,7 +4,7 @@ import NewPetContainer from "../../containers/NewPetContainer";
 
 const NewPetModal = ({ onClose, open }) => {
   return (
-    <Modal label="Login" onClose={onClose} open={open}>
+    <Modal label="Add a New Pet" onClose={onClose} open={open}>
       <NewPetContainer onClose={onClose} />
     </Modal>
   );
