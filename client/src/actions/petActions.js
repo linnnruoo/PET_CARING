@@ -7,6 +7,7 @@ import {
   GET_ERRORS
 } from "./types";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const setPetLoading = () => {
   return {
@@ -23,6 +24,7 @@ export const createNewPet = newPetInfo => dispatch => {
         type: CREATE_NEW_PET,
         payload: res.data
       });
+      if (res.status === 200) toast("New Pet Added!");
     })
     .catch(err =>
       dispatch({

@@ -1,4 +1,5 @@
 import React from "react";
+import * as _ from "lodash";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -23,6 +24,13 @@ const NewPetForm = ({
   _onCheckboxChange,
   _onSubmit
 }) => {
+  const allBreeds = _.groupBy(pets.breeds, "typename");
+  const catBreeds = allBreeds["Cat"];
+  const dogBreeds = allBreeds["Dog"];
+
+  const breedsBySelectedType =
+    petType === "Cat" ? catBreeds : petType === "Dog" ? dogBreeds : [];
+
   return (
     <form onSubmit={_onSubmit}>
       <GridContainer spacing={16}>
@@ -51,7 +59,11 @@ const NewPetForm = ({
               </MenuItem>
               {pets.petTypes &&
                 pets.petTypes.map((type, index) => {
-                  return <MenuItem value={type}>{type}</MenuItem>;
+                  return (
+                    <MenuItem key={index} value={type}>
+                      {type}
+                    </MenuItem>
+                  );
                 })}
             </Select>
           </FormControl>
@@ -66,14 +78,15 @@ const NewPetForm = ({
               inputProps={{
                 name: "breedName"
               }}
+              disabled={_.isEmpty(allBreeds)}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {pets.breeds &&
-                pets.breeds.map((breed, index) => {
+              {!_.isEmpty(breedsBySelectedType) &&
+                breedsBySelectedType.map((breed, index) => {
                   return (
-                    <MenuItem value={breed.breedname}>
+                    <MenuItem key={index} value={breed.breedname}>
                       {breed.breedname}
                     </MenuItem>
                   );
