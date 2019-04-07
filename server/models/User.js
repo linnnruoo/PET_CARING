@@ -162,6 +162,32 @@ const User = {
     }
   },
 
+  updateUser: async (first_name, last_name, email, id, password) => {
+
+    const updateQuery = `
+    UPDATE users u
+      SET first_name = $2, last_name = $3, email = $4, password = $5
+      WHERE u.id = $1;`
+
+    const values = [
+      id, //id will not change
+      first_name, 
+      last_name, 
+      email, 
+      password, //password needs to be rehashed
+    ];
+
+    try {
+      const { rows } = await db.query(findQuery, values);
+      if (rows.length === 1) {
+        const user = rows[0];
+        return user;
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
 
 module.exports = User;

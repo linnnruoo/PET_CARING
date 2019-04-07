@@ -4,6 +4,7 @@ const express = require("express");
 const passport = require("passport");
 const AuthHelper = require("../../../util/helper/auth");
 const router = express.Router();
+const UserModel = require("../../../models/User");
 
 /**
  * @route POST /api/register
@@ -56,5 +57,35 @@ router.post("/login", async (req, res, next) => {
     }
   })(req, res, next);
 });
+
+/**
+ * @route POST /api/users/profile
+ * @desc: get user profile details
+ * @access Private
+ */
+
+router.get("/profile", async (req, res) => {
+  UserModel.retrieveWithId(req)
+    .then(user => res.json(user))
+    .catch(err => res.status(500).json("Failed to retrieve profile details"));
+});
+
+/**
+ * @route POST /api/users/profile/update
+ * @desc: Update user details
+ * @access Private
+ */
+
+router.post(
+  "/profile/update",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const { first_name, last_name, email, id, password } = req.body;
+    UserModel.updateUser(first_name, last_name, email, id, password)
+      .then(user => res.json(user))
+      .catch(err => res.status(500).json("Update error"));
+  }
+);
+
 
 module.exports = router;
