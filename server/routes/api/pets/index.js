@@ -79,7 +79,7 @@ router.patch(
       age,
       gender
     } = req.body;
-
+    console.log(req.body);
     PetModel.updateOne(
       oldName,
       newName,
