@@ -162,11 +162,11 @@ const User = {
     }
   },
 
-  updateUser: async (first_name, last_name, email, id, password) => {
+  updateUser: async (first_name, last_name, email, id) => {
 
     const updateQuery = `
     UPDATE users u
-      SET first_name = $2, last_name = $3, email = $4, password = $5
+      SET first_name = $2, last_name = $3, email = $4
       WHERE u.id = $1;`
 
     const values = [
@@ -174,7 +174,6 @@ const User = {
       first_name, 
       last_name, 
       email, 
-      password, //password needs to be rehashed
     ];
 
     try {

@@ -76,12 +76,12 @@ router.get("/profile", async (req, res) => {
  * @access Private
  */
 
-router.post(
+router.patch(
   "/profile/update",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { first_name, last_name, email, id, password } = req.body;
-    UserModel.updateUser(first_name, last_name, email, id, password)
+    const { first_name, last_name, email, id } = req.body;
+    UserModel.updateUser(first_name, last_name, email, id)
       .then(user => res.json(user))
       .catch(err => res.status(500).json("Update error"));
   }
