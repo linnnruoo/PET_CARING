@@ -36,13 +36,13 @@ const NewPetForm = ({
         </GridItem>
         <GridItem xs={12}>
           <FormControl variant="outlined" fullWidth>
-            <InputLabel>Breed</InputLabel>
+            <InputLabel>Type</InputLabel>
             <Select
               variant="outlined"
-              value={breedName}
+              value={petType}
               onChange={_onTextFieldChange}
               inputProps={{
-                name: "breedName"
+                name: "petType"
               }}
               fullWidth
             >
@@ -58,13 +58,13 @@ const NewPetForm = ({
         </GridItem>
         <GridItem xs={12}>
           <FormControl variant="outlined" fullWidth>
-            <InputLabel>Type</InputLabel>
+            <InputLabel>Breed</InputLabel>
             <Select
               variant="outlined"
-              value={petType}
+              value={breedName}
               onChange={_onTextFieldChange}
               inputProps={{
-                name: "petType"
+                name: "breedName"
               }}
             >
               <MenuItem value="">
