@@ -90,7 +90,9 @@ class Filter extends Component {
               _onCheckboxChange={_onCheckboxChange}
               checkboxName="commitmentLevel"
             />
-            <DefaultButton onClick={_onSearchSubmit}>Search</DefaultButton>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <DefaultButton onClick={_onSearchSubmit}>Search</DefaultButton>
+            </div>
           </form>
         </div>
       </Paper>
