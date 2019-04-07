@@ -13,7 +13,7 @@ import EditPetModal from "../components/modals/EditPetModal";
 
 /**
  * @desc: owner container
- * @todo: list of the all pets, list of all the bids
+ * @todo: list of all the bids (sucessful, pending, failed)
  */
 class OwnerDashboardContainer extends Component {
   constructor() {
@@ -40,6 +40,30 @@ class OwnerDashboardContainer extends Component {
 
   render() {
     const { pets } = this.props;
+    const renderModals = () => {
+      return (
+        <>
+          {this.state.isNewPetModalOpen ? (
+            <NewPetModal
+              open={this.state.isNewPetModalOpen}
+              onClose={this._onModalClose("isNewPetModalOpen")}
+            />
+          ) : null}
+          {this.state.isDeletePetModalOPen ? (
+            <DeletePetModal
+              open={this.state.isDeletePetModalOPen}
+              onClose={this._onModalClose("isDeletePetModalOPen")}
+            />
+          ) : null}
+          {this.state.isEditPetModalOpen ? (
+            <EditPetModal
+              open={this.state.isEditPetModalOpen}
+              onClose={this._onModalClose("isEditPetModalOpen")}
+            />
+          ) : null}
+        </>
+      );
+    };
     return (
       <>
         <GridContainer justify="center" alignItems="flex-start" spacing={16}>
@@ -67,25 +91,9 @@ class OwnerDashboardContainer extends Component {
               <Loader />
             )}
           </GridItem>
+          <GridItem xs={12} />
         </GridContainer>
-        {this.state.isNewPetModalOpen ? (
-          <NewPetModal
-            open={this.state.isNewPetModalOpen}
-            onClose={this._onModalClose("isNewPetModalOpen")}
-          />
-        ) : null}
-        {this.state.isDeletePetModalOPen ? (
-          <DeletePetModal
-            open={this.state.isDeletePetModalOPen}
-            onClose={this._onModalClose("isDeletePetModalOPen")}
-          />
-        ) : null}
-        {this.state.isEditPetModalOpen ? (
-          <EditPetModal
-            open={this.state.isEditPetModalOpen}
-            onClose={this._onModalClose("isEditPetModalOpen")}
-          />
-        ) : null}
+        {renderModals()}
       </>
     );
   }

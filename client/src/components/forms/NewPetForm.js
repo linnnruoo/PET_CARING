@@ -124,7 +124,9 @@ const NewPetForm = ({
           </RadioGroup>
         </GridItem>
         <GridItem xs={12} align="right">
-          <DefaultButton type="submit">Create New</DefaultButton>
+          <DefaultButton style={{ backgroundColor: "#8d9f87" }} type="submit">
+            Create New
+          </DefaultButton>
         </GridItem>
       </GridContainer>
     </form>
