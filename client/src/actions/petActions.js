@@ -100,6 +100,8 @@ export const updatePet = petInfo => async dispatch => {
         payload: res.data
       });
       toast("Updated!");
+      
+      dispatch(fetchPetsOfOwner(petInfo.ownerId));
     })
     .catch(err =>
       dispatch({

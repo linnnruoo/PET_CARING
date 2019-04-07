@@ -63,7 +63,6 @@ class EditPetModal extends Component {
 
     this.props.onClose();
     this.props.updatePet(petInfo);
-    this.props.fetchPetsOfOwner(petInfo.ownerId);
   };
 
   render() {
