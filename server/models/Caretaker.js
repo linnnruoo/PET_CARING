@@ -22,7 +22,7 @@ const CareTaker = {
   },
 
   getFullInfo: async (id) => {
-    const findQuery = `SELECT u.first_name, u.last_name, u.email
+    const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
                        FROM caretakers natural join users u`;
     const values = [
       id
@@ -36,7 +36,21 @@ const CareTaker = {
       console.log(error);
       throw error;
     }
-  }
+  },
+
+  getAllCaretaker: async () => {
+    const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
+                        From users u
+                        WHERE exists (select c.id from caretakers c where u.id = c.id)`;
+    try {
+        const { rows } = await db.query(findQuery, values);
+        return rows;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 };
 
 module.exports = CareTaker;
