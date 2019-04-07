@@ -115,7 +115,7 @@ export const updatePet = petInfo => async dispatch => {
 export const fetchPetsOfOwner = ownerId => dispatch => {
   dispatch(setPetLoading());
   axios
-    .get("/api/pets/", ownerId)
+    .get(`/api/pets/${ownerId}`)
     .then(res => {
       dispatch({
         type: FETCH_OWNER_PETS,
