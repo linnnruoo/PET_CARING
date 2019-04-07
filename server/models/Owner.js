@@ -22,7 +22,7 @@ const Owner = {
   },
 
   getFullInfo: async (id) => {
-    const findQuery = `SELECT u.first_name, u.last_name, u.email
+    const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
                        FROM owners natural join users u`;
     const values = [
       id
@@ -39,7 +39,7 @@ const Owner = {
   },
 
   getAllOwners: async () => {
-    const findQuery = `SELECT u.first_name, u.last_name, u.email
+    const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
                         From users u
                         WHERE exists (select o.id from owners o where u.id = o.id)`;
     try {

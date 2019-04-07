@@ -22,7 +22,7 @@ const Admin = {
   },
     // To search for admin info
   getFullInfo: async (id) => {
-    const findQuery = `SELECT u.first_name, u.last_name, u.email
+    const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
                         FROM admins a inner join users u
                         on u.id = a.id`;
     const values = [
@@ -39,7 +39,7 @@ const Admin = {
   },
     // To search for all admins
     getAllAdmins: async () => {
-        const findQuery = `SELECT u.first_name, u.last_name, u.email
+        const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
                             From users u
                             WHERE exists (select a.id from admins a where u.id = a.id)`;
         try {
