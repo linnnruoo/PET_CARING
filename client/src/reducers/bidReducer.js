@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
     case CREATE_NEW_BID_OF_A_SERVICE:
       return {
         ...state,
-        bidsOfService: [...state.bidsOfService, action.payload],
+        bidsOfService: [...state.bidsOfService, action.payload.bid],
         loading: false
       };
     case FETCH_BIDS_OF_OWNER: // list of the bids with their status

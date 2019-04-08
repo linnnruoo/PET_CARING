@@ -119,7 +119,6 @@ router.get("/on/:serviceid/top/:limit", async (req, res) => {
  */
 router.get("/on/:serviceid", async (req, res) => {
   const serviceID = req.params.serviceid;
-  console.log(ownerid);
   try {
     const bids = await BidModel.filterByService(serviceID);
 

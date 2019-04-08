@@ -25,7 +25,7 @@ export const createNewBid = newBidInfo => dispatch => {
         type: CREATE_NEW_BID_OF_A_SERVICE,
         payload: res.data
       });
-      if (res.data === 200) toast("New Bid Created!");
+      if (res.data.success === 200) toast("New Bid Created!");
     })
     .catch(err => {
       dispatch({
