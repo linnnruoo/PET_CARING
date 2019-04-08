@@ -2,13 +2,12 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
+const bidSubRouter = require("./bids");
 const petTypeSubRouter = require("./pettypes");
-const serviceSubRouter = require("./services");
-const userSubRouter = require("./users");
 const petSubRouter = require("./pets");
 const petBreedSubRouter = require("./petbreeds");
-
-const db = require("../../controller/db");
+const serviceSubRouter = require("./services");
+const userSubRouter = require("./users");
 
 /**
  * @route POST /api/me
@@ -30,10 +29,24 @@ router.post(
 );
 
 /**
+ * @route * /api/bids/*
+ * @desc: API related to user endpoint such as /api/bids/by/12
+ * @access Public
+ */
+router.use("/bids", bidSubRouter);
+
+/**
+ * @route * /api/pets/*
+ * @desc: API related to user endpoint such as /api/pet/add
+ * @access Public
+ */
+router.use("/pets", petSubRouter);
+
+/**
  * @route * /api/petbreeds/*
  * @desc: API related to petbreeds endpoint such as /api/petbreeds
  * @access Variable
- */
+*/
 router.use("/petbreeds", petBreedSubRouter);
 
 /**
@@ -43,25 +56,20 @@ router.use("/petbreeds", petBreedSubRouter);
  */
 router.use("/pettypes", petTypeSubRouter);
 
-/**
- * @route * /api/user/*
- * @desc: API related to user endpoint such as /api/user/register
- * @access Public
- */
-router.use("/user", userSubRouter);
 
-/**
- * @route * /api/pets/*
- * @desc: API related to user endpoint such as /api/pet/add
- * @access Public
- */
 
-router.use("/pets", petSubRouter);
 /**
  * @route * /api/services/*
  * @desc: API related to services endpoint such as /api/service/:serviceid
  * @access Variable
  */
 router.use("/services", serviceSubRouter);
+
+/**
+ * @route * /api/user/*
+ * @desc: API related to user endpoint such as /api/user/register
+ * @access Public
+ */
+router.use("/user", userSubRouter);
 
 module.exports = router;
