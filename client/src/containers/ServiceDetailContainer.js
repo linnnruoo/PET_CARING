@@ -6,7 +6,11 @@ import BidPanelCard from "../components/cards/BidPanel";
 import Loader from "../components/loader/Loader";
 import { connect } from "react-redux";
 import { getServiceInfo } from "../actions/serviceAction";
+import { fetchPetsOfOwner } from "../actions/petActions";
+import { fetchBidsOfService } from "../actions/bidActions";
 import { withRouter } from "react-router-dom";
+import Paper from "../components/paper/Paper";
+import BiddersPanel from "../components/cards/BiddersPanel";
 
 /**
  * @todo: current bids
@@ -19,13 +23,20 @@ class ServiceDetailContainer extends React.Component {
   constructor() {
     super();
     this.state = {};
+    this._onCloseService = this._onCloseService.bind(this);
   }
   componentDidMount = () => {
-    this.props.getServiceInfo(this.props.match.params.serviceId);
+    const serviceId = this.props.match.params.serviceId;
+    this.props.getServiceInfo(serviceId);
+    this.props.fetchBidsOfService(serviceId);
+
+    const { user, isAuthenticated } = this.props.auth;
+    if (!isAuthenticated) return;
+    if (user.role === "petowner") {
+      this.props.fetchPetsOfOwner(user.id);
+    }
   };
-  _onCreateBid = () => {};
-  _onUpdateBid = () => {};
-  _onCloseBid = () => {};
+  _onCloseService = () => {};
 
   render() {
     const { auth, services, bids } = this.props;
@@ -35,14 +46,44 @@ class ServiceDetailContainer extends React.Component {
     return (
       <GridContainer spacing={16}>
         <GridItem xs={12} sm={8}>
-          {!services.loading ? (
-            <ServiceDetail serviceInfo={services.currentService} />
-          ) : (
-            <Loader />
-          )}
+          <GridContainer direction="column">
+            <GridItem xs={12}>
+              {!services.loading ? (
+                <ServiceDetail serviceInfo={services.currentService} />
+              ) : (
+                <Loader />
+              )}
+            </GridItem>
+            <GridItem xs={12}>
+              {/* todo: display the list of biddersm gonna write so many ugly codes */}
+              {!bids.loading ? (
+                <BiddersPanel bidsInfo={bids.bidsOfService} />
+              ) : (
+                <Loader />
+              )}
+            </GridItem>
+          </GridContainer>
         </GridItem>
+
         <GridItem xs={12} sm={4}>
-          <BidPanelCard auth={auth} caretakerId={caretakerId} />
+          <GridContainer direction="column">
+            <GridItem xs={12}>
+              {/* TODO: gonna put a freaking timer here */}
+              <Paper />
+            </GridItem>
+            <GridItem xs={12}>
+              {!services.loading ? (
+                <BidPanelCard
+                  auth={auth}
+                  serviceId={this.props.match.params.serviceId}
+                  caretakerId={caretakerId}
+                  _onCloseService={this._onCloseService}
+                />
+              ) : (
+                <Loader />
+              )}
+            </GridItem>
+          </GridContainer>
         </GridItem>
       </GridContainer>
     );
@@ -57,5 +98,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getServiceInfo }
+  { getServiceInfo, fetchPetsOfOwner, fetchBidsOfService }
 )(withRouter(ServiceDetailContainer));

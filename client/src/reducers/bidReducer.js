@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
     case FETCH_BIDS_OF_SERVICE:
       return {
         ...state,
-        bidsOfService: action.payload,
+        bidsOfService: action.payload.bids,
         loading: false
       };
     case CREATE_NEW_BID_OF_A_SERVICE:

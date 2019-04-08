@@ -39,7 +39,7 @@ const Bid = {
   },
 
   filterByService: async sid => {
-    const filterQuery = `SELECT u.first_name, u.email, b.petName, b.amount
+    const filterQuery = `SELECT u.id, u.first_name, u.last_name, u.email, b.petName, b.amount
                          FROM bidsview b inner join users u 
                          ON b.id = u.id
                          WHERE b.sid = $1`;

@@ -157,7 +157,7 @@ class Navbar extends Component {
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    const { isAuthenticated } = this.props.auth;
+    const { isAuthenticated, user } = this.props.auth;
 
     const renderAuthMenu = (
       <Menu
@@ -167,7 +167,9 @@ class Navbar extends Component {
         open={isMenuOpen}
         onClose={this._handleMenuClose}
       >
-        <MenuItem onClick={() => this.props.history.push("/profile")}>
+        <MenuItem
+          onClick={() => this.props.history.push(`/profile/${user.id}`)}
+        >
           Profile
         </MenuItem>
         <MenuItem onClick={() => this.props.history.push("/dashboard")}>

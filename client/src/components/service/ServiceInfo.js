@@ -6,7 +6,7 @@ import { Typography } from "@material-ui/core";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-const ServiceDetail = ({ serviceInfo, biddersInfo }) => {
+const ServiceDetail = ({ serviceInfo }) => {
   const start = moment.utc(serviceInfo.starttime).toDate();
   const end = moment.utc(serviceInfo.endtime).toDate();
   const formatedStart = moment(start)
@@ -32,12 +32,6 @@ const ServiceDetail = ({ serviceInfo, biddersInfo }) => {
               {serviceInfo.first_name} {serviceInfo.last_name}
             </Link>
           </Typography>
-        </Paper>
-      </GridItem>
-      <GridItem xs={12}>
-        <Paper>
-          <Typography variant="h5">Bidders Info</Typography>
-          {/* todo: display the list of bidders */}
         </Paper>
       </GridItem>
     </GridContainer>

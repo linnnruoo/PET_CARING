@@ -99,7 +99,7 @@ const NewPetForm = ({
             label="Age"
             value={age}
             name="age"
-            type="age"
+            type="number"
             onChange={_onTextFieldChange}
           />
         </GridItem>

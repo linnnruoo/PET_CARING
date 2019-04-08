@@ -3,10 +3,10 @@ import Grid from "@material-ui/core/Grid";
 
 const GridContainer = ({ children, ...rest }) => {
   return (
-    <Grid container {...rest}>
+    <Grid container spacing={16} {...rest}>
       {children}
     </Grid>
   );
-}
+};
 
 export default GridContainer;
