@@ -10,6 +10,7 @@ const router = express.Router();
 const fp = require("lodash/fp");
 const ServiceModel = require("../../../models/Service");
 
+const PageSize = 20;
 /**
  * @route POST /api/services
  * @desc: Allows caretaker to add a new service
@@ -69,11 +70,12 @@ router.get("/", async (req, res) => {
   }
 });
 /**
- * @route POST /api/services
+ * @route POST /api/services/filter/:page
  * @desc: Gets collection of all services with filter
  * @access Public
  */
-router.post("/", async (req, res) => {
+router.post("/filter/:page", async (req, res) => {
+  const page = req.params.page;
   try {
     if (!req.body.filter) {
       res.status(400).json({
@@ -82,8 +84,10 @@ router.post("/", async (req, res) => {
       });
     }
     const { filter } = req.body;
-    const services = await ServiceModel.getAllWithFilter(filter);
-    
+
+    console.log(filter);
+    const services = await ServiceModel.getAllWithFilter(filter, page);
+
     res.json({
       success: true,
       services
@@ -97,6 +101,39 @@ router.post("/", async (req, res) => {
     });
   }
 });
+
+/**
+ * @route POST /api/services/filter/
+ * @desc: Returns pages of date corresponding to filter
+ * @access Public
+ */
+router.post("/filter", async (req, res) => {
+  try {
+    if (!req.body.filter) {
+      res.status(400).json({
+        success: false,
+        message: "There was an unexpected error"
+      });
+    }
+    const { filter } = req.body;
+
+    console.log(filter);
+    const pages = await ServiceModel.getFilterPageCount(filter,);
+    
+    res.json({
+      success: true,
+      pages: Math.ceil(pages.pages/PageSize)
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      success: false,
+      message: "There was an unexpected error"
+    });
+  }
+});
+
 
 
 /**
