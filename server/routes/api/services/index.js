@@ -62,6 +62,31 @@ router.get('/', async (req, res) => {
 });
 
 /**
+ * @route GET /api/services/by/:ownerid
+ * @desc: Gets services by ownerid
+ * @access Private
+ */
+router.get('/by/:serviceid', async (req, res) => {
+  const ownerid = req.params.ownerid;
+  console.log(ownerid);
+  try {
+    const services = await ServiceModel.getCaretakerServices(ownerid);
+
+    res.json({
+      success: true,
+      services
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status({
+      success: false,
+      message: 'There was an unexpected error'
+    });
+  }
+});
+
+/**
  * @route GET /api/services/:serviceid
  * @desc: Gets specific service
  * @access Private
