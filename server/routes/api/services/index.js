@@ -74,7 +74,28 @@ router.get("/", async (req, res) => {
  * @access Public
  */
 router.post("/", async (req, res) => {
-  
+  try {
+    if (!req.body.filter) {
+      res.status(400).json({
+        success: false,
+        message: "There was an unexpected error"
+      });
+    }
+    const { filter } = req.body;
+    const services = await ServiceModel.getAllWithFilter(filter);
+    
+    res.json({
+      success: true,
+      services
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      success: false,
+      message: "There was an unexpected error"
+    });
+  }
 });
 
 
