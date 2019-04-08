@@ -179,4 +179,27 @@ router.get("/:serviceid", async (req, res) => {
     .catch(err => console.log(err));
 });
 
+/**
+ * @route GET /api/services/:caretakerincome
+ * @desc: Gets maximum caretaker potential income. 
+ *        Calculates from all highest bids from owners that caretaker received.
+ * @access Private
+ */
+router.get("/:caretakerincome", async (req, res) => {
+  const caretakerID = req.params.caretakerid;
+  try {
+    const bids = await ServiceModel.getCaretakerPotentialIncome(caretakerID);
+    res.json({
+      success: true,
+      service
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: "There was an unexpected error"
+    });
+  }
+});
+
 module.exports = router;
