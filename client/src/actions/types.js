@@ -11,3 +11,19 @@ export const GET_PET_TYPES = "GET_PET_TYPES";
 export const PETS_LOADING = "PETS_LOADING_MEOW";
 export const DELETE_PET = "DELETE_PET";
 export const UPDATE_PET = "UPDATE_PET";
+
+// services types
+export const FETCH_CARETAKER_SERVICES = "FETCH_CARETAKER_SERVICES";
+export const SERVICE_LOADING = "SERVICE_LOADING";
+export const CREATE_NEW_SERVICE = "CREATE_NEW_SERVICE";
+export const FILTER_SERVICES = "FILTER_SERVICES";
+// todo: all the bids of all the services of the caretaker, group by services
+
+// bid
+export const CREATE_NEW_BID_OF_A_SERVICE = "CREATE_NEW_BID_OF_A_SERVICE";
+export const FETCH_BIDS_OF_SERVICE = "FETCH_BIDS_OF_SERVICE"; // get all bids under this service
+export const UPDATE_BID_INFO = "UPDATE_BID_INFO"; // for owner
+export const GET_INTERESTING_BID = "GET_INTERESTING_BID";
+export const FETCH_BIDS_OF_OWNER = "FETCH_BIDS_OF_OWNER"; // get all bids made by this owner
+export const BID_LOADING = "BID_LOADING";
+export const FETCH_BIDS_OF_CARETAKER = "FETCH_BIDS_OF_CARETAKER";
