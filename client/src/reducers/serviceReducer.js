@@ -2,10 +2,12 @@ import {
   CREATE_NEW_SERVICE,
   FETCH_CARETAKER_SERVICES,
   SERVICE_LOADING,
-  FILTER_SERVICES
+  FILTER_SERVICES,
+  GET_SINGLE_SERVICE
 } from "../actions/types";
 
 const initialState = {
+  currentService: {},
   filteredServices: [],
   userServices: [],
   pastServices: [],
@@ -35,6 +37,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         filteredServices: action.payload,
+        loading: false
+      };
+    case GET_SINGLE_SERVICE:
+      return {
+        ...state,
+        currentService: action.payload,
         loading: false
       };
     default:

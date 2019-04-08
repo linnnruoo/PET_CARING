@@ -17,6 +17,7 @@ export const FETCH_CARETAKER_SERVICES = "FETCH_CARETAKER_SERVICES";
 export const SERVICE_LOADING = "SERVICE_LOADING";
 export const CREATE_NEW_SERVICE = "CREATE_NEW_SERVICE";
 export const FILTER_SERVICES = "FILTER_SERVICES";
+export const GET_SINGLE_SERVICE = "GET_SINGLE_SERVICE";
 // todo: all the bids of all the services of the caretaker, group by services
 
 // bid

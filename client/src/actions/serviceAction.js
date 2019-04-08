@@ -3,6 +3,7 @@ import {
   FETCH_CARETAKER_SERVICES,
   SERVICE_LOADING,
   FILTER_SERVICES,
+  GET_SINGLE_SERVICE,
   GET_ERRORS
 } from "./types";
 import axios from "axios";
@@ -39,6 +40,24 @@ export const fetchServicesOfCaretaker = caretakerId => dispatch => {
     .then(res => {
       dispatch({
         type: FETCH_CARETAKER_SERVICES,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+export const getServiceInfo = serviceId => dispatch => {
+  dispatch(setServiceLoading());
+  axios
+    .get(`/api/services/${serviceId}`)
+    .then(res => {
+      dispatch({
+        type: GET_SINGLE_SERVICE,
         payload: res.data
       });
     })
