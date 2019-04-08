@@ -1,23 +1,17 @@
-const db = require('../controller/db')
+const db = require("../controller/db");
 
 const Bid = {
-  create : async (ownerId, serviceId, amount, petName) => {
-
+  create: async (ownerId, serviceId, amount, petName) => {
     const insertQuery = `INSERT INTO 
         bids(id, sid, amount, petName)
         VALUES($1, $2, $3, $4)
         returning *`;
 
-    const values = [
-      ownerId,
-      serviceId,
-      amount,
-      petName
-    ];
+    const values = [ownerId, serviceId, amount, petName];
 
     try {
       const { rows } = await db.query(insertQuery, values);
-      
+
       return rows[0];
     } catch (error) {
       console.log(error);
@@ -25,22 +19,18 @@ const Bid = {
     }
   },
 
-  accept : async (id, sid, petName) => {
+  accept: async (id, sid, petName) => {
     const updateQuery = `UPDATE bids
                          SET accepted = true
                          WHERE id = $1 
                          AND sid = $2
                          AND petName = $3`;
 
-    const values = [
-      id,
-      sid,
-      petName
-    ];
+    const values = [id, sid, petName];
 
     try {
       const { rows } = await db.query(updateQuery, values);
-      
+
       return rows[0];
     } catch (error) {
       console.log(error);
@@ -48,15 +38,13 @@ const Bid = {
     }
   },
 
-  filterByService: async (sid) => {
+  filterByService: async sid => {
     const filterQuery = `SELECT u.first_name, u.email, b.petName, b.amount
                          FROM bidsview b inner join users u 
                          ON b.id = u.id
                          WHERE b.sid = $1`;
 
-    const values = [
-      sid
-    ];
+    const values = [sid];
 
     try {
       const { rows } = await db.query(filterQuery, values);
@@ -69,7 +57,7 @@ const Bid = {
   },
 
   getTopBidsForService: async (sid, limit) => {
-    const limit = limit || 3;
+    const newLimit = limit || 3;
     const topKQuery = `SELECT u.first_name, u.email, b.petName, b.amount
                        FROM bidsview b inner join users u 
                        ON b.id = u.id
@@ -77,10 +65,7 @@ const Bid = {
                        ORDER BY b.amount DESC
                        LIMIT $2`;
 
-    const values = [
-      sid,
-      limit
-    ];
+    const values = [sid, newLimit];
 
     try {
       const { rows } = await db.query(topKQuery, values);
@@ -92,7 +77,7 @@ const Bid = {
     }
   },
 
-  getBidStats: async (sid) => {
+  getBidStats: async sid => {
     const selectQuery = `SELECT MIN(amount) as minimum, MAX(amount) as maximum,
                          ROUND(AVG(amount), 2) as average, COUNT(*) as num
                          FROM bidsview
@@ -100,9 +85,7 @@ const Bid = {
                          GROUP BY sid
                          ORDER BY sid;`;
 
-    const values = [
-      sid
-    ];
+    const values = [sid];
 
     try {
       const { rows } = await db.query(selectQuery, values);
@@ -128,16 +111,14 @@ const Bid = {
       throw error;
     }
   },
-  getCaretakerBids: async (caretakerId) => {
+  getCaretakerBids: async caretakerId => {
     const selectQuery = `SELECT s.sid, s.startTime, s.endTime, b.petName, b.amount
                          FROM bidsview b inner join services s 
                          ON b.sid = s.sid
                          WHERE s.id = $1
                          ORDER BY s.id`;
 
-    const values = [
-      caretakerId
-    ];
+    const values = [caretakerId];
 
     try {
       const { rows } = await db.query(selectQuery, values);
@@ -148,16 +129,14 @@ const Bid = {
       throw error;
     }
   },
-  getAcceptedServiceOfCaretaker: async (caretakerId) => {
+  getAcceptedServiceOfCaretaker: async caretakerId => {
     const selectQuery = `SELECT s.startTime, s.endTime, b.petName, b.amount
                          FROM bidsview b inner join services s 
                          ON b.sid = s.sid
                          WHERE s.id = $1
                          AND b.status = 'accepted'`;
 
-    const values = [
-      caretakerId
-    ];
+    const values = [caretakerId];
 
     try {
       const { rows } = await db.query(selectQuery, values);

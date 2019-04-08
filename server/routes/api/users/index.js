@@ -67,7 +67,7 @@ router.post("/login", async (req, res, next) => {
 router.get("/profile", async (req, res) => {
   UserModel.retrieveWithId(req)
     .then(user => res.json(user))
-    .catch(err => res.status(500).json("Failed to retrieve profile details"));
+    .catch(err => res.status(404).json({ message: "User not found!" }));
 });
 
 /**
@@ -86,6 +86,5 @@ router.patch(
       .catch(err => res.status(500).json("Update error"));
   }
 );
-
 
 module.exports = router;
