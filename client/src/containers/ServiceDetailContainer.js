@@ -29,9 +29,11 @@ class ServiceDetailContainer extends React.Component {
 
   render() {
     const { auth, services, bids } = this.props;
+    let caretakerId = "";
+    if (!services.loading) caretakerId = services.currentService.id;
 
     return (
-      <GridContainer>
+      <GridContainer spacing={16}>
         <GridItem xs={12} sm={8}>
           {!services.loading ? (
             <ServiceDetail serviceInfo={services.currentService} />
@@ -40,7 +42,7 @@ class ServiceDetailContainer extends React.Component {
           )}
         </GridItem>
         <GridItem xs={12} sm={4}>
-          <BidPanelCard auth={auth} />
+          <BidPanelCard auth={auth} caretakerId={caretakerId} />
         </GridItem>
       </GridContainer>
     );
