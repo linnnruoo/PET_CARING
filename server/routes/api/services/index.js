@@ -3,25 +3,34 @@
     1. /api/services/{x} 
 */
 
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
-const fp = require('lodash/fp');
-const ServiceModel = require('../../../models/Service');
+const fp = require("lodash/fp");
+const ServiceModel = require("../../../models/Service");
 
 /**
  * @route POST /api/services
  * @desc: Allows caretaker to add a new service
  * @access Private
  */
-router.post('/', passport.authenticate('jwt', { session: false }),
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const { role } = req.user;
 
-    const { id, startTime, endTime, expected, typeName } = req.body;
+    const { id, title, startTime, endTime, expected, typeName } = req.body;
     try {
-      const service = await ServiceModel.create(id, startTime, endTime, expected, typeName);
+      const service = await ServiceModel.create(
+        id,
+        title,
+        startTime,
+        endTime,
+        expected,
+        typeName
+      );
       res.json({
         success: true,
         service
@@ -31,10 +40,9 @@ router.post('/', passport.authenticate('jwt', { session: false }),
 
       res.status({
         success: false,
-        message: 'There was an unexpected error'
+        message: "There was an unexpected error"
       });
     }
-
   }
 );
 
@@ -43,7 +51,7 @@ router.post('/', passport.authenticate('jwt', { session: false }),
  * @desc: Gets collection of all services
  * @access Public
  */
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const services = await ServiceModel.getAll();
 
@@ -56,7 +64,7 @@ router.get('/', async (req, res) => {
 
     res.status({
       success: false,
-      message: 'There was an unexpected error'
+      message: "There was an unexpected error"
     });
   }
 });
@@ -66,9 +74,9 @@ router.get('/', async (req, res) => {
  * @desc: Gets services by caretakerid
  * @access Private
  */
-router.get('/by/:caretakerid', async (req, res) => {
+router.get("/by/:caretakerid", async (req, res) => {
   const caretakerID = req.params.caretakerid;
-  console.log(ownerid);
+
   try {
     const services = await ServiceModel.getCaretakerServices(caretakerID);
 
@@ -81,7 +89,7 @@ router.get('/by/:caretakerid', async (req, res) => {
 
     res.status({
       success: false,
-      message: 'There was an unexpected error'
+      message: "There was an unexpected error"
     });
   }
 });
@@ -91,11 +99,11 @@ router.get('/by/:caretakerid', async (req, res) => {
  * @desc: Gets specific service
  * @access Private
  */
-router.get('/:serviceid', async (req, res) => {
+router.get("/:serviceid", async (req, res) => {
   const serviceid = req.params.serviceid;
   console.log(serviceid);
   res.status(501).json({
-    message: 'Resource not implemented'
+    message: "Resource not implemented"
   });
 });
 
