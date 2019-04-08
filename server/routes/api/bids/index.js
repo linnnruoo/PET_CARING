@@ -85,4 +85,55 @@ router.get('/by/:caretakerid', async (req, res) => {
   }
 });
 
+/**
+ * @route GET /api/bids/on/:serviceid/top/:limit
+ * @desc: Gets top :limit number bids by serviceid
+ * @access Private
+ */
+router.get('/on/:serviceid/top/:limit', async (req, res) => {
+  const serviceID = req.params.serviceid;
+  const limit = req.params.limit;
+
+  try {
+    const bids = await BidModel.getTopBidsForService(serviceID,limit);
+
+    res.json({
+      success: true,
+      bids
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status({
+      success: false,
+      message: 'There was an unexpected error'
+    });
+  }
+});
+
+/**
+ * @route GET /api/bids/on/:serviceid
+ * @desc: Gets bids by serviceid
+ * @access Private
+ */
+router.get('/on/:serviceid', async (req, res) => {
+  const serviceID = req.params.serviceid;
+  console.log(ownerid);
+  try {
+    const bids = await BidModel.filterByService(serviceID);
+
+    res.json({
+      success: true,
+      bids
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status({
+      success: false,
+      message: 'There was an unexpected error'
+    });
+  }
+});
+
 module.exports = router;
