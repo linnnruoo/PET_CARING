@@ -28,7 +28,7 @@ router.post('/', passport.authenticate('jwt', { session: false }),
     } catch (error) {
       console.log(error);
 
-      res.status({
+      res.status(400).json({
         success: false,
         message: 'There was an unexpected error'
       });
@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: 'There was an unexpected error'
     });
@@ -78,7 +78,7 @@ router.get('/by/:caretakerid', async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: 'There was an unexpected error'
     });
@@ -104,7 +104,7 @@ router.get('/on/:serviceid/top/:limit', async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: 'There was an unexpected error'
     });
@@ -129,7 +129,7 @@ router.get('/on/:serviceid', async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: 'There was an unexpected error'
     });

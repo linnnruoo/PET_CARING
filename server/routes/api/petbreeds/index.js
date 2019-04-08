@@ -36,7 +36,7 @@ router.post(
         } catch (error) {
           console.log(error);
 
-          res.status({
+          res.status(400).json({
             success: false,
             message: "There was an unexpected error"
           });
@@ -66,7 +66,7 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: "There was an unexpected error"
     });

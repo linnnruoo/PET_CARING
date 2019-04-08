@@ -38,7 +38,7 @@ router.post(
     } catch (error) {
       console.log(error);
 
-      res.status({
+      res.status(400).json({
         success: false,
         message: "There was an unexpected error"
       });
@@ -62,12 +62,21 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: "There was an unexpected error"
     });
   }
 });
+/**
+ * @route POST /api/services
+ * @desc: Gets collection of all services with filter
+ * @access Public
+ */
+router.post("/", async (req, res) => {
+  
+});
+
 
 /**
  * @route GET /api/services/by/:caretakerid
@@ -87,7 +96,7 @@ router.get("/by/:caretakerid", async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    res.status({
+    res.status(400).json({
       success: false,
       message: "There was an unexpected error"
     });
