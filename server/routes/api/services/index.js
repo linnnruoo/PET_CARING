@@ -62,15 +62,15 @@ router.get('/', async (req, res) => {
 });
 
 /**
- * @route GET /api/services/by/:ownerid
- * @desc: Gets services by ownerid
+ * @route GET /api/services/by/:caretakerid
+ * @desc: Gets services by caretakerid
  * @access Private
  */
-router.get('/by/:serviceid', async (req, res) => {
-  const ownerid = req.params.ownerid;
+router.get('/by/:caretakerid', async (req, res) => {
+  const caretakerID = req.params.caretakerid;
   console.log(ownerid);
   try {
-    const services = await ServiceModel.getCaretakerServices(ownerid);
+    const services = await ServiceModel.getCaretakerServices(caretakerID);
 
     res.json({
       success: true,
