@@ -1,5 +1,5 @@
 import React from "react";
-import ServiceDetailContainer from "../containers/ServiceContainer";
+import ServiceDetailContainer from "../containers/ServiceDetailContainer";
 
 export default () => {
   return <ServiceDetailContainer />;

@@ -3,11 +3,7 @@ export const dateList = [
   { id: 2, name: "Weekend" }
 ];
 
-export const petTypeList = [
-  { id: 1, name: "Dog" },
-  { id: 2, name: "Cat" },
-  { id: 3, name: "Bird" }
-];
+export const petTypeList = [{ id: 1, name: "Dog" }, { id: 2, name: "Cat" }];
 
 export const commitmentList = [
   { id: 1, name: "One Day" },

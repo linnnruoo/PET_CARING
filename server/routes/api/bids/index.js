@@ -3,18 +3,20 @@
     1. /api/bids/{x} 
 */
 
-const express = require('express');
-const passport = require('passport');
+const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
-const BidModel = require('../../../models/Bid');
+const BidModel = require("../../../models/Bid");
 
 /**
  * @route POST /api/bids
  * @desc: Allows caretaker to add a new bid
  * @access Private
  */
-router.post('/', passport.authenticate('jwt', { session: false }),
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     const { role } = req.user;
 
@@ -23,17 +25,16 @@ router.post('/', passport.authenticate('jwt', { session: false }),
       const bid = await BidModel.create(ownerId, serviceId, amount, petName);
       res.json({
         success: true,
-        service
+        bid
       });
     } catch (error) {
       console.log(error);
 
       res.status({
         success: false,
-        message: 'There was an unexpected error'
+        message: "There was an unexpected error"
       });
     }
-
   }
 );
 
@@ -42,7 +43,7 @@ router.post('/', passport.authenticate('jwt', { session: false }),
  * @desc: Gets collection of all bids
  * @access Public
  */
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const bids = await BidModel.getAll();
 
@@ -55,7 +56,7 @@ router.get('/', async (req, res) => {
 
     res.status({
       success: false,
-      message: 'There was an unexpected error'
+      message: "There was an unexpected error"
     });
   }
 });
@@ -65,7 +66,7 @@ router.get('/', async (req, res) => {
  * @desc: Gets bids by caretakerid
  * @access Private
  */
-router.get('/by/:caretakerid', async (req, res) => {
+router.get("/by/:caretakerid", async (req, res) => {
   const caretakerID = req.params.caretakerid;
   console.log(ownerid);
   try {
@@ -80,7 +81,7 @@ router.get('/by/:caretakerid', async (req, res) => {
 
     res.status({
       success: false,
-      message: 'There was an unexpected error'
+      message: "There was an unexpected error"
     });
   }
 });
@@ -90,12 +91,12 @@ router.get('/by/:caretakerid', async (req, res) => {
  * @desc: Gets top :limit number bids by serviceid
  * @access Private
  */
-router.get('/on/:serviceid/top/:limit', async (req, res) => {
+router.get("/on/:serviceid/top/:limit", async (req, res) => {
   const serviceID = req.params.serviceid;
   const limit = req.params.limit;
 
   try {
-    const bids = await BidModel.getTopBidsForService(serviceID,limit);
+    const bids = await BidModel.getTopBidsForService(serviceID, limit);
 
     res.json({
       success: true,
@@ -106,7 +107,7 @@ router.get('/on/:serviceid/top/:limit', async (req, res) => {
 
     res.status({
       success: false,
-      message: 'There was an unexpected error'
+      message: "There was an unexpected error"
     });
   }
 });
@@ -116,7 +117,7 @@ router.get('/on/:serviceid/top/:limit', async (req, res) => {
  * @desc: Gets bids by serviceid
  * @access Private
  */
-router.get('/on/:serviceid', async (req, res) => {
+router.get("/on/:serviceid", async (req, res) => {
   const serviceID = req.params.serviceid;
   console.log(ownerid);
   try {
@@ -131,7 +132,7 @@ router.get('/on/:serviceid', async (req, res) => {
 
     res.status({
       success: false,
-      message: 'There was an unexpected error'
+      message: "There was an unexpected error"
     });
   }
 });
