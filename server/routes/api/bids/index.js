@@ -11,7 +11,7 @@ const BidModel = require("../../../models/Bid");
 
 /**
  * @route POST /api/bids
- * @desc: Allows caretaker to add a new bid
+ * @desc: Allows owner to add a new bid
  * @access Private
  */
 router.post(
