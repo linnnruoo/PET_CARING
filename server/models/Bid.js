@@ -78,6 +78,7 @@ const Bid = {
                        LIMIT $2`;
 
     const values = [
+      sid,
       limit
     ];
 
