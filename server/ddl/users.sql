@@ -10,7 +10,7 @@ create table users
   first_name   varchar(200)                        not null,
   last_name    varchar(200)                        not null,
   constraint users_pk
-    primary key (id),
+    primary key (id)
 );
 
 create unique index users_email_uindex

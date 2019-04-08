@@ -9,15 +9,16 @@ export const registerUser = (registrationInfo, history) => dispatch => {
   axios
     .post("/api/user/register", registrationInfo)
     .then(res => {
-      toast.success(res.data.message);
+      toast(res.data.message);
       history.push("/");
     })
-    .catch(err =>
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
-      })
-    );
+      });
+      toast.error(err.response.data.message);
+    });
 };
 
 // Login - Get user token
