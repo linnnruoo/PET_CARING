@@ -111,7 +111,26 @@ const Bid = {
       throw error;
     }
   },
+  getCaretakerBids: async (caretakerId) => {
+    const selectQuery = `SELECT s.sid, s.startTime, s.endTime, b.petName, b.amount
+                         FROM bidsview b inner join services s 
+                         ON b.sid = s.sid
+                         WHERE s.id = $1
+                         ORDER BY s.id`;
 
+    const values = [
+      caretakerId
+    ];
+
+    try {
+      const { rows } = await db.query(selectQuery, values);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   getAcceptedServiceOfCaretaker: async (caretakerId) => {
     const selectQuery = `SELECT s.startTime, s.endTime, b.petName, b.amount
                          FROM bidsview b inner join services s 
