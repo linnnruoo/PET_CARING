@@ -69,11 +69,11 @@ router.get("/", async (req, res) => {
   }
 });
 /**
- * @route POST /api/services
+ * @route POST /api/services/filter
  * @desc: Gets collection of all services with filter
  * @access Public
  */
-router.post("/", async (req, res) => {
+router.post("/filter", async (req, res) => {
   try {
     if (!req.body.filter) {
       res.status(400).json({
@@ -82,8 +82,10 @@ router.post("/", async (req, res) => {
       });
     }
     const { filter } = req.body;
+
+    console.log(filter);
     const services = await ServiceModel.getAllWithFilter(filter);
-    
+
     res.json({
       success: true,
       services

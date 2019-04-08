@@ -115,7 +115,48 @@ const Service = {
       console.log(error);
       throw error;
     }
-  }
+  },
+
+  getAllWithFilter: async (filter) => {
+
+    let filterCount = 1;
+    let filterArray = [];
+    let values = [];
+
+    if (filter.title) {
+      filterArray.push(`LOWER(s.title) LIKE ( LOWER($${filterCount++}) )`);
+      values.push(`%${filter.title}%`);
+    }
+    if (filter.startTime) {
+      filterArray.push(`s.startTime >= $${filterCount++}`);
+      values.push(filter.startTime);
+    }
+    if (filter.endTime) {
+      filterArray.push(`s.endTime <= $${filterCount++}`);
+      values.push(filter.endTime);
+    }
+    if (filter.petTypes) {
+      filterArray.push(`s.typeName = ANY ($${filterCount++})`)
+      values.push(filter.petTypes);
+    }
+
+    const filterString = filterArray.join(` AND `)
+
+    console.log(filterString);
+    
+    const filteredQuery = `SELECT u.id, u.first_name, u.last_name, s.sid, s.title, s.startTime, s.endTime, s.typeName, s.expected
+    FROM services s JOIN users u on u.id = s.id WHERE ${filterString}`;
+    console.log(filteredQuery);
+    
+    try {
+      const { rows } = await db.query(filteredQuery,values);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };
 
 module.exports = Service;
