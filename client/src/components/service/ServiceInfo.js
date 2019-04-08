@@ -7,8 +7,7 @@ const ServiceDetail = ({ serviceInfo, biddersInfo }) => {
   return (
     <GridContainer>
       <GridItem xs={12}>
-        <Paper />
-        {/* service info display */}
+        <Paper>{/* service info display */}</Paper>
       </GridItem>
       <GridItem xs={12}>
         <Paper />

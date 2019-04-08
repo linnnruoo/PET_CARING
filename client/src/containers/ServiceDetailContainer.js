@@ -1,9 +1,12 @@
 import React from "react";
 import GridContainer from "../components/grid/GridContainer";
 import GridItem from "../components/grid/GridItem";
-import { connect } from "react-redux";
 import ServiceDetail from "../components/service/ServiceInfo";
 import BidPanelCard from "../components/cards/BidPanel";
+import Loader from "../components/loader/Loader";
+import { connect } from "react-redux";
+import { getServiceInfo } from "../actions/serviceAction";
+import { withRouter } from "react-router-dom";
 
 /**
  * @todo: current bids
@@ -17,17 +20,24 @@ class ServiceDetailContainer extends React.Component {
     super();
     this.state = {};
   }
+  componentDidMount = () => {
+    this.props.getServiceInfo(this.props.match.params.serviceId);
+  };
   _onCreateBid = () => {};
   _onUpdateBid = () => {};
   _onCloseBid = () => {};
 
   render() {
-    const { auth } = this.props;
+    const { auth, services, bids } = this.props;
 
     return (
       <GridContainer>
         <GridItem xs={12} sm={8}>
-          <ServiceDetail />
+          {!services.loading ? (
+            <ServiceDetail serviceInfo={services.currentService} />
+          ) : (
+            <Loader />
+          )}
         </GridItem>
         <GridItem xs={12} sm={4}>
           <BidPanelCard auth={auth} />
@@ -38,7 +48,12 @@ class ServiceDetailContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  services: state.services,
+  bids: state.bids
 });
 
-export default connect(mapStateToProps)(ServiceDetailContainer);
+export default connect(
+  mapStateToProps,
+  { getServiceInfo }
+)(withRouter(ServiceDetailContainer));

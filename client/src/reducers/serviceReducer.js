@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
     case GET_SINGLE_SERVICE:
       return {
         ...state,
-        currentService: action.payload,
+        currentService: action.payload.service,
         loading: false
       };
     default:
