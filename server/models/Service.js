@@ -22,9 +22,9 @@ const Service = {
   getOne: async sid => {
     const getOneQuery = `SELECT u.id, u.first_name, u.last_name, s.sid, s.title, s.startTime, s.endTime, s.typeName, s.expected
         FROM services s JOIN users u on u.id = s.id AND s.id = $1`;
-
+    const values = [sid];
     try {
-      const { rows } = await db.query(getOneQuery);
+      const { rows } = await db.query(getOneQuery, values);
       return rows[0];
     } catch (error) {
       console.log(error);
