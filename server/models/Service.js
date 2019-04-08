@@ -39,7 +39,7 @@ const Service = {
       throw error;
     }
   },
-  getCaretakerService: async (id) => {
+  getCaretakerServices: async (id) => {
     const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected
                          FROM services s WHERE s.id = $1`;
 
@@ -76,7 +76,7 @@ const Service = {
   },
 
   filterByTypeAndAmount: async (typeName, amount) => {
-    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected 
                          FROM services s 
                          WHERE s.typeName = $1
                          AND s.expected <= $2`;
@@ -97,7 +97,7 @@ const Service = {
   },
 
   filterByTime: async (startTime, endTime) => {
-    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected 
                          FROM services s
                          WHERE s.startTime >= $1
                          AND s.endTime <= $2`;
