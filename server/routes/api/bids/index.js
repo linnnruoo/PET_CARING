@@ -136,4 +136,29 @@ router.get("/on/:serviceid", async (req, res) => {
   }
 });
 
+/**
+ * @route GET /api/bids/on/:userid_serviceid
+ * @desc: Check if user has bid on unique service
+ * @access Private
+ */
+router.get("/on/:userid_serviceid", async (req, res) => {
+  const serviceID = req.params.serviceid;
+  const userID = req.params.userid;
+  try {
+    const bids = await BidModel.getCheckUserBidUniqueService(userID, serviceID);
+    res.json({
+      success: true,
+      bids
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      success: false,
+      message: "User has no bids for selected service"
+    });
+  }
+});
+
+
 module.exports = router;

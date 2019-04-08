@@ -146,7 +146,33 @@ const Bid = {
       console.log(error);
       throw error;
     }
+  },
+
+  getCheckUserBidUniqueService: async (userId, serviceId) => {
+    const selectQuery = `With bsid_ssid AS (
+                        SELECT b.id, b.sid 
+                        FROM services s
+                        INNER JOIN bids b
+                        ON b.sid = s.sid
+                        )
+      
+                        SELECT 1 
+                        FROM users u 
+                        INNER JOIN bsid_ssid bs
+                        ON u.id = bs.id
+                        WHERE bs.id = $1 and bs.sid = $2`;
+
+    const values = [userId, serviceId];
+    try {
+      const { rows } = await db.query(selectQuery, values);
+      return rows[0];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+
   }
+
 };
 
 module.exports = Bid;
