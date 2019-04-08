@@ -4,7 +4,7 @@ create table services
 (
   sid           	serial                          not null,
   id				int							not null,
-  title       varchar(500),
+  title       varchar(500) not null,
   startTime			timestamp						not null,
   endTime			timestamp						not null,
   expected			int,
