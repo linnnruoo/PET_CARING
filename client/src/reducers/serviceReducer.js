@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
     case CREATE_NEW_SERVICE:
       return {
         ...state,
-        userServices: [...state.userServices, action.payload],
+        userServices: [...state.userServices, action.payload.service],
         loading: false
       };
     case FETCH_CARETAKER_SERVICES:
