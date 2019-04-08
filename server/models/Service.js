@@ -26,8 +26,21 @@ const Service = {
     }
   },
 
+  getAll: async () => {
+    const getAllQuery = `SELECT u.first_name, u.last_name, s.startTime, s.endTime, s.typeName, s.expected
+    FROM services s JOIN users u on u.id = s.id`;
+
+    try {
+      const { rows } = await db.query(getAllQuery);
+      
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   getCaretakerService: async (id) => {
-    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected
                          FROM services s WHERE s.id = $1`;
 
     const values = [
@@ -45,7 +58,7 @@ const Service = {
   },
 
   filterByType: async (typeName) => {
-    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected, s.typeName 
+    const filterQuery = `SELECT s.startTime, s.endTime, s.typeName, s.expected 
                          FROM services s WHERE s.typeName = $1`;
 
     const values = [
