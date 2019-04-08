@@ -17,9 +17,9 @@ export const setBidLoading = () => {
   };
 };
 
-export const createNewBid = (newBidInfo, serviceId) => dispatch => {
+export const createNewBid = newBidInfo => dispatch => {
   axios
-    .post(`/api/bids/${serviceId}`, newBidInfo)
+    .post(`/api/bids/`, newBidInfo)
     .then(res => {
       dispatch({
         type: CREATE_NEW_BID_OF_A_SERVICE,
@@ -72,10 +72,11 @@ export const fetchBidsOfOwner = ownerId => dispatch => {
     });
 };
 
+// get all the bids of a particular service
 export const fetchBidsOfService = serviceId => dispatch => {
   dispatch(setBidLoading());
   axios
-    .get(`api/bids/service/${serviceId}`)
+    .get(`/api/bids/on/${serviceId}`)
     .then(res => {
       dispatch({
         type: FETCH_BIDS_OF_SERVICE,
@@ -94,7 +95,7 @@ export const fetchBidsOfService = serviceId => dispatch => {
 export const fetchBidsOfCaretaker = caretakerId => dispatch => {
   dispatch(setBidLoading());
   axios
-    .get(`api/bids/services/${caretakerId}`)
+    .get(`/api/bids/by/${caretakerId}`)
     .then(res => {
       dispatch({
         type: FETCH_BIDS_OF_CARETAKER,

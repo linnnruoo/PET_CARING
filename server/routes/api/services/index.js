@@ -132,9 +132,14 @@ router.get("/by/:caretakerid", async (req, res) => {
 router.get("/:serviceid", async (req, res) => {
   const serviceid = req.params.serviceid;
   console.log(serviceid);
-  res.status(501).json({
-    message: "Resource not implemented"
-  });
+  ServiceModel.getOne(serviceid)
+    .then(service => {
+      res.json({
+        success: true,
+        service
+      });
+    })
+    .catch(err => console.log(err));
 });
 
 module.exports = router;
