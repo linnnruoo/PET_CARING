@@ -68,16 +68,17 @@ const Bid = {
     }
   },
 
-  getTopThreeBidsForService: async (sid) => {
+  getTopBidsForService: async (sid, limit) => {
+    const limit = limit || 3;
     const topKQuery = `SELECT u.first_name, u.email, b.petName, b.amount
                        FROM bidsview b inner join users u 
                        ON b.id = u.id
                        WHERE b.sid = $1
                        ORDER BY b.amount DESC
-                       LIMIT 3`;
+                       LIMIT $2`;
 
     const values = [
-      sid
+      limit
     ];
 
     try {
