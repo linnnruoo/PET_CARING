@@ -13,44 +13,28 @@ const ServiceModel = require('../../../models/Service');
 /**
  * @route POST /api/services
  * @desc: Allows caretaker to add a new service
- * @access Private {Caretaker}
+ * @access Private
  */
 router.post('/', passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const { role } = req.user;
-    res.status(501).json({
-      message: 'Resource not implemented'
-    });
-    /*
-    if (!req.body.petName) {
-      res.status(401).json({
-        message: 'Missing parameters in request'
+
+    const { id, startTime, endTime, expected, typeName } = req.body;
+    try {
+      const service = await ServiceModel.create(id, startTime, endTime, expected, typeName);
+      res.json({
+        success: true,
+        service
+      });
+    } catch (error) {
+      console.log(error);
+
+      res.status({
+        success: false,
+        message: 'There was an unexpected error'
       });
     }
-    else {
-      const petName = req.body.petName;
-      if (role === 'caretaker') {
-        try {
-          const service = await ServiceModel.create(;
-          res.json({
-            success: true,
-            petType
-          });
-        } catch (error) {
-          console.log(error);
 
-          res.status({
-            success: false,
-            message: 'There was an unexpected error'
-          });
-        }
-      }
-      else {
-        res.status(401).json({
-          message: "You are not authorized to access this resource"
-        });
-      }
-    }*/
   }
 );
 
@@ -60,17 +44,12 @@ router.post('/', passport.authenticate('jwt', { session: false }),
  * @access Public
  */
 router.get('/', async (req, res) => {
-  res.status(501).json({
-    message: 'Resource not implemented'
-  });
-  /*try {
-    const petTypes = await PetTypeModel.getAll();
-
-    const petTypesArray = fp.map('typename')(petTypes);
+  try {
+    const services = await ServiceModel.getAll();
 
     res.json({
       success: true,
-      petTypes: petTypesArray
+      services
     });
   } catch (error) {
     console.log(error);
@@ -79,7 +58,32 @@ router.get('/', async (req, res) => {
       success: false,
       message: 'There was an unexpected error'
     });
-  }*/
+  }
+});
+
+/**
+ * @route GET /api/services/by/:caretakerid
+ * @desc: Gets services by caretakerid
+ * @access Private
+ */
+router.get('/by/:caretakerid', async (req, res) => {
+  const caretakerID = req.params.caretakerid;
+  console.log(ownerid);
+  try {
+    const services = await ServiceModel.getCaretakerServices(caretakerID);
+
+    res.json({
+      success: true,
+      services
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status({
+      success: false,
+      message: 'There was an unexpected error'
+    });
+  }
 });
 
 /**
