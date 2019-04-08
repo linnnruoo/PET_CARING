@@ -50,7 +50,7 @@ const Bid = {
 
   filterByService: async (sid) => {
     const filterQuery = `SELECT u.first_name, u.email, b.petName, b.amount
-                         FROM bids b inner join users u 
+                         FROM bidsview b inner join users u 
                          ON b.id = u.id
                          WHERE b.sid = $1`;
 
@@ -70,7 +70,7 @@ const Bid = {
 
   getTopThreeBidsForService: async (sid) => {
     const topKQuery = `SELECT u.first_name, u.email, b.petName, b.amount
-                       FROM bids b inner join users u 
+                       FROM bidsview b inner join users u 
                        ON b.id = u.id
                        WHERE b.sid = $1
                        ORDER BY b.amount DESC
@@ -93,7 +93,7 @@ const Bid = {
   getBidStats: async (sid) => {
     const selectQuery = `SELECT MIN(amount) as minimum, MAX(amount) as maximum,
                          ROUND(AVG(amount), 2) as average, COUNT(*) as num
-                         FROM bids
+                         FROM bidsview
                          WHERE sid = $1
                          GROUP BY sid
                          ORDER BY sid;`;
@@ -114,10 +114,10 @@ const Bid = {
 
   getAcceptedServiceOfCaretaker: async (caretakerId) => {
     const selectQuery = `SELECT s.startTime, s.endTime, b.petName, b.amount
-                         FROM bids b inner join services s 
+                         FROM bidsview b inner join services s 
                          ON b.sid = s.sid
                          WHERE s.id = $1
-                         AND b.accepted = true`;
+                         AND b.status = 'accepted'`;
 
     const values = [
       caretakerId
