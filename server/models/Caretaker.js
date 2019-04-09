@@ -49,7 +49,7 @@ const CareTaker = {
         console.log(error);
         throw error;
     }
-}
+  }
 
 };
 
