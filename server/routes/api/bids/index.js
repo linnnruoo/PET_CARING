@@ -160,5 +160,28 @@ router.get("/on/:userid:serviceid", async (req, res) => {
   }
 });
 
+/**
+ * @route: Patch /api/bids/update
+ * @desc: Update a bid made by owner to a service
+ * @access: Private | Pet Owner
+ */
+router.patch(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const {
+      id, sid, newAmount, newPetName
+    } = req.body;
+    console.log(req.body);
+    BidModel.updateOne(
+      id,
+      sid,
+      newAmount,
+      newPetName
+    )
+      .then(result => res.json({ success: true }))
+      .catch(err => console.log(err));
+  }
+);
 
 module.exports = router;

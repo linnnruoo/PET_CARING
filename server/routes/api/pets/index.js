@@ -63,7 +63,7 @@ router.delete(
 
 /**
  * @route: Patch /api/pets/update
- * @desc: Delete a pet of this owner
+ * @desc: Update a pet of this owner
  * @access: Private | Pet Owner
  */
 router.patch(

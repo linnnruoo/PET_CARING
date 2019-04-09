@@ -172,15 +172,15 @@ const Bid = {
 
   },
 
-  updateBid: async (
-    id, sid, newamount, newpetName
+  updateOne: async (
+    id, sid, newamount, newpetname
   ) => {
     const updateQuery = `UPDATE bids b
       SET amount = $3, petName = $4
       WHERE b.id = $1 AND b.sid = $2`;
 
     const values = [
-      id, sid, newamount , newpetName
+      id, sid, newamount , newpetname
     ];
 
     try {
