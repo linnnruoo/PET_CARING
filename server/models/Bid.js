@@ -170,6 +170,25 @@ const Bid = {
       throw error;
     }
 
+  },
+
+  updateBid: async (
+    id, sid, newamount, newpetName
+  ) => {
+    const updateQuery = `UPDATE bids b
+      SET amount = $3, petName = $4
+      WHERE b.id = $1 AND b.sid = $2`;
+
+    const values = [
+      id, sid, newamount , newpetName
+    ];
+
+    try {
+      return await db.query(updateQuery, values);
+    } catch (err) {
+      console.log(err);
+      throw error;
+    }
   }
 
 };
