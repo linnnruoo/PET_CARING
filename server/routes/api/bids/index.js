@@ -184,4 +184,32 @@ router.patch(
   }
 );
 
+/**
+ * @route PATCH /api/bids/accept
+ * @desc: Allows caretaker to accept a bid
+ * @access Private | CareTaker
+ */
+router.patch(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    
+    const { ownerId, serviceId } = req.body;
+    try {
+      const accept = await BidModel.accept(ownerId, serviceId);
+      res.json({
+        success: true,
+        accept
+      });
+    } catch (error) {
+      console.log(error);
+
+      res.status(400).json({
+        success: false,
+        message: "There was an unexpected error"
+      });
+    }
+  }
+);
+
 module.exports = router;

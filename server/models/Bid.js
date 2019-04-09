@@ -19,7 +19,7 @@ const Bid = {
     }
   },
 
-  accept: async (id, sid, petName) => {
+  accept: async (id, sid) => {
     const updateQuery = `UPDATE bids
                          SET accepted = true
                          WHERE id = $1 
