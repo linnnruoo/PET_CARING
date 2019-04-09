@@ -72,4 +72,10 @@ router.use("/services", serviceSubRouter);
  */
 router.use("/user", userSubRouter);
 
+router.get("/teapot", async (req, res) => {
+  res.status(418).json({
+    message: "I'm a teapot ☕"
+  });
+});
+
 module.exports = router;
