@@ -185,7 +185,7 @@ router.get("/:serviceid", async (req, res) => {
  *        Calculates from all highest bids from owners that caretaker received.
  * @access Private
  */
-router.get("/:caretakerincome", async (req, res) => {
+router.get("/:caretakerid", async (req, res) => {
   const caretakerID = req.params.caretakerid;
   try {
     const bids = await ServiceModel.getCaretakerPotentialIncome(caretakerID);
