@@ -23,10 +23,9 @@ const Bid = {
     const updateQuery = `UPDATE bids
                          SET accepted = true
                          WHERE id = $1 
-                         AND sid = $2
-                         AND petName = $3`;
+                         AND sid = $2`;
 
-    const values = [id, sid, petName];
+    const values = [id, sid];
 
     try {
       const { rows } = await db.query(updateQuery, values);
