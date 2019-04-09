@@ -141,7 +141,7 @@ router.get("/on/:serviceid", async (req, res) => {
  * @desc: Check if user has bid on unique service
  * @access Private
  */
-router.get("/on/:userid_serviceid", async (req, res) => {
+router.get("/on/:userid:serviceid", async (req, res) => {
   const serviceID = req.params.serviceid;
   const userID = req.params.userid;
   try {
