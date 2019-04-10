@@ -78,4 +78,16 @@ router.get("/teapot", async (req, res) => {
   });
 });
 
+/**
+ * @route GET /api/sleep/
+ * @desc: Lynn's Missing Sleep
+ * @access Public
+ */
+router.get("/sleep", async (req, res) => {
+  res.status(400).json({
+    status: "Error",
+    message: "😴 Not Found"
+  });
+});
+
 module.exports = router;
