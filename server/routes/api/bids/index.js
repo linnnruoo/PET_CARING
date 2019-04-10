@@ -87,6 +87,31 @@ router.get("/by/:caretakerid", async (req, res) => {
 });
 
 /**
+ * @route GET /api/bids/on/:serviceid/by/:userid
+ * @desc: Check if user has bid on unique service
+ *        Probably obsoleted
+ * @access Private
+ */
+router.get("/on/:serviceid/by/:userid", async (req, res) => {
+  const serviceID = req.params.serviceid;
+  const userID = req.params.userid;
+  try {
+    const bids = await BidModel.getCheckUserBidUniqueService(userID, serviceID);
+    res.json({
+      success: true,
+      bids
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      success: false,
+      message: "User has no bids for selected service"
+    });
+  }
+});
+
+/**
  * @route GET /api/bids/on/:serviceid/top/:limit
  * @desc: Gets top :limit number bids by serviceid
  * @access Private
@@ -137,30 +162,6 @@ router.get("/on/:serviceid", async (req, res) => {
 });
 
 /**
- * @route GET /api/bids/on/:userid_serviceid
- * @desc: Check if user has bid on unique service
- * @access Private
- */
-router.get("/on/:userid:serviceid", async (req, res) => {
-  const serviceID = req.params.serviceid;
-  const userID = req.params.userid;
-  try {
-    const bids = await BidModel.getCheckUserBidUniqueService(userID, serviceID);
-    res.json({
-      success: true,
-      bids
-    });
-  } catch (error) {
-    console.log(error);
-
-    res.status(400).json({
-      success: false,
-      message: "User has no bids for selected service"
-    });
-  }
-});
-
-/**
  * @route: Patch /api/bids/update
  * @desc: Update a bid made by owner to a service
  * @access: Private | Pet Owner
@@ -190,7 +191,7 @@ router.patch(
  * @access Private | CareTaker
  */
 router.patch(
-  "/",
+  "/accept",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     
