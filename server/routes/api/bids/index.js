@@ -29,7 +29,7 @@ router.post(
       });
     } catch (error) {
       console.log(error);
-
+ 
       res.status(400).json({
         success: false,
         message: "There was an unexpected error"
@@ -207,6 +207,31 @@ router.patch(
       res.status(400).json({
         success: false,
         message: "There was an unexpected error"
+      });
+    }
+  }
+);
+
+/**
+ * @route GET /api/bids/stat/:serviceId
+ * @desc: Get the stats of all the bids of a particular service
+ * @access Public
+ */
+router.get("/stat/:serviceId", async (req, res) => {
+    const { serviceId } = req.params;
+
+    try {
+      const bidStat = await BidModel.getBidStats(serviceId);
+      res.json({
+        success: true,
+        bidStat
+      });
+    } catch (error) {
+      console.log(error);
+
+      res.status(404).json({
+        success: false,
+        message: "No bids info for this service!"
       });
     }
   }
