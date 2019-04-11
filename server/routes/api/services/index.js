@@ -161,20 +161,20 @@ router.get("/by/:caretakerid/potential", async (req, res) => {
 });
 
 /**
- * @route GET /api/services/by/:caretakerid/confirmed
- * @desc: Gets caretaker maximum  confirmed income.
+ * @route GET /api/services/by/:caretakerid/current
+ * @desc: Gets caretaker maximum current income.
  *        Calculates from all highest accepted bids from owners that caretaker received.
  * @access Private
  */
-router.get("/by/:caretakerid/confirmed", async (req, res) => {
+router.get("/by/:caretakerid/current", async (req, res) => {
   const caretakerID = req.params.caretakerid;
   try {
-    const confirmedIncome = await ServiceModel.getCaretakerConfirmedIncome(
+    const currentIncome = await ServiceModel.getCaretakerCurrentIncome(
       caretakerID
     );
     res.json({
       success: true,
-      confirmedIncome
+      currentIncome
     });
   } catch (error) {
     console.log(error);

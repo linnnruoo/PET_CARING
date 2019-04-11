@@ -229,7 +229,7 @@ const Service = {
     }
   },
 
-  getCaretakerConfirmedIncome: async (id) => {
+  getCaretakerCurrentIncome: async (id) => {
     const findQuery = `WITH svc_bid AS (
       SELECT s.id, b.sid, b.amount FROM services s
       INNER JOIN bids b
