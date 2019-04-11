@@ -200,7 +200,7 @@ const Service = {
 
   getCaretakerPotentialIncome: async (id) => {
     const findQuery = `WITH svc_bid AS (
-      SELECT s.id, b.sid, coalesce(b.amount, 0) FROM services s
+      SELECT s.id, b.sid, b.amount FROM services s
       INNER JOIN bids b
       on s.sid = b.sid
       WHERE s.id = $1
@@ -214,7 +214,7 @@ const Service = {
       ON sb.sid = grouped.sid
       AND sb.amount = grouped.MaxAmountSid
       )
-      SELECT sum(MaxAmountSid) FROM grouped_svc_bid`;
+      SELECT coalesce(sum(MaxAmountSid),0) as Potential_Income FROM grouped_svc_bid`;
 
     const values = [
       id
@@ -231,7 +231,7 @@ const Service = {
 
   getCaretakerCurrentIncome: async (id) => {
     const findQuery = `WITH svc_bid AS (
-      SELECT s.id, b.sid, coalesce(b.amount, 0) FROM services s
+      SELECT s.id, b.sid, b.amount FROM services s
       INNER JOIN bids b
       on s.sid = b.sid
       WHERE s.id = $1 and b.accepted = true
@@ -245,7 +245,7 @@ const Service = {
       ON sb.sid = grouped.sid
       AND sb.amount = grouped.MaxAmountSid
       )
-      SELECT sum(MaxAmountSid) FROM grouped_svc_bid`;
+      SELECT coalesce(sum(MaxAmountSid),0) AS Current_Income FROM grouped_svc_bid`;
 
     const values = [
       id
