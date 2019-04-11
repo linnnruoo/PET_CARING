@@ -214,7 +214,7 @@ const Service = {
       ON sb.sid = grouped.sid
       AND sb.amount = grouped.MaxAmountSid
       )
-      SELECT coalesce(sum(MaxAmountSid),0) as Potential_Income FROM grouped_svc_bid`;
+      SELECT coalesce(sum(MaxAmountSid),0) as potentialIncome FROM grouped_svc_bid`;
 
     const values = [
       id
@@ -245,7 +245,7 @@ const Service = {
       ON sb.sid = grouped.sid
       AND sb.amount = grouped.MaxAmountSid
       )
-      SELECT coalesce(sum(MaxAmountSid),0) AS Current_Income FROM grouped_svc_bid`;
+      SELECT coalesce(sum(MaxAmountSid),0) AS currentIncome FROM grouped_svc_bid`;
 
     const values = [
       id

@@ -147,9 +147,10 @@ router.get("/by/:caretakerid/potential", async (req, res) => {
     const potentialIncome = await ServiceModel.getCaretakerPotentialIncome(
       caretakerID
     );
+    // console.log(potentialIncome)
     res.json({
       success: true,
-      potentialIncome: potentialIncome.sum
+      potentialIncome: potentialIncome.potentialincome
     });
   } catch (error) {
     console.log(error);
@@ -172,9 +173,10 @@ router.get("/by/:caretakerid/current", async (req, res) => {
     const currentIncome = await ServiceModel.getCaretakerCurrentIncome(
       caretakerID
     );
+    // console.log(currentIncome)
     res.json({
       success: true,
-      currentIncome: currentIncome.sum
+      currentIncome: currentIncome.currentincome
     });
   } catch (error) {
     console.log(error);
