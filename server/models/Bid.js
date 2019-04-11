@@ -111,9 +111,8 @@ const Bid = {
     }
   },
   getCaretakerBids: async caretakerId => {
-    const selectQuery = `SELECT s.sid, s.title, s.startTime, s.endTime, b.petName, b.amount
-                         FROM bidsview b inner join services s 
-                         ON b.sid = s.sid
+    const selectQuery = `SELECT s.sid, s.title, s.startTime, s.endTime, b.petName, b.amount, b.id as ownerId, u.first_name, u.last_name, b.accepted
+                         FROM (bidsview b inner join services s ON b.sid = s.sid) inner join users u ON b.id = u.id
                          WHERE s.id = $1
                          ORDER BY s.id`;
 
