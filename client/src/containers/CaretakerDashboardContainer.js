@@ -11,6 +11,7 @@ import DefaultButton from "../components/buttons/DefaultButton";
 import ServiceInfoTable from "../components/table/ServiceInfoTable";
 import BidsOfServiceTable from "../components/table/BidsOfServiceTable";
 import NewServiceModal from "../components/modals/NewServiceModal";
+import { Typography } from "@material-ui/core";
 
 class CaretakerDashboardContainer extends Component {
   constructor() {
@@ -23,7 +24,7 @@ class CaretakerDashboardContainer extends Component {
   }
   componentDidMount = () => {
     this.props.fetchServicesOfCaretaker(this.props.auth.user.id);
-    // this.props.fetchBidsOfCaretaker(this.props.auth.user.id);
+    this.props.fetchBidsOfCaretaker(this.props.auth.user.id);
     this.props.getPetTypes();
   };
   _onModalOpen = modalName => () => {
@@ -35,11 +36,14 @@ class CaretakerDashboardContainer extends Component {
 
   render() {
     const { services, bids } = this.props;
-    let bidsOfServices = [];
-    const renderBidsOfServices = () => {
-      bidsOfServices = _.groupBy(bids.bidsOfCaretaker, "serviceId");
-      console.log(bidsOfServices);
-    };
+
+    let bidsOfServices = {};
+    bidsOfServices = _.groupBy(bids.bidsOfCaretaker, "sid");
+    let bidsByServices = [];
+    console.log(bidsOfServices)
+    _.forEach(bidsOfServices, (bidsArr, index) => {
+      bidsByServices.push(bidsArr);
+    })
 
     const renderModals = () => {
       return (
@@ -53,6 +57,12 @@ class CaretakerDashboardContainer extends Component {
         </>
       );
     };
+
+    const renderBidsByService = () => {
+      bidsByServices.map((bidsArr, index) => {
+        return <BidsOfServiceTable key={index} bidsArr={bidsArr} title={bidsArr[0].title} />
+      })
+    }
 
     return (
       <>
@@ -73,12 +83,18 @@ class CaretakerDashboardContainer extends Component {
             )}
           </GridItem>
           <GridItem xs={12}>
-            {!bids.loading ? (
-              //  group all the bids by servicesId
-              // <BidsOfServiceTable />
-              <></>
-            ) : null}
-            {renderBidsOfServices()}
+            {
+              !bids.loading ?
+              <>
+                <Typography gutterBottom variant="h5" style={{ fontWeight: "bold" }}>
+                  Bids Details
+                </Typography>
+                {bidsByServices.map((bidsArr, index) => {
+                  return <BidsOfServiceTable key={index} bidsArr={bidsArr} title={bidsArr[0].title} />
+                })}
+              </>
+                : <Loader />
+            }
           </GridItem>
         </GridContainer>
         {renderModals()}
