@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Loader from "../components/loader/Loader";
 import * as _ from "lodash";
 import { connect } from "react-redux";
-import { fetchServicesOfCaretaker } from "../actions/serviceAction";
+import { fetchServicesOfCaretaker, getPotentialIncome, getCurrentIncome } from "../actions/serviceAction";
 import { fetchBidsOfCaretaker } from "../actions/bidActions";
 import { getPetTypes } from "../actions/petActions";
 import GridContainer from "../components/grid/GridContainer";
@@ -12,6 +12,7 @@ import ServiceInfoTable from "../components/table/ServiceInfoTable";
 import BidsOfServiceTable from "../components/table/BidsOfServiceTable";
 import NewServiceModal from "../components/modals/NewServiceModal";
 import { Typography } from "@material-ui/core";
+import IncomePanel from "../components/cards/IncomePanel";
 
 class CaretakerDashboardContainer extends Component {
   constructor() {
@@ -23,8 +24,12 @@ class CaretakerDashboardContainer extends Component {
     this._onModalOpen = this._onModalOpen.bind(this);
   }
   componentDidMount = () => {
-    this.props.fetchServicesOfCaretaker(this.props.auth.user.id);
-    this.props.fetchBidsOfCaretaker(this.props.auth.user.id);
+    const userId = this.props.auth.user.id;
+
+    this.props.fetchServicesOfCaretaker(userId);
+    this.props.fetchBidsOfCaretaker(userId);
+    this.props.getPotentialIncome(userId);
+    this.props.getCurrentIncome(userId);
     this.props.getPetTypes();
   };
   _onModalOpen = modalName => () => {
@@ -40,7 +45,7 @@ class CaretakerDashboardContainer extends Component {
     let bidsOfServices = {};
     bidsOfServices = _.groupBy(bids.bidsOfCaretaker, "sid");
     let bidsByServices = [];
-    console.log(bidsOfServices)
+    // console.log(bidsOfServices)
     _.forEach(bidsOfServices, (bidsArr, index) => {
       bidsByServices.push(bidsArr);
     })
@@ -58,12 +63,6 @@ class CaretakerDashboardContainer extends Component {
       );
     };
 
-    const renderBidsByService = () => {
-      bidsByServices.map((bidsArr, index) => {
-        return <BidsOfServiceTable key={index} bidsArr={bidsArr} title={bidsArr[0].title} />
-      })
-    }
-
     return (
       <>
         <GridContainer justify="center" alignItems="flex-start" spacing={32}>
@@ -78,6 +77,13 @@ class CaretakerDashboardContainer extends Component {
           <GridItem xs={12}>
             {!services.loading ? (
               <ServiceInfoTable userServices={services.userServices} />
+            ) : (
+              <Loader />
+            )}
+          </GridItem>
+          <GridItem xs={12}>
+            {!services.loading ? (
+              <IncomePanel potentialIncome={services.potentialIncome} currentIncome={services.currentIncome} />
             ) : (
               <Loader />
             )}
@@ -112,5 +118,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchServicesOfCaretaker, getPetTypes, fetchBidsOfCaretaker }
+  {
+    fetchServicesOfCaretaker,
+    getPetTypes,
+    fetchBidsOfCaretaker,
+    getPotentialIncome,
+    getCurrentIncome
+  }
 )(CaretakerDashboardContainer);
