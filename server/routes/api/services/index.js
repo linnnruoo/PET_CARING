@@ -104,7 +104,7 @@ router.post("/filter/:page", async (req, res) => {
 
 /**
  * @route POST /api/services/filter/
- * @desc: Returns pages of date corresponding to filter
+ * @desc: Returns pages of data corresponding to filter
  * @access Public
  */
 router.post("/filter", async (req, res) => {
@@ -118,11 +118,11 @@ router.post("/filter", async (req, res) => {
     const { filter } = req.body;
 
     console.log(filter);
-    const pages = await ServiceModel.getFilterPageCount(filter,);
-    
+    const pages = await ServiceModel.getFilterPageCount(filter);
+
     res.json({
       success: true,
-      pages: Math.ceil(pages.pages/PageSize)
+      pages: Math.ceil(pages.pages / PageSize)
     });
   } catch (error) {
     console.log(error);
@@ -133,8 +133,6 @@ router.post("/filter", async (req, res) => {
     });
   }
 });
-
-
 
 /**
  * @route GET /api/services/by/:caretakerid
