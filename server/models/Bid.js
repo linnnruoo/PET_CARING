@@ -19,14 +19,13 @@ const Bid = {
     }
   },
 
-  accept: async (id, sid, petName) => {
+  accept: async (id, sid) => {
     const updateQuery = `UPDATE bids
                          SET accepted = true
                          WHERE id = $1 
-                         AND sid = $2
-                         AND petName = $3`;
+                         AND sid = $2`;
 
-    const values = [id, sid, petName];
+    const values = [id, sid];
 
     try {
       const { rows } = await db.query(updateQuery, values);
@@ -146,7 +145,52 @@ const Bid = {
       console.log(error);
       throw error;
     }
+  },
+
+  getCheckUserBidUniqueService: async (userId, serviceId) => {
+    const selectQuery = `With bsid_ssid AS (
+                        SELECT b.id, b.sid 
+                        FROM services s
+                        INNER JOIN bids b
+                        ON b.sid = s.sid
+                        )
+      
+                        SELECT 1 
+                        FROM users u 
+                        INNER JOIN bsid_ssid bs
+                        ON u.id = bs.id
+                        WHERE bs.id = $1 and bs.sid = $2`;
+
+    const values = [userId, serviceId];
+    try {
+      const { rows } = await db.query(selectQuery, values);
+      return rows[0];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+
+  },
+
+  updateOne: async (
+    id, sid, newamount, newpetname
+  ) => {
+    const updateQuery = `UPDATE bids b
+      SET amount = $3, petName = $4
+      WHERE b.id = $1 AND b.sid = $2`;
+
+    const values = [
+      id, sid, newamount , newpetname
+    ];
+
+    try {
+      return await db.query(updateQuery, values);
+    } catch (err) {
+      console.log(err);
+      throw error;
+    }
   }
+
 };
 
 module.exports = Bid;

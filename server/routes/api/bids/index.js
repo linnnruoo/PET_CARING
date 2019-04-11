@@ -87,6 +87,31 @@ router.get("/by/:caretakerid", async (req, res) => {
 });
 
 /**
+ * @route GET /api/bids/on/:serviceid/by/:userid
+ * @desc: Check if user has bid on unique service
+ *        Probably obsoleted
+ * @access Private
+ */
+router.get("/on/:serviceid/by/:userid", async (req, res) => {
+  const serviceID = req.params.serviceid;
+  const userID = req.params.userid;
+  try {
+    const bids = await BidModel.getCheckUserBidUniqueService(userID, serviceID);
+    res.json({
+      success: true,
+      bids
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      success: false,
+      message: "User has no bids for selected service"
+    });
+  }
+});
+
+/**
  * @route GET /api/bids/on/:serviceid/top/:limit
  * @desc: Gets top :limit number bids by serviceid
  * @access Private
@@ -135,5 +160,57 @@ router.get("/on/:serviceid", async (req, res) => {
     });
   }
 });
+
+/**
+ * @route: Patch /api/bids/update
+ * @desc: Update a bid made by owner to a service
+ * @access: Private | Pet Owner
+ */
+router.patch(
+  "/update",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    const {
+      id, sid, newAmount, newPetName
+    } = req.body;
+    console.log(req.body);
+    BidModel.updateOne(
+      id,
+      sid,
+      newAmount,
+      newPetName
+    )
+      .then(result => res.json({ success: true }))
+      .catch(err => console.log(err));
+  }
+);
+
+/**
+ * @route PATCH /api/bids/accept
+ * @desc: Allows caretaker to accept a bid
+ * @access Private | CareTaker
+ */
+router.patch(
+  "/accept",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res) => {
+    
+    const { ownerId, serviceId } = req.body;
+    try {
+      const accept = await BidModel.accept(ownerId, serviceId);
+      res.json({
+        success: true,
+        accept
+      });
+    } catch (error) {
+      console.log(error);
+
+      res.status(400).json({
+        success: false,
+        message: "There was an unexpected error"
+      });
+    }
+  }
+);
 
 module.exports = router;

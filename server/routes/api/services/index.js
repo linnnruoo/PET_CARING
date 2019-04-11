@@ -9,6 +9,7 @@ const router = express.Router();
 
 const fp = require("lodash/fp");
 const ServiceModel = require("../../../models/Service");
+const BidModel = require("../../../models/Bid");
 
 const PageSize = 20;
 /**
@@ -135,6 +136,31 @@ router.post("/filter", async (req, res) => {
 });
 
 /**
+ * @route GET /api/services/by/:caretakerid/potential
+ * @desc: Gets caretaker maximum  potential income.
+ *        Calculates from all highest bids from owners that caretaker received.
+ * @access Private
+ */
+router.get("/by/:caretakerid/potential", async (req, res) => {
+  const caretakerID = req.params.caretakerid;
+  try {
+    const potentialIncome = await ServiceModel.getCaretakerPotentialIncome(
+      caretakerID
+    );
+    res.json({
+      success: true,
+      potentialIncome
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: "There was an unexpected error"
+    });
+  }
+});
+
+/**
  * @route GET /api/services/by/:caretakerid
  * @desc: Gets services by caretakerid
  * @access Private
@@ -157,6 +183,24 @@ router.get("/by/:caretakerid", async (req, res) => {
       message: "There was an unexpected error"
     });
   }
+});
+
+/**
+ * @route GET /api/services/:serviceid/stats
+ * @desc: Gets bidding stats for specific service
+ * @access Private
+ */
+router.get("/:serviceid/stats", async (req, res) => {
+  const serviceid = req.params.serviceid;
+  console.log(serviceid);
+  BidModel.getBidStats(serviceid)
+    .then(stats => {
+      res.json({
+        success: true,
+        stats
+      });
+    })
+    .catch(err => console.log(err));
 });
 
 /**
