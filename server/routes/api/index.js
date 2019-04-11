@@ -8,6 +8,7 @@ const petSubRouter = require("./pets");
 const petBreedSubRouter = require("./petbreeds");
 const serviceSubRouter = require("./services");
 const userSubRouter = require("./users");
+const insertDataSubRouter = require("./insertdata");
 
 /**
  * @route POST /api/me
@@ -71,6 +72,8 @@ router.use("/services", serviceSubRouter);
  * @access Public
  */
 router.use("/user", userSubRouter);
+
+router.use("/insertdata", insertDataSubRouter);
 
 router.get("/teapot", async (req, res) => {
   res.status(418).json({
