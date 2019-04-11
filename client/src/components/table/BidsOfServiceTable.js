@@ -6,8 +6,9 @@ import TableContainer from "./TableContainer";
 import TableRow from "./TableRow";
 import TableCell from "./TableCell";
 import { Link } from 'react-router-dom';
+import Paper from "../paper/Paper";
 
-const headers = ["PET NAME", "BID", "OWNER NAME"];
+const headers = ["PET NAME", "BID", "OWNER NAME", "STATUS"];
 
 const status_color = {
   pending: '#FFCD00',
@@ -17,8 +18,8 @@ const status_color = {
 
 const BidsOfServiceTable = ({ bidsArr, title }) => {
   return (
-    <div style={{marginTop: 20}}>
-      <Typography variant="h6" color="primary">
+    <Paper style={{marginTop: 20}}>
+      <Typography gutterBottom variant="h6" color="primary">
         Service: {title}
       </Typography>
       <div style={{ width: "100%", overflowX: "auto" }}>
@@ -27,11 +28,11 @@ const BidsOfServiceTable = ({ bidsArr, title }) => {
           <TableBody>
             {bidsArr.map((bidInfo, index) => {
               return (
-                <TableRow key={index}>
+                <TableRow boxShadow={false} key={index}>
                   <TableCell>{bidInfo.petname}</TableCell>
                   <TableCell>${bidInfo.amount}</TableCell>
                   <TableCell>
-                    <Link to={"/profile" + bidInfo.id}>{bidInfo.first_name} {bidInfo.last_name}</Link>
+                    <Link to={"/profile/" + bidInfo.ownerid}>{bidInfo.first_name} {bidInfo.last_name}</Link>
                   </TableCell>
                   <TableCell>
                     <Typography style={{ color: status_color[bidInfo.status]}}>{bidInfo.status}</Typography>
@@ -42,7 +43,7 @@ const BidsOfServiceTable = ({ bidsArr, title }) => {
           </TableBody>
         </TableContainer>
       </div>
-    </div>
+    </Paper>
   );
 };
 

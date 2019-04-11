@@ -66,7 +66,7 @@ class CaretakerDashboardContainer extends Component {
 
     return (
       <>
-        <GridContainer justify="center" alignItems="flex-start" spacing={16}>
+        <GridContainer justify="center" alignItems="flex-start" spacing={32}>
           <GridItem xs={12} align="right">
             <DefaultButton
               onClick={this._onModalOpen("isNewServiceModalOpen")}
