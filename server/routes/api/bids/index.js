@@ -68,7 +68,6 @@ router.get("/", async (req, res) => {
  */
 router.get("/by/:caretakerid", async (req, res) => {
   const caretakerID = req.params.caretakerid;
-  console.log(ownerid);
   try {
     const bids = await BidModel.getCaretakerBids(caretakerID);
 
