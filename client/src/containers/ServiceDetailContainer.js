@@ -9,7 +9,6 @@ import { getServiceInfo } from "../actions/serviceAction";
 import { fetchPetsOfOwner } from "../actions/petActions";
 import { fetchBidsOfService, fetchBidStatOfService } from "../actions/bidActions";
 import { withRouter } from "react-router-dom";
-import Paper from "../components/paper/Paper";
 import BiddersPanel from "../components/cards/BiddersPanel";
 import BidStat from "../components/cards/BidStat";
 

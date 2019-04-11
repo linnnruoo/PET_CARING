@@ -15,7 +15,7 @@ const BiddersPanel = ({ bidsInfo }) => {
         {bidsInfo.map((bid, index) => {
           const { id, first_name, last_name, petname, amount } = bid;
           return (
-            <GridItem xs={3}>
+            <GridItem xs={3} key={index}>
               <Card>
                 <CardContent>
                   <Typography>

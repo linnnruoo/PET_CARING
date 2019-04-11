@@ -129,9 +129,9 @@ export const fetchBidStatOfService = serviceId => dispatch => {
     });
 };
 
-export const acceptBid = (ownerId, serviceId) => dispatch => {
+export const acceptBid = (info) => dispatch => {
   axios
-    .patch('/api/bids/accept', {ownerId, serviceId})
+    .patch('/api/bids/accept', info)
     .then(res => {
       if (res.data.success) toast.success("You have accepted a bid for this service!");
 
