@@ -29,3 +29,4 @@ export const GET_BID_STATS_OF_SERVICE = "GET_BID_STATS_OF_SERVICE";
 export const FETCH_BIDS_OF_OWNER = "FETCH_BIDS_OF_OWNER"; // get all bids made by this owner
 export const BID_LOADING = "BID_LOADING";
 export const FETCH_BIDS_OF_CARETAKER = "FETCH_BIDS_OF_CARETAKER";
+export const ACCEPT_BID = "ACCEPT_BID";

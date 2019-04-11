@@ -5,7 +5,8 @@ import {
   FETCH_BIDS_OF_SERVICE,
   UPDATE_BID_INFO,
   GET_BID_STATS_OF_SERVICE,
-  FETCH_BIDS_OF_CARETAKER
+  FETCH_BIDS_OF_CARETAKER,
+  ACCEPT_BID,
 } from "../actions/types";
 
 const initialState = {
@@ -56,6 +57,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         bidStatOfService: action.payload.bidStat[0],
+        loading: false
+      }
+    case ACCEPT_BID:
+      return {
+        ...state,
         loading: false
       }
     default:

@@ -6,7 +6,8 @@ import {
   UPDATE_BID_INFO,
   GET_BID_STATS_OF_SERVICE,
   GET_ERRORS,
-  FETCH_BIDS_OF_CARETAKER
+  FETCH_BIDS_OF_CARETAKER,
+  ACCEPT_BID,
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -127,3 +128,22 @@ export const fetchBidStatOfService = serviceId => dispatch => {
       });
     });
 };
+
+export const acceptBid = (ownerId, serviceId) => dispatch => {
+  axios
+    .patch('/api/bids/accept', {ownerId, serviceId})
+    .then(res => {
+      if (res.data.success) toast.success("You have accepted a bid for this service!");
+
+      dispatch({
+        type: ACCEPT_BID,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
