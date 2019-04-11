@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
     case GET_BID_STATS_OF_SERVICE:
       return {
         ...state,
-        bidStatOfService: action.payload.bidStat,
+        bidStatOfService: action.payload.bidStat[0],
         loading: false
       }
     default:

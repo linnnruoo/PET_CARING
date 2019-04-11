@@ -22,7 +22,7 @@ const BiddersPanel = ({ bidsInfo }) => {
                     Bidder: {first_name} {last_name}
                   </Typography>
                   <Typography>Pet Name: {petname}</Typography>
-                  <Typography>Bid: {amount}</Typography>
+                  <Typography>Bid: ${amount}</Typography>
                   <Typography variant="caption" align="right">
                     <Link to={"/profile/" + id}>User Profile</Link>
                   </Typography>

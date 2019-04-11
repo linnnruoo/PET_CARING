@@ -25,7 +25,7 @@ const ServiceDetail = ({ serviceInfo }) => {
           <Typography>Pet Type: {serviceInfo.typename}</Typography>
           <Typography>Start Time: {formatedStart}</Typography>
           <Typography>End Time: {formatedEnd}</Typography>
-          <Typography>Expected Pay ${serviceInfo.expected}</Typography>
+          <Typography>Expected Pay: ${serviceInfo.expected}</Typography>
           <Typography>
             Caretaker:{" "}
             <Link to={"/profile/" + serviceInfo.id}>
