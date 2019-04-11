@@ -200,7 +200,7 @@ const Service = {
 
   getCaretakerPotentialIncome: async (id) => {
     const findQuery = `WITH svc_bid AS (
-      SELECT s.id, b.sid, b.amount FROM services s
+      SELECT s.id, b.sid, coalesce(b.amount, 0) FROM services s
       INNER JOIN bids b
       on s.sid = b.sid
       WHERE s.id = $1
@@ -231,7 +231,7 @@ const Service = {
 
   getCaretakerCurrentIncome: async (id) => {
     const findQuery = `WITH svc_bid AS (
-      SELECT s.id, b.sid, b.amount FROM services s
+      SELECT s.id, b.sid, coalesce(b.amount, 0) FROM services s
       INNER JOIN bids b
       on s.sid = b.sid
       WHERE s.id = $1 and b.accepted = true

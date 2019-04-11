@@ -149,7 +149,7 @@ router.get("/by/:caretakerid/potential", async (req, res) => {
     );
     res.json({
       success: true,
-      potentialIncome
+      potentialIncome: potentialIncome.sum
     });
   } catch (error) {
     console.log(error);
@@ -174,7 +174,7 @@ router.get("/by/:caretakerid/current", async (req, res) => {
     );
     res.json({
       success: true,
-      currentIncome
+      currentIncome: currentIncome.sum
     });
   } catch (error) {
     console.log(error);

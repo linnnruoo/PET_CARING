@@ -52,13 +52,13 @@ export default (state = initialState, action) => {
     case GET_POTENTIAL_INCOME: // ugly
       return {
         ...state,
-        potentialIncome: action.payload.potentialIncome.sum,
+        potentialIncome: action.payload.potentialIncome,
         loading: false
       };
     case GET_CURRENT_INCOME: // ugly
       return {
         ...state,
-        currentIncome: action.payload.currentIncome.sum,
+        currentIncome: action.payload.currentIncome,
         loading: false
       };
     default:
