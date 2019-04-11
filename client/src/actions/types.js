@@ -18,7 +18,8 @@ export const SERVICE_LOADING = "SERVICE_LOADING";
 export const CREATE_NEW_SERVICE = "CREATE_NEW_SERVICE";
 export const FILTER_SERVICES = "FILTER_SERVICES";
 export const GET_SINGLE_SERVICE = "GET_SINGLE_SERVICE";
-// todo: all the bids of all the services of the caretaker, group by services
+export const GET_POTENTIAL_INCOME = "GET_POTENTIAL_INCOME";
+export const GET_CURRENT_INCOME = "GET_CURRENT_INCOME";
 
 // bid
 export const CREATE_NEW_BID_OF_A_SERVICE = "CREATE_NEW_BID_OF_A_SERVICE";

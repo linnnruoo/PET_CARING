@@ -4,7 +4,9 @@ import {
   SERVICE_LOADING,
   FILTER_SERVICES,
   GET_SINGLE_SERVICE,
-  GET_ERRORS
+  GET_ERRORS,
+  GET_POTENTIAL_INCOME,
+  GET_CURRENT_INCOME,
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -58,6 +60,42 @@ export const getServiceInfo = serviceId => dispatch => {
     .then(res => {
       dispatch({
         type: GET_SINGLE_SERVICE,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+export const getPotentialIncome = caretakerId => dispatch => {
+  dispatch(setServiceLoading());
+  axios
+    .get(`/api/services/by/${caretakerId}/potential`)
+    .then(res => {
+      dispatch({
+        type: GET_POTENTIAL_INCOME,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+export const getCurrentIncome = caretakerId => dispatch => {
+  dispatch(setServiceLoading());
+  axios
+    .get(`/api/services/by/${caretakerId}/current`)
+    .then(res => {
+      dispatch({
+        type: GET_CURRENT_INCOME,
         payload: res.data
       });
     })

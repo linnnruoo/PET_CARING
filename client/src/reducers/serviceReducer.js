@@ -3,7 +3,9 @@ import {
   FETCH_CARETAKER_SERVICES,
   SERVICE_LOADING,
   FILTER_SERVICES,
-  GET_SINGLE_SERVICE
+  GET_SINGLE_SERVICE,
+  GET_POTENTIAL_INCOME,
+  GET_CURRENT_INCOME
 } from "../actions/types";
 
 const initialState = {
@@ -11,6 +13,8 @@ const initialState = {
   filteredServices: [],
   userServices: [],
   pastServices: [],
+  potentialIncome: 0,
+  currentIncome: 0,
   loading: false
 };
 
@@ -43,6 +47,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentService: action.payload.service,
+        loading: false
+      };
+    case GET_POTENTIAL_INCOME: // ugly
+      return {
+        ...state,
+        potentialIncome: action.payload.potentialIncome.sum,
+        loading: false
+      };
+    case GET_CURRENT_INCOME: // ugly
+      return {
+        ...state,
+        currentIncome: action.payload.currentIncome.sum,
         loading: false
       };
     default:
