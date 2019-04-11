@@ -4,12 +4,13 @@ import {
   FETCH_BIDS_OF_OWNER,
   FETCH_BIDS_OF_SERVICE,
   UPDATE_BID_INFO,
-  GET_INTERESTING_BID,
+  GET_BID_STATS_OF_SERVICE,
   FETCH_BIDS_OF_CARETAKER
 } from "../actions/types";
 
 const initialState = {
   bidsOfService: [],
+  bidStatOfService: [],
   bidsOfOwner: [],
   bidsOfCaretaker: [],
   loading: false
@@ -48,9 +49,15 @@ export default (state = initialState, action) => {
     case FETCH_BIDS_OF_CARETAKER:
       return {
         ...state,
-        bidsOfCaretaker: action.payload,
+        bidsOfCaretaker: action.payload.bids,
         loading: false
       };
+    case GET_BID_STATS_OF_SERVICE:
+      return {
+        ...state,
+        bidStatOfService: action.payload.bidStat,
+        loading: false
+      }
     default:
       return state;
   }
