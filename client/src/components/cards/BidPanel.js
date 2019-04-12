@@ -27,7 +27,7 @@ class BidPanelCard extends Component {
   };
 
   render() {
-    const { auth, caretakerId } = this.props;
+    const { auth, caretakerId, serviceStatus } = this.props;
     const { user } = auth;
     const visitorPanel = () => {
       return (
@@ -49,8 +49,10 @@ class BidPanelCard extends Component {
           <Typography gutterBottom variant="h6">
             Choose an Action
           </Typography>
-          <DefaultButton onClick={this._onModalOpen("isChoosePetForBidding")}>
-            Bid for this service!
+          <DefaultButton disabled={serviceStatus === 1 ? true: false } onClick={this._onModalOpen("isChoosePetForBidding")}>
+            {
+              serviceStatus === 1 ? 'Service is closed for bidding' : "Bid for this service!" 
+            }
           </DefaultButton>
           {/* TODO: IF HAS BIDDED */}
           {/* <DefaultButton>Update This Bid</DefaultButton>
@@ -64,13 +66,15 @@ class BidPanelCard extends Component {
           <Typography gutterBottom variant="h6">
             You are the host of this service!
           </Typography>
-          <DefaultButton style={{marginBottom: 20, marginTop: 20}} onClick={this._onModalOpen("isAcceptBidModalOpen")}>
-            Choose a Bid Now!
+          <DefaultButton disabled={serviceStatus === 1 ? true: false} style={{marginBottom: 20, marginTop: 20}} onClick={this._onModalOpen("isAcceptBidModalOpen")}>
+            {
+              serviceStatus === 1 ? 'You already accepted a bid!' : "Choose a Bid Now!!" 
+            }
           </DefaultButton>
-          <DefaultButton style={{marginBottom: 20}} onClick={this._onModalOpen("isCloseServiceModalOpen")}>
+          {/* <DefaultButton style={{marginBottom: 20}} onClick={this._onModalOpen("isCloseServiceModalOpen")}>
             Close This Service
           </DefaultButton>
-          {/* <DefaultButton>
+          <DefaultButton>
             Service Closed
           </DefaultButton> */}
         </>
