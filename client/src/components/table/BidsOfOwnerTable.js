@@ -5,8 +5,15 @@ import TableHeader from "./TableHeader";
 import TableContainer from "./TableContainer";
 import TableRow from "./TableRow";
 import TableCell from "./TableCell";
+import { Link } from 'react-router-dom';
 
-const headers = ["SERVICE", "PET NAME", "AMOUNT"];
+const headers = ["SERVICE", "PET NAME", "AMOUNT", "STATUS"];
+const status_color = {
+  pending: '#FFCD00',
+  rejected: '#D51635',
+  accepted: '#00843D',
+}
+
 const BidsOfOwnerTable = ({ bids }) => {
   console.log(bids)
   if (!bids || bids.length < 1) {
@@ -32,9 +39,14 @@ const BidsOfOwnerTable = ({ bids }) => {
             {bids.map((bidInfo, index) => {
               return (
                 <TableRow key={index}>
-                  <TableCell>{bidInfo.title}</TableCell>
+                  <TableCell>
+                    <Link to={"/service/" + bidInfo.sid}>{bidInfo.title}</Link>
+                  </TableCell>
                   <TableCell>{bidInfo.petname}</TableCell>
                   <TableCell>${bidInfo.amount}</TableCell>
+                  <TableCell>
+                    <Typography style={{ color: status_color[bidInfo.status]}}>{bidInfo.status}</Typography>
+                  </TableCell>
                 </TableRow>
               );
             })}
