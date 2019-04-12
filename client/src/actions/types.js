@@ -30,3 +30,8 @@ export const FETCH_BIDS_OF_OWNER = "FETCH_BIDS_OF_OWNER"; // get all bids made b
 export const BID_LOADING = "BID_LOADING";
 export const FETCH_BIDS_OF_CARETAKER = "FETCH_BIDS_OF_CARETAKER";
 export const ACCEPT_BID = "ACCEPT_BID";
+
+// profile
+export const GET_USER_PROFILE = "GET_USER_PROFILE";
+export const UPDATE_USER_PROFILE = "UPDATE_USER_PROFILE";
+export const PROFILE_LOADING = "PROFILE_LOADING";

@@ -121,7 +121,6 @@ const User = {
     const values = [
       id,
     ];
-    console.log("test test")
     try {
       const { rows } = await db.query(findQuery, values);
       if (rows.length === 1) {
