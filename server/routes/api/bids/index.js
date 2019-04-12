@@ -237,4 +237,28 @@ router.get("/stat/:serviceId", async (req, res) => {
   }
 );
 
+/**
+ * @route GET /api/bids/from/:ownerid
+ * @desc: Get lists of bids on all services from ownerid
+ * @access Private
+ */
+router.get("/from/:ownerid", async (req, res) => {
+  const ownerID = req.params.ownerId;
+  try {
+    const bids = await BidModel.getByOwner(ownerID);
+    res.json({
+      success: true,
+      bids
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(400).json({
+      success: false,
+      message: "User has made no bids for any service"
+    });
+  }
+});
+
+
 module.exports = router;
