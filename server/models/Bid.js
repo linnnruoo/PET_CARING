@@ -110,6 +110,24 @@ const Bid = {
       throw error;
     }
   },
+  getByOwner: async ownerId => {
+    const selectQuery = `SELECT s.sid, s.startTime, s.endTime, b.petName, b.amount
+                         FROM bidsview b inner join services s 
+                         ON b.sid = s.sid
+                         WHERE b.id = $1
+                         ORDER BY s.id`;
+
+    const values = [ownerId];
+
+    try {
+      const { rows } = await db.query(selectQuery);
+
+      return rows;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   getCaretakerBids: async caretakerId => {
     const selectQuery = `SELECT s.sid, s.title, s.startTime, s.endTime, b.petName, b.amount, b.id as ownerId, u.first_name, u.last_name, b.status
                          FROM (bidsview b inner join services s ON b.sid = s.sid) inner join users u ON b.id = u.id

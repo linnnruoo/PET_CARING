@@ -187,6 +187,19 @@ router.get("/by/:caretakerid/current", async (req, res) => {
   }
 });
 
+router.get("/status/:serviceid", async (req, res) => {
+  const serviceid = req.params.serviceid;
+  console.log(serviceid);
+  ServiceModel.getStatus(serviceid)
+    .then(status => {
+      res.json({
+        success: true,
+        status
+      });
+    })
+    .catch(err => console.log(err));
+});
+
 /**
  * @route GET /api/services/by/:caretakerid
  * @desc: Gets services by caretakerid
