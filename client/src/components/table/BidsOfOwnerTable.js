@@ -34,7 +34,7 @@ const BidsOfOwnerTable = ({ bids }) => {
                 <TableRow key={index}>
                   <TableCell>{bidInfo.title}</TableCell>
                   <TableCell>{bidInfo.petname}</TableCell>
-                  <TableCell>{bidInfo.amount}</TableCell>
+                  <TableCell>${bidInfo.amount}</TableCell>
                 </TableRow>
               );
             })}

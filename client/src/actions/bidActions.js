@@ -57,6 +57,7 @@ export const updateBidInfo = bidInfo => async dispatch => {
 
 export const fetchBidsOfOwner = ownerId => dispatch => {
   dispatch(setBidLoading());
+  console.log(ownerId)
   axios
     .get(`/api/bids/from/${ownerId}`)
     .then(res => {
