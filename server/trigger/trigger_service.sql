@@ -13,7 +13,7 @@ BEGIN
 		AND NEW.startTime <= s.endTime;
 		-- Check if other services by caretaker overlaps
 		IF count > 0 THEN
-			RAISE NOTICE 'Pet type does not match the service!';
+			RAISE NOTICE 'You can only offer one service at one time!';
 			RETURN NULL;
 		-- Check if expected amount is not negative or null
 		ELSE IF NEW.expected < 0 OR NEW.expected IS NULL THEN
