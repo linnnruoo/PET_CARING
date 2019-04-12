@@ -82,7 +82,7 @@ const Bid = {
                          FROM bidsview
                          WHERE sid = $1
                          GROUP BY sid
-                         ORDER BY sid;`;
+                         ORDER BY average;`;
 
     const values = [sid];
 

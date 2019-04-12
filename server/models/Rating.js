@@ -1,15 +1,16 @@
 const db = require('../controller/db')
 
 const Rating = {
-  create : async (ownerId, caretakerId) => {
+  create : async (ownerId, caretakerId, value) => {
 
     const insertQuery = `INSERT INTO ratings
-        VALUES($1, $2)
+        VALUES($1, $2, $3)
         returning *`;
 
     const values = [
       ownerId,
-      caretakerId
+      caretakerId,
+      value
     ];
 
     try {
@@ -23,10 +24,10 @@ const Rating = {
   },
 
   getRatingInfo : async (caretakerId) => {
-    const calculateQuery = `SELECT ROUND(AVG(value), 2) as avg, COUNT(*) as count
-                            FROM ratings r
+    const calculateQuery = `SELECT ROUND(AVG(value), 2) as average, COUNT(*) as count
+                            FROM ratings
                             GROUP BY cid
-                            HAVING r.cid = $1`;
+                            HAVING cid = $1`;
 
     const values = [
       caretakerId
