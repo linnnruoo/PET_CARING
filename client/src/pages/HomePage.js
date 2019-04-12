@@ -3,7 +3,7 @@ import HomeContainer from "../containers/HomeContainer";
 // to add home page
 export default () => {
   return (
-    <main>
+    <main className="container">
       <HomeContainer />
     </main>
   );

@@ -5,6 +5,7 @@ const passport = require("passport");
 const AuthHelper = require("../../../util/helper/auth");
 const router = express.Router();
 const UserModel = require("../../../models/User");
+const CaretakerModel = require("../../../models/Caretaker");
 
 /**
  * @route POST /api/register
@@ -80,7 +81,6 @@ router.get("/profile/:userId", async (req, res) => {
  * @desc: Update user details
  * @access Private
  */
-
 router.patch(
   "/profile/:userId",
   passport.authenticate("jwt", { session: false }),
@@ -94,4 +94,15 @@ router.patch(
   }
 );
 
+/**
+ * @route GET /api/user/caretakers
+ * @desc: gert all caretakers
+ * @access public
+ */
+router.get("/caretakers", async (req, res) => {
+    CaretakerModel.getAllCaretaker()
+      .then(caretakers => res.json(caretakers))
+      .catch(err => res.status(500).json("Error!"));
+  }
+)
 module.exports = router;

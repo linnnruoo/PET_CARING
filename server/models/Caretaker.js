@@ -41,9 +41,11 @@ const CareTaker = {
   getAllCaretaker: async () => {
     const findQuery = `SELECT u.id, u.first_name, u.last_name, u.email
                         From users u
-                        WHERE exists (select c.id from caretakers c where u.id = c.id)`;
+                        WHERE exists (select c.id from caretakers c where u.id = c.id)
+                        LIMIT 50
+                        `;
     try {
-        const { rows } = await db.query(findQuery, values);
+        const { rows } = await db.query(findQuery);
         return rows;
     } catch (error) {
         console.log(error);

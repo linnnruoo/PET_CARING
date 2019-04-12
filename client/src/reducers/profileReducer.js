@@ -1,7 +1,8 @@
-import { GET_USER_PROFILE, UPDATE_USER_PROFILE, PROFILE_LOADING } from "../actions/types";
+import { GET_USER_PROFILE, UPDATE_USER_PROFILE, PROFILE_LOADING, GET_ALL_TAKERS } from "../actions/types";
 
 const initialState = {
   userProfile: {},
+  allCaretakers: [],
   loading: false,
 };
 
@@ -25,6 +26,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      }
+    case GET_ALL_TAKERS:
+      return {
+        ...state,
+        loading: false,
+        allCaretakers: action.payload
       }
     default:
       return state;

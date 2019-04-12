@@ -2,7 +2,8 @@ import {
   GET_USER_PROFILE,
   UPDATE_USER_PROFILE,
   GET_ERRORS,
-  PROFILE_LOADING
+  PROFILE_LOADING,
+  GET_ALL_TAKERS,
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -48,3 +49,21 @@ export const updateUserProfile = (userId, userInfo) => dispatch => {
       });
     });
 };
+
+export const getAllCaretakersByPage = () => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+  .get('/api/user/caretakers')
+  .then(res => {
+    dispatch({
+      type: GET_ALL_TAKERS,
+      payload: res.data
+    });
+  })
+  .catch(err => {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  });
+}
