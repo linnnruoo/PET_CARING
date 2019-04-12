@@ -9,7 +9,6 @@ import { getServiceInfo } from "../actions/serviceAction";
 import { fetchPetsOfOwner } from "../actions/petActions";
 import { fetchBidsOfService, fetchBidStatOfService } from "../actions/bidActions";
 import { withRouter } from "react-router-dom";
-import Paper from "../components/paper/Paper";
 import BiddersPanel from "../components/cards/BiddersPanel";
 import BidStat from "../components/cards/BidStat";
 
@@ -51,7 +50,7 @@ class ServiceDetailContainer extends React.Component {
       <GridContainer spacing={16}>
         <GridItem xs={12}>
           {!bids.loading ? (
-            <BidStat bidStat={bids.bidStatOfService} />
+            <BidStat bidStat={bids.bidStatOfService || {maximum: 0, minimum: 0, average: 0, num: 0}} />
           ) : (
             <Loader />
           )}

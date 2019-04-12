@@ -35,6 +35,20 @@ const Service = {
       throw error;
     }
   },
+  getStatus: async sid => {
+    const getStatusQuery = `
+        SELECT case WHEN EXISTS ( select 1 FROM bidsview b WHERE b.sid = $1
+            AND b.status = 'accepted') then 1 else 0 end as status`;
+
+    const values = [sid];
+    try {
+      const { rows } = await db.query(getStatusQuery, values);
+      return rows[0];
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 
   getAll: async () => {
     const getAllQuery = `SELECT u.id, u.first_name, u.last_name, s.sid, s.title, s.startTime, s.endTime, s.typeName, s.expected
@@ -162,21 +176,26 @@ const Service = {
     let filterArray = [];
     let values = [];
 
-    if (filter.title) {
-      filterArray.push(`LOWER(s.title) LIKE ( LOWER($${filterCount++}) )`);
-      values.push(`%${filter.title}%`);
+    if (!filter) {
+        console.log("empty filter");
     }
-    if (filter.startTime) {
-      filterArray.push(`s.startTime >= $${filterCount++}`);
-      values.push(filter.startTime);
-    }
-    if (filter.endTime) {
-      filterArray.push(`s.endTime <= $${filterCount++}`);
-      values.push(filter.endTime);
-    }
-    if (filter.petTypes) {
-      filterArray.push(`s.typeName = ANY ($${filterCount++})`)
-      values.push(filter.petTypes);
+    else {
+      if (filter.title) {
+        filterArray.push(`LOWER(s.title) LIKE ( LOWER($${filterCount++}) )`);
+        values.push(`%${filter.title}%`);
+      }
+      if (filter.startTime) {
+        filterArray.push(`s.startTime >= $${filterCount++}`);
+        values.push(filter.startTime);
+      }
+      if (filter.endTime) {
+        filterArray.push(`s.endTime <= $${filterCount++}`);
+        values.push(filter.endTime);
+      }
+      if (filter.petTypes) {
+        filterArray.push(`s.typeName = ANY ($${filterCount++})`)
+        values.push(filter.petTypes);
+      }
     }
 
     const filterString = filterArray.join(` AND `)

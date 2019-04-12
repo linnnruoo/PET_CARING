@@ -59,29 +59,36 @@ router.post("/login", async (req, res, next) => {
 });
 
 /**
- * @route POST /api/users/profile
+ * @route GET /api/user/profile/:userId
  * @desc: get user profile details
- * @access Private
+ * @access Public
  */
 
-router.get("/profile", async (req, res) => {
-  UserModel.retrieveWithId(req)
+router.get("/profile/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  UserModel.retrieveWithId(userId)
     .then(user => res.json(user))
-    .catch(err => res.status(404).json({ message: "User not found!" }));
+    .catch(err => {
+      console.log(err)
+      res.status(404).json({ message: "User not found!" })
+    });
 });
 
 /**
- * @route POST /api/users/profile/update
+ * @route PATCH /api/user/profile/:userId
  * @desc: Update user details
  * @access Private
  */
 
 router.patch(
-  "/profile/update",
+  "/profile/:userId",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    const { first_name, last_name, email, id } = req.body;
-    UserModel.updateUser(first_name, last_name, email, id)
+    const userId = req.params.userId;
+    const { first_name, last_name } = req.body;
+
+    UserModel.updateUser(first_name, last_name, userId)
       .then(user => res.json(user))
       .catch(err => res.status(500).json("Update error"));
   }

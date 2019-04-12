@@ -1,6 +1,7 @@
 import React from "react";
 import TableBody from "@material-ui/core/TableBody";
 import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
 import TableHeader from "./TableHeader";
 import TableContainer from "./TableContainer";
 import TableRow from "./TableRow";
@@ -30,7 +31,9 @@ const ServiceInfoTable = ({ userServices }) => {
 
               return (
                 <TableRow key={serviceInfo.sid}>
-                  <TableCell>{serviceInfo.title}</TableCell>
+                  <TableCell>
+                    <Link to={"/service/" + serviceInfo.sid}>{serviceInfo.title}</Link>
+                  </TableCell>
                   <TableCell>{serviceInfo.expected}</TableCell>
                   <TableCell>{formatedStart}</TableCell>
                   <TableCell>{formatedEnd}</TableCell>

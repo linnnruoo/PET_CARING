@@ -3,12 +3,14 @@ import Paper from "../paper/Paper";
 import DefaultButton from "../buttons/DefaultButton";
 import { Typography } from "@material-ui/core";
 import CreateBidModal from "../modals/CreateBidModal";
+import AcceptBidModal from "../modals/AcceptBidModal";
 
 class BidPanelCard extends Component {
   constructor() {
     super();
     this.state = {
-      isChooseBidModalOpen: false, // caretaker
+      isAcceptBidModalOpen: false, // caretaker
+      isCloseServiceModalOpen: false,
       isChoosePetForBidding: false // owner
     };
     this._onModalClose = this._onModalClose.bind(this);
@@ -25,7 +27,7 @@ class BidPanelCard extends Component {
   };
 
   render() {
-    const { auth, caretakerId, _onCloseService } = this.props;
+    const { auth, caretakerId } = this.props;
     const { user } = auth;
     const visitorPanel = () => {
       return (
@@ -62,12 +64,15 @@ class BidPanelCard extends Component {
           <Typography gutterBottom variant="h6">
             You are the host of this service!
           </Typography>
-          <DefaultButton style={{marginBottom: 20, marginTop: 20}} onClick={this._onModalOpen("isChooseBidModalOpen")}>
+          <DefaultButton style={{marginBottom: 20, marginTop: 20}} onClick={this._onModalOpen("isAcceptBidModalOpen")}>
             Choose a Bid Now!
           </DefaultButton>
-          <DefaultButton style={{marginBottom: 20}} onClick={_onCloseService}>
+          <DefaultButton style={{marginBottom: 20}} onClick={this._onModalOpen("isCloseServiceModalOpen")}>
             Close This Service
           </DefaultButton>
+          {/* <DefaultButton>
+            Service Closed
+          </DefaultButton> */}
         </>
       );
     };
@@ -79,7 +84,7 @@ class BidPanelCard extends Component {
     };
 
     const renderModal = () => {
-      const { isChooseBidModalOpen, isChoosePetForBidding } = this.state;
+      const { isAcceptBidModalOpen, isChoosePetForBidding, isCloseServiceModalOpen } = this.state;
       return (
         <>
           {isChoosePetForBidding && (
@@ -87,6 +92,13 @@ class BidPanelCard extends Component {
               onClose={this._onModalClose("isChoosePetForBidding")}
               open={isChoosePetForBidding}
               label="Create New Bid"
+              serviceId={this.props.serviceId}
+            />
+          )}
+          {isAcceptBidModalOpen && (
+            <AcceptBidModal
+              onClose={this._onModalClose("isAcceptBidModalOpen")}
+              open={isAcceptBidModalOpen}
               serviceId={this.props.serviceId}
             />
           )}
