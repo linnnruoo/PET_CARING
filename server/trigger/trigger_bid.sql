@@ -19,7 +19,7 @@ BEGIN
 		RETURN NULL;
 	-- Check if pet is already in another accepted service 
 	ELSIF EXISTS(SELECT 1
-				 FROM bid b inner join services s on b.sid = s.sid
+				 FROM bids b inner join services s on b.sid = s.sid
 				 WHERE b.id = NEW.id
 				 AND b.petName = NEW.petName
 				 AND s.startTime <= NEW.endTime
