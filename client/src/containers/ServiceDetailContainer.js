@@ -50,7 +50,7 @@ class ServiceDetailContainer extends React.Component {
       <GridContainer spacing={16}>
         <GridItem xs={12}>
           {!bids.loading ? (
-            <BidStat bidStat={bids.bidStatOfService} />
+            <BidStat bidStat={bids.bidStatOfService || {maximum: 0, minimum: 0, average: 0, num: 0}} />
           ) : (
             <Loader />
           )}
