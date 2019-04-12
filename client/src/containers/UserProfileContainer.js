@@ -2,43 +2,38 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchPetsOfOwner } from "../actions/petActions";
 import { fetchServicesOfCaretaker } from "../actions/serviceAction";
-import { getUserProfileById, updateUserProfile } from "../actions/profileAction";
+import { getUserProfileById } from "../actions/profileAction";
 import GridContainer from "../components/grid/GridContainer";
 import GridItem from "../components/grid/GridItem";
-import { Typography } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import ProfileCard from "../components/cards/ProfileCard";
 import PetInfoTable from "../components/table/PetInfoTable";
 import ServiceInfoTable from "../components/table/ServiceInfoTable";
 import Loader from "../components/loader/Loader";
+import DefaultButton from "../components/buttons/DefaultButton";
+import EditProfileModal from "../components/modals/EditProfileModal";
 
 class UserProfileContainer extends Component {
   constructor() {
     super();
     this.state = {
       canEditProfile: false,
+      isModalOpen: false,
       first_name: '',
       last_name: '',
       email: '',
       role: '',
     };
-    this._onTextFieldChange = this._onTextFieldChange.bind(this);
-    this._updateProfile = this._updateProfile.bind(this);
   }
   componentDidMount = () => {
-    const { user, isAuthenticated } = this.props.auth;
     const userId = this.props.match.params.userId;
     this.props.getUserProfileById(userId);
-
-    if (isAuthenticated && userId === user.id) {
-      this.setState({ canEditProfile: true });
-    }
   }
 
   componentDidUpdate = (prevProps, prevState) => {
     if (prevProps.profile !== this.props.profile && !this.props.profile.loading) {
       const { userProfile } = this.props.profile;
-      console.log(userProfile);
+      // console.log(userProfile);
 
       this.setState({
         first_name: userProfile.first_name,
@@ -49,27 +44,24 @@ class UserProfileContainer extends Component {
         const { role } = this.state;
         const userId = this.props.match.params.userId;
         if (role === "petowner") this.props.fetchPetsOfOwner(userId);
-        else if (role === "caretaker") this.props.fetchServicesOfCaretaker(userId)
+        else if (role === "caretaker") this.props.fetchServicesOfCaretaker(userId);
+
+        const { user, isAuthenticated } = this.props.auth;
+        // console.log("test", user.id, userId)
+        if (isAuthenticated && userId === user.id.toString()) {
+          this.setState({ canEditProfile: true });
+        }
       })
     }
   }
-  componentWillReceiveProps = nextProps => {
-
-  }
-  _onTextFieldChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-  _updateProfile = e => {
-    e.preventDefault();
-    const userProfile = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name
-    };
-    this.props.updateUserProfile(this.props.auth.user.id, userProfile);
+  _onModalOpen = modalName => e => {
+    this.setState({ [modalName]: true });
   };
 
+  _onModalClose = modalName => e => {
+    this.setState({ [modalName]: false });
+  };
+  
   renderOwner = () => {
     if (!this.props.pets.loading) {
       return <PetInfoTable userPets = {this.props.pets.userPets} />
@@ -86,11 +78,10 @@ class UserProfileContainer extends Component {
   }
 
   render() {
-    // owner: display pets
-    // caretaker: display services, rating
-    // if im the user: i can edit my name
+    // caretaker: rating
 
     return (
+      <>
       <GridContainer spacing={32}>
         <GridItem xs={12}>
           <ProfileCard first_name={this.state.first_name} role={this.state.role} />
@@ -101,7 +92,20 @@ class UserProfileContainer extends Component {
           this.renderOwner() : this.renderCaretaker()
         }
         </GridItem>
+        { (this.state.canEditProfile) ?
+          <DefaultButton onClick={this._onModalOpen('isModalOpen')}>Edit Profile</DefaultButton> : null
+        }
       </GridContainer>
+        {this.state.isModalOpen ?
+          <EditProfileModal
+            first_name={this.state.first_name}
+            last_name={this.state.last_name}
+            onClose={this._onModalClose('isModalOpen')}
+            open={this.state.isModalOpen}
+          />
+          : null
+        }
+      </>
     );
   }
 }
@@ -120,7 +124,6 @@ export default connect(
   {
     fetchPetsOfOwner,
     getUserProfileById,
-    updateUserProfile,
     fetchServicesOfCaretaker
   }
 )(withRouter(UserProfileContainer));

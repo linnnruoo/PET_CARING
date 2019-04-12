@@ -39,7 +39,7 @@ export default (state = initialState, action) => {
     case FETCH_BIDS_OF_OWNER: // list of the bids with their status
       return {
         ...state,
-        bidsOfOwner: action.payload,
+        bidsOfOwner: action.payload.bids,
         loading: false
       };
     case UPDATE_BID_INFO:

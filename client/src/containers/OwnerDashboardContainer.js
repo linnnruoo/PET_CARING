@@ -3,13 +3,14 @@ import DefaultButton from "../components/buttons/DefaultButton";
 import NewPetModal from "../components/modals/NewPetModal";
 import Loader from "../components/loader/Loader";
 import { connect } from "react-redux";
-import { fetchPetsOfOwner } from "../actions/petActions";
-import { getPetBreedsAll, getPetTypes } from "../actions/petActions";
+import { getPetBreedsAll, getPetTypes, fetchPetsOfOwner } from "../actions/petActions";
+import { fetchBidsOfOwner } from "../actions/bidActions";
 import GridContainer from "../components/grid/GridContainer";
 import GridItem from "../components/grid/GridItem";
 import PetInfoTable from "../components/table/PetInfoTable";
 import DeletePetModal from "../components/modals/DeletePetModal";
 import EditPetModal from "../components/modals/EditPetModal";
+import BidsOfOwnerTable from "../components/table/BidsOfOwnerTable";
 
 /**
  * @desc: owner container
@@ -28,6 +29,7 @@ class OwnerDashboardContainer extends Component {
   }
   componentDidMount = () => {
     this.props.fetchPetsOfOwner(this.props.auth.user.id);
+    this.props.fetchBidsOfOwner(this.props.auth.user.id);
     this.props.getPetTypes();
     this.props.getPetBreedsAll();
   };
@@ -39,7 +41,7 @@ class OwnerDashboardContainer extends Component {
   };
 
   render() {
-    const { pets } = this.props;
+    const { pets, bids } = this.props;
     const renderModals = () => {
       return (
         <>
@@ -91,7 +93,11 @@ class OwnerDashboardContainer extends Component {
               <Loader />
             )}
           </GridItem>
-          <GridItem xs={12} />
+          <GridItem xs={12}>
+            {!bids.loading ?
+              <BidsOfOwnerTable bids={bids.bidsOfOwner} /> : <Loader />
+            }
+          </GridItem>
         </GridContainer>
         {renderModals()}
       </>
@@ -102,10 +108,11 @@ class OwnerDashboardContainer extends Component {
 const mapStateToProps = state => ({
   auth: state.auth,
   pets: state.pets,
+  bids: state.bids,
   errors: state.errors
 });
 
 export default connect(
   mapStateToProps,
-  { fetchPetsOfOwner, getPetBreedsAll, getPetTypes }
+  { fetchPetsOfOwner, getPetBreedsAll, getPetTypes, fetchBidsOfOwner }
 )(OwnerDashboardContainer);

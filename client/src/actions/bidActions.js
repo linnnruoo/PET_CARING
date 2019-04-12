@@ -58,7 +58,7 @@ export const updateBidInfo = bidInfo => async dispatch => {
 export const fetchBidsOfOwner = ownerId => dispatch => {
   dispatch(setBidLoading());
   axios
-    .get(`/api/bids/owner/${ownerId}`)
+    .get(`/api/bids/from/${ownerId}`)
     .then(res => {
       dispatch({
         type: FETCH_BIDS_OF_OWNER,
@@ -68,7 +68,7 @@ export const fetchBidsOfOwner = ownerId => dispatch => {
     .catch(err => {
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response
       });
     });
 };

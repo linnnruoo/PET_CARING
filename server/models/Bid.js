@@ -111,7 +111,7 @@ const Bid = {
     }
   },
   getByOwner: async ownerId => {
-    const selectQuery = `SELECT s.sid, s.startTime, s.endTime, b.petName, b.amount
+    const selectQuery = `SELECT s.sid, s.startTime, s.endTime, b.petName, b.amount, s.title
                          FROM bidsview b inner join services s 
                          ON b.sid = s.sid
                          WHERE b.id = $1
@@ -120,7 +120,7 @@ const Bid = {
     const values = [ownerId];
 
     try {
-      const { rows } = await db.query(selectQuery);
+      const { rows } = await db.query(selectQuery, values);
 
       return rows;
     } catch (error) {

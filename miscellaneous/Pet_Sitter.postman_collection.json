@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ba537629-eb82-436f-b65d-6387e24872a4",
+		"_postman_id": "3c77553b-b91e-4574-8cf4-ae180b61d8a6",
 		"name": "Pet Sitter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -207,6 +207,133 @@
 							"body": "{\n    \"me\": {\n        \"email\": \"petsitter@gmail.com\"\n    }\n}"
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "API Samples",
+			"item": [
+				{
+					"name": "Get number of pages of services using filter  : Empty filter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"filter\": {}\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/api/services/filter",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"services",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get page n of services using filter  : Empty filter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"filter\": {}\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/api/services/filter/1",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"services",
+								"filter",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get number of pages of services using filter  : Sample filter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"filter\": {\n\t\t\"title\" : \"walk\",\n\t\t\"petTypes\" : [\"Cat\"]\n\t}\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/api/services/filter",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"services",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get page n of services using filter  : Sample filter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"filter\": {\n\t\t\"title\" : \"walk\",\n\t\t\"petTypes\" : [\"Cat\"]\n\t}\n}"
+						},
+						"url": {
+							"raw": "localhost:5000/api/services/filter/1",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"services",
+								"filter",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
