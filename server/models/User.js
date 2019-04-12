@@ -3,7 +3,7 @@ const db = require('../controller/db')
 
 const User = {
   create : async (email, password, firstname, lastname, role) => {
-
+    
     const passwordHash = await AuthHelper.hashPassword(password);
 
     const insertQuery = `WITH 

@@ -16,12 +16,12 @@ create table bids
 DROP VIEW IF EXISTS BidsView;
 
 CREATE VIEW BidsView AS    
-	SELECT b.id, b.sid, b.amount, b.petname, 
+	SELECT b.id, b.sid, b.amount, b.petname,
     	CASE 
           WHEN b.accepted
           THEN 'accepted'
           WHEN NOT EXISTS (SELECT 1 FROM bids b2 WHERE b.sid = b2.sid and b2.accepted)
-          THEN 'pending'  
+          THEN 'pending'
           ELSE 'rejected'
         END AS status
 	FROM bids b;

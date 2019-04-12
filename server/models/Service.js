@@ -197,6 +197,69 @@ const Service = {
       throw error;
     }
   },
+
+  getCaretakerPotentialIncome: async (id) => {
+    const findQuery = `WITH svc_bid AS (
+      SELECT s.id, b.sid, b.amount FROM services s
+      INNER JOIN bids b
+      on s.sid = b.sid
+      WHERE s.id = $1
+      ),
+      grouped_svc_bid AS (
+      SELECT * FROM svc_bid sb
+      INNER JOIN
+        (SELECT sid, max(amount) AS MaxAmountSid
+        FROM svc_bid
+        GROUP BY sid) grouped
+      ON sb.sid = grouped.sid
+      AND sb.amount = grouped.MaxAmountSid
+      )
+      SELECT coalesce(sum(MaxAmountSid),0) as potentialIncome FROM grouped_svc_bid`;
+
+    const values = [
+      id
+    ]                   
+  
+    try {
+        const { rows } = await db.query(findQuery, values);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+  },
+
+  getCaretakerCurrentIncome: async (id) => {
+    const findQuery = `WITH svc_bid AS (
+      SELECT s.id, b.sid, b.amount FROM services s
+      INNER JOIN bids b
+      on s.sid = b.sid
+      WHERE s.id = $1 and b.accepted = true
+      ),
+      grouped_svc_bid AS (
+      SELECT * FROM svc_bid sb
+      INNER JOIN
+        (SELECT sid, max(amount) AS MaxAmountSid
+        FROM svc_bid
+        GROUP BY sid) grouped
+      ON sb.sid = grouped.sid
+      AND sb.amount = grouped.MaxAmountSid
+      )
+      SELECT coalesce(sum(MaxAmountSid),0) AS currentIncome FROM grouped_svc_bid`;
+
+    const values = [
+      id
+    ]                   
+  
+    try {
+        const { rows } = await db.query(findQuery, values);
+        return rows[0];
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+  },
+  
 };
 
 module.exports = Service;

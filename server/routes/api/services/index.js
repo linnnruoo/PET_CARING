@@ -9,6 +9,7 @@ const router = express.Router();
 
 const fp = require("lodash/fp");
 const ServiceModel = require("../../../models/Service");
+const BidModel = require("../../../models/Bid");
 
 const PageSize = 20;
 /**
@@ -104,7 +105,7 @@ router.post("/filter/:page", async (req, res) => {
 
 /**
  * @route POST /api/services/filter/
- * @desc: Returns pages of date corresponding to filter
+ * @desc: Returns pages of data corresponding to filter
  * @access Public
  */
 router.post("/filter", async (req, res) => {
@@ -118,11 +119,11 @@ router.post("/filter", async (req, res) => {
     const { filter } = req.body;
 
     console.log(filter);
-    const pages = await ServiceModel.getFilterPageCount(filter,);
-    
+    const pages = await ServiceModel.getFilterPageCount(filter);
+
     res.json({
       success: true,
-      pages: Math.ceil(pages.pages/PageSize)
+      pages: Math.ceil(pages.pages / PageSize)
     });
   } catch (error) {
     console.log(error);
@@ -134,7 +135,57 @@ router.post("/filter", async (req, res) => {
   }
 });
 
+/**
+ * @route GET /api/services/by/:caretakerid/potential
+ * @desc: Gets caretaker maximum  potential income.
+ *        Calculates from all highest bids from owners that caretaker received.
+ * @access Private
+ */
+router.get("/by/:caretakerid/potential", async (req, res) => {
+  const caretakerID = req.params.caretakerid;
+  try {
+    const potentialIncome = await ServiceModel.getCaretakerPotentialIncome(
+      caretakerID
+    );
+    // console.log(potentialIncome)
+    res.json({
+      success: true,
+      potentialIncome: potentialIncome.potentialincome
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: "There was an unexpected error"
+    });
+  }
+});
 
+/**
+ * @route GET /api/services/by/:caretakerid/current
+ * @desc: Gets caretaker maximum current income.
+ *        Calculates from all highest accepted bids from owners that caretaker received.
+ * @access Private
+ */
+router.get("/by/:caretakerid/current", async (req, res) => {
+  const caretakerID = req.params.caretakerid;
+  try {
+    const currentIncome = await ServiceModel.getCaretakerCurrentIncome(
+      caretakerID
+    );
+    // console.log(currentIncome)
+    res.json({
+      success: true,
+      currentIncome: currentIncome.currentincome
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: "There was an unexpected error"
+    });
+  }
+});
 
 /**
  * @route GET /api/services/by/:caretakerid
@@ -159,6 +210,24 @@ router.get("/by/:caretakerid", async (req, res) => {
       message: "There was an unexpected error"
     });
   }
+});
+
+/**
+ * @route GET /api/services/:serviceid/stats
+ * @desc: Gets bidding stats for specific service
+ * @access Private
+ */
+router.get("/:serviceid/stats", async (req, res) => {
+  const serviceid = req.params.serviceid;
+  console.log(serviceid);
+  BidModel.getBidStats(serviceid)
+    .then(stats => {
+      res.json({
+        success: true,
+        stats
+      });
+    })
+    .catch(err => console.log(err));
 });
 
 /**

@@ -18,13 +18,14 @@ export const SERVICE_LOADING = "SERVICE_LOADING";
 export const CREATE_NEW_SERVICE = "CREATE_NEW_SERVICE";
 export const FILTER_SERVICES = "FILTER_SERVICES";
 export const GET_SINGLE_SERVICE = "GET_SINGLE_SERVICE";
-// todo: all the bids of all the services of the caretaker, group by services
+export const GET_POTENTIAL_INCOME = "GET_POTENTIAL_INCOME";
+export const GET_CURRENT_INCOME = "GET_CURRENT_INCOME";
 
 // bid
 export const CREATE_NEW_BID_OF_A_SERVICE = "CREATE_NEW_BID_OF_A_SERVICE";
 export const FETCH_BIDS_OF_SERVICE = "FETCH_BIDS_OF_SERVICE"; // get all bids under this service
 export const UPDATE_BID_INFO = "UPDATE_BID_INFO"; // for owner
-export const GET_INTERESTING_BID = "GET_INTERESTING_BID";
+export const GET_BID_STATS_OF_SERVICE = "GET_BID_STATS_OF_SERVICE";
 export const FETCH_BIDS_OF_OWNER = "FETCH_BIDS_OF_OWNER"; // get all bids made by this owner
 export const BID_LOADING = "BID_LOADING";
 export const FETCH_BIDS_OF_CARETAKER = "FETCH_BIDS_OF_CARETAKER";

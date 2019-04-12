@@ -7,10 +7,11 @@ import Loader from "../components/loader/Loader";
 import { connect } from "react-redux";
 import { getServiceInfo } from "../actions/serviceAction";
 import { fetchPetsOfOwner } from "../actions/petActions";
-import { fetchBidsOfService } from "../actions/bidActions";
+import { fetchBidsOfService, fetchBidStatOfService } from "../actions/bidActions";
 import { withRouter } from "react-router-dom";
 import Paper from "../components/paper/Paper";
 import BiddersPanel from "../components/cards/BiddersPanel";
+import BidStat from "../components/cards/BidStat";
 
 /**
  * @todo: current bids
@@ -29,6 +30,7 @@ class ServiceDetailContainer extends React.Component {
     const serviceId = this.props.match.params.serviceId;
     this.props.getServiceInfo(serviceId);
     this.props.fetchBidsOfService(serviceId);
+    this.props.fetchBidStatOfService(serviceId);
 
     const { user, isAuthenticated } = this.props.auth;
     if (!isAuthenticated) return;
@@ -36,7 +38,9 @@ class ServiceDetailContainer extends React.Component {
       this.props.fetchPetsOfOwner(user.id);
     }
   };
-  _onCloseService = () => {};
+  _onCloseService = () => {
+    // open modal -> msg: cant be reversed
+  };
 
   render() {
     const { auth, services, bids } = this.props;
@@ -45,6 +49,14 @@ class ServiceDetailContainer extends React.Component {
 
     return (
       <GridContainer spacing={16}>
+        <GridItem xs={12}>
+          {!bids.loading ? (
+            <BidStat bidStat={bids.bidStatOfService} />
+          ) : (
+            <Loader />
+          )}
+        </GridItem>
+
         <GridItem xs={12} sm={8}>
           <GridContainer direction="column">
             <GridItem xs={12}>
@@ -67,10 +79,10 @@ class ServiceDetailContainer extends React.Component {
 
         <GridItem xs={12} sm={4}>
           <GridContainer direction="column">
-            <GridItem xs={12}>
-              {/* TODO: gonna put a freaking timer here */}
+            {/* <GridItem xs={12}>
+              TODO: gonna put a freaking timer here, maybe not
               <Paper />
-            </GridItem>
+            </GridItem> */}
             <GridItem xs={12}>
               {!services.loading ? (
                 <BidPanelCard
@@ -98,5 +110,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getServiceInfo, fetchPetsOfOwner, fetchBidsOfService }
+  { getServiceInfo, fetchPetsOfOwner, fetchBidsOfService, fetchBidStatOfService }
 )(withRouter(ServiceDetailContainer));

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Loader from "../components/loader/Loader";
 import * as _ from "lodash";
 import { connect } from "react-redux";
-import { fetchServicesOfCaretaker } from "../actions/serviceAction";
+import { fetchServicesOfCaretaker, getPotentialIncome, getCurrentIncome } from "../actions/serviceAction";
 import { fetchBidsOfCaretaker } from "../actions/bidActions";
 import { getPetTypes } from "../actions/petActions";
 import GridContainer from "../components/grid/GridContainer";
@@ -11,6 +11,8 @@ import DefaultButton from "../components/buttons/DefaultButton";
 import ServiceInfoTable from "../components/table/ServiceInfoTable";
 import BidsOfServiceTable from "../components/table/BidsOfServiceTable";
 import NewServiceModal from "../components/modals/NewServiceModal";
+import { Typography } from "@material-ui/core";
+import IncomePanel from "../components/cards/IncomePanel";
 
 class CaretakerDashboardContainer extends Component {
   constructor() {
@@ -22,8 +24,12 @@ class CaretakerDashboardContainer extends Component {
     this._onModalOpen = this._onModalOpen.bind(this);
   }
   componentDidMount = () => {
-    this.props.fetchServicesOfCaretaker(this.props.auth.user.id);
-    // this.props.fetchBidsOfCaretaker(this.props.auth.user.id);
+    const userId = this.props.auth.user.id;
+
+    this.props.fetchServicesOfCaretaker(userId);
+    this.props.fetchBidsOfCaretaker(userId);
+    this.props.getPotentialIncome(userId);
+    this.props.getCurrentIncome(userId);
     this.props.getPetTypes();
   };
   _onModalOpen = modalName => () => {
@@ -35,11 +41,14 @@ class CaretakerDashboardContainer extends Component {
 
   render() {
     const { services, bids } = this.props;
-    let bidsOfServices = [];
-    const renderBidsOfServices = () => {
-      bidsOfServices = _.groupBy(bids.bidsOfCaretaker, "serviceId");
-      console.log(bidsOfServices);
-    };
+
+    let bidsOfServices = {};
+    bidsOfServices = _.groupBy(bids.bidsOfCaretaker, "sid");
+    let bidsByServices = [];
+    // console.log(bidsOfServices)
+    _.forEach(bidsOfServices, (bidsArr, index) => {
+      bidsByServices.push(bidsArr);
+    })
 
     const renderModals = () => {
       return (
@@ -56,7 +65,7 @@ class CaretakerDashboardContainer extends Component {
 
     return (
       <>
-        <GridContainer justify="center" alignItems="flex-start" spacing={16}>
+        <GridContainer justify="center" alignItems="flex-start" spacing={32}>
           <GridItem xs={12} align="right">
             <DefaultButton
               onClick={this._onModalOpen("isNewServiceModalOpen")}
@@ -73,12 +82,25 @@ class CaretakerDashboardContainer extends Component {
             )}
           </GridItem>
           <GridItem xs={12}>
-            {!bids.loading ? (
-              //  group all the bids by servicesId
-              // <BidsOfServiceTable />
-              <></>
-            ) : null}
-            {renderBidsOfServices()}
+            {!services.loading ? (
+              <IncomePanel potentialIncome={services.potentialIncome} currentIncome={services.currentIncome} />
+            ) : (
+              <Loader />
+            )}
+          </GridItem>
+          <GridItem xs={12}>
+            {
+              !bids.loading ?
+              <>
+                <Typography gutterBottom variant="h5" style={{ fontWeight: "bold" }}>
+                  Bids Details
+                </Typography>
+                {bidsByServices.map((bidsArr, index) => {
+                  return <BidsOfServiceTable key={index} bidsArr={bidsArr} title={bidsArr[0].title} />
+                })}
+              </>
+                : <Loader />
+            }
           </GridItem>
         </GridContainer>
         {renderModals()}
@@ -96,5 +118,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchServicesOfCaretaker, getPetTypes, fetchBidsOfCaretaker }
+  {
+    fetchServicesOfCaretaker,
+    getPetTypes,
+    fetchBidsOfCaretaker,
+    getPotentialIncome,
+    getCurrentIncome
+  }
 )(CaretakerDashboardContainer);

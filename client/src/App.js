@@ -20,6 +20,8 @@ import DashboardPage from "./pages/DashboardPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import BrowsePage from "./pages/BrowsePage";
 import ServiceDetailPage from "./pages/ServiceDetailPage";
+import LoginPage from "./pages/LoginPage";
+import Footer from "./components/footer/Footer";
 
 const theme = createMuiTheme({
   palette: {
@@ -49,6 +51,7 @@ class App extends Component {
           <MuiThemeProvider theme={theme}>
             <Navbar />
             <Route exact path="/" component={HomePage} />
+            <Route exact path="/login" component={LoginPage} />
             <Route exact path="/browse" component={BrowsePage} />
             <Route exact path="/profile/:userId" component={UserProfilePage} />
             <Route
@@ -57,6 +60,7 @@ class App extends Component {
               component={ServiceDetailPage}
             />
             <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
+            <Footer />
             <ToastContainer />
           </MuiThemeProvider>
         </Router>

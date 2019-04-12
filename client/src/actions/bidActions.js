@@ -4,7 +4,7 @@ import {
   FETCH_BIDS_OF_OWNER,
   FETCH_BIDS_OF_SERVICE,
   UPDATE_BID_INFO,
-  GET_INTERESTING_BID,
+  GET_BID_STATS_OF_SERVICE,
   GET_ERRORS,
   FETCH_BIDS_OF_CARETAKER
 } from "./types";
@@ -99,6 +99,24 @@ export const fetchBidsOfCaretaker = caretakerId => dispatch => {
     .then(res => {
       dispatch({
         type: FETCH_BIDS_OF_CARETAKER,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+export const fetchBidStatOfService = serviceId => dispatch => {
+  dispatch(setBidLoading());
+  axios
+    .get(`/api/bids/stat/${serviceId}`)
+    .then(res => {
+      dispatch({
+        type: GET_BID_STATS_OF_SERVICE,
         payload: res.data
       });
     })

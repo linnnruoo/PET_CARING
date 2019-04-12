@@ -8,6 +8,7 @@ const petSubRouter = require("./pets");
 const petBreedSubRouter = require("./petbreeds");
 const serviceSubRouter = require("./services");
 const userSubRouter = require("./users");
+const insertDataSubRouter = require("./insertdata");
 
 /**
  * @route POST /api/me
@@ -72,9 +73,23 @@ router.use("/services", serviceSubRouter);
  */
 router.use("/user", userSubRouter);
 
+router.use("/insertdata", insertDataSubRouter);
+
 router.get("/teapot", async (req, res) => {
   res.status(418).json({
     message: "I'm a teapot ☕"
+  });
+});
+
+/**
+ * @route GET /api/sleep/
+ * @desc: Lynn's Missing Sleep
+ * @access Public
+ */
+router.get("/sleep", async (req, res) => {
+  res.status(400).json({
+    status: "Error",
+    message: "😴 Not Found"
   });
 });
 

@@ -35,6 +35,7 @@ export const loginUser = userAccInfo => dispatch => {
     })
     .catch(err => {
       console.log("simi error", err);
+      toast.error(err.response.data.message);
       dispatch({
         type: GET_ERRORS,
         payload: err.response

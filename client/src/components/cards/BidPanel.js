@@ -62,10 +62,10 @@ class BidPanelCard extends Component {
           <Typography gutterBottom variant="h6">
             You are the host of this service!
           </Typography>
-          <DefaultButton onClick={this._onModalOpen("isChooseBidModalOpen")}>
+          <DefaultButton style={{marginBottom: 20, marginTop: 20}} onClick={this._onModalOpen("isChooseBidModalOpen")}>
             Choose a Bid Now!
           </DefaultButton>
-          <DefaultButton onClick={_onCloseService}>
+          <DefaultButton style={{marginBottom: 20}} onClick={_onCloseService}>
             Close This Service
           </DefaultButton>
         </>
