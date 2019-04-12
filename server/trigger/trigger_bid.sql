@@ -36,6 +36,9 @@ BEGIN
 	ELSIF NEW.amount < 0 OR NEW.amount IS NULL THEN
 		RAISE NOTICE 'Bid amount cannot be negative or null!'
 		RETURN NULL;
+	ELSIF EXISTS (SELECT * FROM pets p WHERE p.id = NEW.id AND p.id = NEW.petName) THEN
+		RAISE NOTICE 'Pet does not belong to owner!'
+		RETURN NULL;
 	ELSE 
 		RETURN NEW;
 	END IF;
