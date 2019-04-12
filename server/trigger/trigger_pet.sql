@@ -1,14 +1,11 @@
 CREATE OR REPLACE FUNCTION pet_check()
 RETURNS TRIGGER AS $$
-DECLARE count NUMERIC;
 BEGIN
-	SELECT COUNT(*) INTO count
-	FROM petbreeds pb
-	WHERE pb.typeName = NEW.typeName
-	AND   pb.breedName = NEW.breedName
-	;
 	-- Check if pet breed matches pet type
-	IF count = 0 THEN
+	IF NOT EXISTS ( SELECT 1
+					FROM petbreeds pb
+					WHERE pb.typeName = NEW.typeName
+					AND   pb.breedName = NEW.breedName) THEN
 		RAISE NOTICE 'Pet breed does not match the pet type!';
 		RETURN NULL;
 	-- Check if age is not negative or null
