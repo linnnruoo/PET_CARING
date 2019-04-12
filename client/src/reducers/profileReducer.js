@@ -4,7 +4,7 @@ const initialState = {
   userProfile: {},
   allCaretakers: [],
   loading: false,
-  currentCaretakerRating : 5
+  currentCaretakerRating : 0
 };
 
 export default (state = initialState, action) => {
