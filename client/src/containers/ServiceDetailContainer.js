@@ -6,6 +6,7 @@ import BidPanelCard from "../components/cards/BidPanel";
 import Loader from "../components/loader/Loader";
 import { connect } from "react-redux";
 import { getServiceInfo } from "../actions/serviceAction";
+import { getServiceStatus } from "../actions/serviceAction";
 import { fetchPetsOfOwner } from "../actions/petActions";
 import { fetchBidsOfService, fetchBidStatOfService } from "../actions/bidActions";
 import { withRouter } from "react-router-dom";
@@ -28,6 +29,7 @@ class ServiceDetailContainer extends React.Component {
   componentDidMount = () => {
     const serviceId = this.props.match.params.serviceId;
     this.props.getServiceInfo(serviceId);
+    this.props.getServiceStatus(serviceId);
     this.props.fetchBidsOfService(serviceId);
     this.props.fetchBidStatOfService(serviceId);
 
@@ -87,6 +89,7 @@ class ServiceDetailContainer extends React.Component {
                 <BidPanelCard
                   auth={auth}
                   serviceId={this.props.match.params.serviceId}
+                  serviceStatus={services.currentServiceStatus}
                   caretakerId={caretakerId}
                   _onCloseService={this._onCloseService}
                 />
@@ -109,5 +112,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getServiceInfo, fetchPetsOfOwner, fetchBidsOfService, fetchBidStatOfService }
+  { getServiceInfo, fetchPetsOfOwner, fetchBidsOfService, fetchBidStatOfService, getServiceStatus }
 )(withRouter(ServiceDetailContainer));

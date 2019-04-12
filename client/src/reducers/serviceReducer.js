@@ -5,7 +5,8 @@ import {
   FILTER_SERVICES,
   GET_SINGLE_SERVICE,
   GET_POTENTIAL_INCOME,
-  GET_CURRENT_INCOME
+  GET_CURRENT_INCOME,
+  GET_SERVICE_STATUS
 } from "../actions/types";
 
 const initialState = {
@@ -59,6 +60,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentIncome: action.payload.currentIncome,
+        loading: false
+      };
+    case GET_SERVICE_STATUS:
+      return {
+        ...state,
+        currentServiceStatus: action.payload.status.status,
         loading: false
       };
     default:

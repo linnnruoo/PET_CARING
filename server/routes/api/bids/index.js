@@ -243,8 +243,9 @@ router.get("/stat/:serviceId", async (req, res) => {
  * @access Private
  */
 router.get("/from/:ownerid", async (req, res) => {
-  const ownerID = req.params.ownerId;
+  const ownerID = req.params.ownerid;
   try {
+    console.log(ownerID)
     const bids = await BidModel.getByOwner(ownerID);
     res.json({
       success: true,

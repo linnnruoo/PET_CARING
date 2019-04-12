@@ -33,6 +33,13 @@ class OwnerDashboardContainer extends Component {
     this.props.getPetTypes();
     this.props.getPetBreedsAll();
   };
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.auth !== this.props.auth) {
+      this.props.fetchPetsOfOwner(this.props.auth.user.id);
+      this.props.fetchBidsOfOwner(this.props.auth.user.id);
+    }
+  }
+
   _onModalOpen = modalName => () => {
     this.setState({ [modalName]: true });
   };

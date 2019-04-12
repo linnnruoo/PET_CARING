@@ -7,6 +7,7 @@ import {
   GET_ERRORS,
   GET_POTENTIAL_INCOME,
   GET_CURRENT_INCOME,
+  GET_SERVICE_STATUS,
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -96,6 +97,24 @@ export const getCurrentIncome = caretakerId => dispatch => {
     .then(res => {
       dispatch({
         type: GET_CURRENT_INCOME,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+export const getServiceStatus = serviceId => dispatch => {
+  dispatch(setServiceLoading());
+  axios
+    .get(`/api/services/status/${serviceId}`)
+    .then(res => {
+      dispatch({
+        type: GET_SERVICE_STATUS,
         payload: res.data
       });
     })
