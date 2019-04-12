@@ -3,6 +3,13 @@ import GridContainer from "../components/grid/GridContainer";
 import GridItem from "../components/grid/GridItem";
 import Filter from "../components/filter/Filter";
 import ServiceList from "../components/service/ServiceList";
+import * as _ from 'lodash';
+
+import { filterServices, getServicePageNumber } from "../actions/serviceAction";
+import { connect } from "react-redux";
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string'
+import Loader from "../components/loader/Loader";
 
 class BrowseContainer extends Component {
   constructor() {
@@ -12,25 +19,66 @@ class BrowseContainer extends Component {
       currentPage: 1,
       searchInput: "",
       serviceListings: [],
-      commitmentLevel: new Map(),
+      // commitmentLevel: new Map(),
       petType: new Map(),
-      preferredDate: new Map()
+      queryPetType: [],
+      // preferredDate: new Map(),
+      endTime: '',
+      startTime: '',
+      pageNum: 0,
     };
     this._decodeQueryString = this._decodeQueryString.bind(this);
     this._formQueryString = this._formQueryString.bind(this);
     this._onCheckboxChange = this._onCheckboxChange.bind(this);
     this._onSearchFieldChange = this._onSearchFieldChange.bind(this);
+    this._onChange = this._onChange.bind(this);
     this._onSearchSubmit = this._onSearchSubmit.bind(this);
   }
   componentDidMount = () => {
     this._decodeQueryString();
-    // search project
   };
+
   _decodeQueryString = () => {
-    const query = this.props.query;
-    console.log("query param", query);
+    const values = queryString.parse(this.props.location.search);
+    // console.log("title: ", values.title)
+    this.setState({
+      searchInput: values.title
+    }, () => {
+      this._formQueryString()
+    })
   };
-  _formQueryString = () => {};
+
+  _formQueryString = () => {
+    // search project -> initial load
+    // filter properly
+    const { searchInput, startTime, endTime, queryPetType, pageNum } = this.state;
+    // console.log(queryPetType);
+    let petTypes = [];
+
+    _.forEach(queryPetType, (value, key) => {
+      if (value === true) {
+        petTypes.push(key)
+      }
+    })
+
+    // console.log(petTypes);
+
+    const filter = {
+        // title: searchInput,
+        // startTime: startTime,
+        // endTime: endTime,
+        // petTypes: petTypes
+    }
+
+    if (_.size(searchInput) > 0) filter.title = searchInput;
+    if (_.size(startTime) > 0) filter.startTime = startTime;
+    if (_.size(endTime) > 0) filter.endTime = endTime;
+    if (!_.isEmpty(petTypes)) filter.petTypes = petTypes;
+
+    this.props.filterServices(pageNum, {filter});
+    this.props.getServicePageNumber({filter});
+  };
+
   _onCheckboxChange = filter => e => {
     const item_index = e.target.value;
     const isChecked = e.target.checked;
@@ -39,47 +87,66 @@ class BrowseContainer extends Component {
     this.setState(
       prevState => ({
         [filter]: prevState[filter].set(item_index, { name, isChecked }),
-        subject: ""
-      }),
-      () => {
-        this._formQueryString();
-      }
+        queryPetType: {...prevState.queryPetType, [name]: isChecked}
+      })
     );
   };
   _onSearchFieldChange = e => {
     this.setState({ searchInput: e.target.value });
   };
+  _onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
   _onSearchSubmit = e => {
     e.preventDefault();
+    this._formQueryString();
   };
 
   render() {
     const {
       serviceListings,
-      commitmentLevel,
       petType,
-      preferredDate,
+      endTime,
+      startTime,
       searchInput
     } = this.state;
+    const { services } = this.props;
     return (
       <GridContainer spacing={16}>
         <GridItem lg={3} md={3} xs={12}>
           <Filter
-            commitmentLevel={commitmentLevel}
             petType={petType}
-            preferredDate={preferredDate}
             searchInput={searchInput}
+            endTime={endTime}
+            startTime={startTime}
+            _onChange={this._onChange}
             _onCheckboxChange={this._onCheckboxChange}
             _onSearchFieldChange={this._onSearchFieldChange}
             _onSearchSubmit={this._onSearchSubmit}
           />
         </GridItem>
         <GridItem lg={9} md={9} xs={12}>
+        {
+          (!services.loading) ?
           <ServiceList serviceListings={serviceListings} />
+          :
+          <Loader />
+        }
         </GridItem>
       </GridContainer>
     );
   }
 }
 
-export default BrowseContainer;
+const mapStateToProps = state => ({
+  services: state.services,
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  {
+    filterServices,
+    getServicePageNumber
+  }
+)(withRouter(BrowseContainer));

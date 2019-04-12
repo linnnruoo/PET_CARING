@@ -8,6 +8,7 @@ import {
   GET_POTENTIAL_INCOME,
   GET_CURRENT_INCOME,
   GET_SERVICE_STATUS,
+  GET_FILTER_PAGE,
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -125,3 +126,39 @@ export const getServiceStatus = serviceId => dispatch => {
       });
     });
 };
+
+export const filterServices = (pageNum, filterInfo) => dispatch => {
+  dispatch(setServiceLoading());
+  axios
+    .post(`/api/services/filter/${pageNum}`, filterInfo)
+    .then(res => {
+      dispatch({
+        type: FILTER_SERVICES,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
+
+export const getServicePageNumber = (filterInfo) => dispatch => {
+  dispatch(setServiceLoading());
+  axios
+    .post(`/api/services/filter`, filterInfo)
+    .then(res => {
+      dispatch({
+        type: GET_FILTER_PAGE,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+}
