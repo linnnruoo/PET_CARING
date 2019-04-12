@@ -16,7 +16,9 @@ export default (state = initialState, action) => {
     case UPDATE_USER_PROFILE:
       return {
         ...state,
-        userProfile: action.payload,
+        userProfile: {
+          ...action.payload
+        },
         loading: false
       }
     case PROFILE_LOADING: 
