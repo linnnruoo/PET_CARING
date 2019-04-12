@@ -121,7 +121,7 @@ const User = {
     const values = [
       id,
     ];
-
+    console.log("test test")
     try {
       const { rows } = await db.query(findQuery, values);
       if (rows.length === 1) {
@@ -129,6 +129,7 @@ const User = {
         return user;
       }
     } catch (error) {
+      console.log("EEOR", error)
       throw error;
     }
   },
@@ -162,18 +163,18 @@ const User = {
     }
   },
 
-  updateUser: async (first_name, last_name, email, id) => {
+  updateUser: async (first_name, last_name, id) => {
 
     const updateQuery = `
     UPDATE users u
-      SET first_name = $2, last_name = $3, email = $4
-      WHERE u.id = $1;`
+      SET first_name = $2, last_name = $3,
+      WHERE u.id = $1;
+    returning *;`
 
     const values = [
       id, //id will not change
       first_name, 
-      last_name, 
-      email, 
+      last_name,
     ];
 
     try {
