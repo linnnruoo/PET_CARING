@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 
+const adminSubRouter = require("./admin");
 const bidSubRouter = require("./bids");
 const petTypeSubRouter = require("./pettypes");
 const petSubRouter = require("./pets");
@@ -29,6 +30,13 @@ router.post(
     });
   }
 );
+
+/**
+ * @route * /api/admin/*
+ * @desc: API related to admin endpoint such as /api/admin
+ * @access Admin
+ */
+router.use("/admin", adminSubRouter);
 
 /**
  * @route * /api/bids/*
