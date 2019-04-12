@@ -16,6 +16,7 @@ const FilterGroupCheckbox = ({
     return null;
   }
 
+  // why did i implement this complicated shit
   return (
     <>
       <Typography style={{ fontSize: 15, fontWeight: "bold", marginBottom: 5 }}>

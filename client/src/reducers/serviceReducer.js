@@ -6,12 +6,14 @@ import {
   GET_SINGLE_SERVICE,
   GET_POTENTIAL_INCOME,
   GET_CURRENT_INCOME,
-  GET_SERVICE_STATUS
+  GET_SERVICE_STATUS,
+  GET_FILTER_PAGE
 } from "../actions/types";
 
 const initialState = {
   currentService: {},
   filteredServices: [],
+  pageNum: 0,
   userServices: [],
   pastServices: [],
   potentialIncome: 0,
@@ -41,7 +43,13 @@ export default (state = initialState, action) => {
     case FILTER_SERVICES:
       return {
         ...state,
-        filteredServices: action.payload,
+        filteredServices: action.payload.services,
+        loading: false
+      };
+    case GET_FILTER_PAGE:
+      return {
+        ...state,
+        pageNum: action.payload.pages,
         loading: false
       };
     case GET_SINGLE_SERVICE:

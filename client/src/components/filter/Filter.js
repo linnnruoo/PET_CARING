@@ -11,6 +11,9 @@ import {
   petTypeList,
   commitmentList
 } from "../../constants/filter_list";
+import GridContainer from "../grid/GridContainer";
+import GridItem from "../grid/GridItem";
+import TimePicker from "../pickers/TimePicker";
 
 class Filter extends Component {
   constructor(props) {
@@ -29,9 +32,10 @@ class Filter extends Component {
   render() {
     const {
       searchInput,
-      commitmentLevel,
+      endTime,
       petType,
-      preferredDate,
+      startTime,
+      _onChange,
       _onCheckboxChange,
       _onSearchFieldChange,
       _onSearchSubmit
@@ -61,39 +65,46 @@ class Filter extends Component {
             this.state.expandFilter ? "" : "d-none d-xl-block"
           }`}
         >
-          <form>
-            <TextField
-              value={searchInput}
-              label="Search Keyword"
-              onChange={_onSearchFieldChange}
-              required={false}
-              style={{ marginBottom: 30 }}
-            />
-            <FilterGroupCheckbox
-              header="Preferred Date"
-              filterList={dateList}
-              checkboxGroup={preferredDate}
-              _onCheckboxChange={_onCheckboxChange}
-              checkboxName="preferredDate"
-            />
-            <FilterGroupCheckbox
-              header="Pet Type"
-              filterList={petTypeList}
-              checkboxGroup={petType}
-              _onCheckboxChange={_onCheckboxChange}
-              checkboxName="petType"
-            />
-            <FilterGroupCheckbox
-              header="Commitment Level"
-              filterList={commitmentList}
-              checkboxGroup={commitmentLevel}
-              _onCheckboxChange={_onCheckboxChange}
-              checkboxName="commitmentLevel"
-            />
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <GridContainer spacing={32}>
+            <GridItem xs={12}>
+              <TextField
+                value={searchInput}
+                label="Search Keyword"
+                onChange={_onSearchFieldChange}
+                required={false}
+              />
+            </GridItem>
+            <GridItem xs={12}>
+              <FilterGroupCheckbox
+                header="Pet Type"
+                filterList={petTypeList}
+                checkboxGroup={petType}
+                _onCheckboxChange={_onCheckboxChange}
+                checkboxName="petType"
+              />
+            </GridItem>
+            <GridItem xs={12}>
+              <TimePicker
+                label="Start Time"
+                value={startTime}
+                name="startTime"
+                onChange={_onChange}
+                style={{ marginBottom: 30 }}
+              />
+            </GridItem>
+            <GridItem xs={12}>
+              <TimePicker
+                label="End Time"
+                value={endTime}
+                name="endTime"
+                onChange={_onChange}
+                style={{ marginBottom: 30 }}
+              />
+            </GridItem>
+            <GridItem xs={12} align="center">
               <DefaultButton onClick={_onSearchSubmit}>Search</DefaultButton>
-            </div>
-          </form>
+            </GridItem>
+          </GridContainer>
         </div>
       </Paper>
     );
