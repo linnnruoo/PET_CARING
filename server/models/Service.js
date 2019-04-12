@@ -135,25 +135,32 @@ const Service = {
     let filterCount = 1;
     let filterArray = [];
     let values = [];
+    let filterString;
 
-    if (filter.title) {
-      filterArray.push(`LOWER(s.title) LIKE ( LOWER($${filterCount++}) )`);
-      values.push(`%${filter.title}%`);
+    if (Object.getOwnPropertyNames(filter).length === 0) {
+      console.log("empty filter");
+      filterString = '1=1';
     }
-    if (filter.startTime) {
-      filterArray.push(`s.startTime >= $${filterCount++}`);
-      values.push(filter.startTime);
+    else {
+      if (filter.title) {
+        filterArray.push(`LOWER(s.title) LIKE ( LOWER($${filterCount++}) )`);
+        values.push(`%${filter.title}%`);
+      }
+      if (filter.startTime) {
+        filterArray.push(`s.startTime >= $${filterCount++}`);
+        values.push(filter.startTime);
+      }
+      if (filter.endTime) {
+        filterArray.push(`s.endTime <= $${filterCount++}`);
+        values.push(filter.endTime);
+      }
+      if (filter.petTypes) {
+        filterArray.push(`s.typeName = ANY ($${filterCount++})`)
+        values.push(filter.petTypes);
+      }
+      filterString = filterArray.join(` AND `);
     }
-    if (filter.endTime) {
-      filterArray.push(`s.endTime <= $${filterCount++}`);
-      values.push(filter.endTime);
-    }
-    if (filter.petTypes) {
-      filterArray.push(`s.typeName = ANY ($${filterCount++})`)
-      values.push(filter.petTypes);
-    }
-
-    const filterString = filterArray.join(` AND `)
+    
 
     console.log(filterString);
     
@@ -175,9 +182,11 @@ const Service = {
     let filterCount = 1;
     let filterArray = [];
     let values = [];
+    let filterString;
 
-    if (!filter) {
-        console.log("empty filter");
+    if (Object.getOwnPropertyNames(filter).length === 0) {
+      console.log("empty filter");
+      filterString = '1=1';
     }
     else {
       if (filter.title) {
@@ -196,9 +205,8 @@ const Service = {
         filterArray.push(`s.typeName = ANY ($${filterCount++})`)
         values.push(filter.petTypes);
       }
+      filterString = filterArray.join(` AND `);
     }
-
-    const filterString = filterArray.join(` AND `)
 
     console.log(filterString);
     
