@@ -28,7 +28,6 @@ const Rating = {
                             FROM ratings
                             GROUP BY cid
                             HAVING cid = $1`;
-
     const values = [
       caretakerId
     ];
@@ -44,4 +43,4 @@ const Rating = {
   }
 };
 
-module.exports = Owner;
+module.exports = Rating;

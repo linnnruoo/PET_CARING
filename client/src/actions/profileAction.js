@@ -4,6 +4,7 @@ import {
   GET_ERRORS,
   PROFILE_LOADING,
   GET_ALL_TAKERS,
+  GET_CARETAKER_RATING
 } from "./types";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,7 +14,6 @@ export const setProfileLoading = () => {
     type: PROFILE_LOADING
   };
 };
-
 export const getUserProfileById = userId => dispatch => {
   dispatch(setProfileLoading());
   axios
@@ -66,4 +66,23 @@ export const getAllCaretakersByPage = () => dispatch => {
       payload: err.response.data
     });
   });
-}
+};
+
+export const fetchRatingOfCaretaker = userId => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/ratings/${userId}`)
+    .then(res => {
+      dispatch({
+        type: GET_CARETAKER_RATING,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+

@@ -4,6 +4,7 @@ const initialState = {
   userProfile: {},
   allCaretakers: [],
   loading: false,
+  currentCaretakerRating : 5
 };
 
 export default (state = initialState, action) => {
@@ -32,6 +33,12 @@ export default (state = initialState, action) => {
         ...state,
         loading: false,
         allCaretakers: action.payload
+      }
+    case GET_ALL_TAKERS:
+      return {
+        ...state,
+        loading: false,
+        GET_CARETAKER_RATING: action.payload
       }
     default:
       return state;

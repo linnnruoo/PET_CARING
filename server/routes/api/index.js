@@ -9,6 +9,7 @@ const petBreedSubRouter = require("./petbreeds");
 const serviceSubRouter = require("./services");
 const userSubRouter = require("./users");
 const insertDataSubRouter = require("./insertdata");
+const ratingSubRouter = require("./ratings");
 
 /**
  * @route POST /api/me
@@ -72,6 +73,14 @@ router.use("/services", serviceSubRouter);
  * @access Public
  */
 router.use("/user", userSubRouter);
+
+/**
+ * @route * /api/ratings/*
+ * @desc: API related to ratings endpoint such as /api/ratings
+ * @access Variable
+ */
+router.use("/ratings", ratingSubRouter);
+
 
 router.use("/insertdata", insertDataSubRouter);
 

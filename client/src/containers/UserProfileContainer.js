@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchPetsOfOwner } from "../actions/petActions";
 import { fetchServicesOfCaretaker } from "../actions/serviceAction";
 import { getUserProfileById } from "../actions/profileAction";
+import { fetchRatingOfCaretaker } from "../actions/profileAction";
 import GridContainer from "../components/grid/GridContainer";
 import GridItem from "../components/grid/GridItem";
 import { withRouter } from "react-router-dom";
@@ -39,12 +40,16 @@ class UserProfileContainer extends Component {
         first_name: userProfile.first_name,
         last_name: userProfile.last_name,
         email: userProfile.email,
-        role: userProfile.role
+        role: userProfile.role,
+        rating: this.props.profile.currentCaretakerRating
       }, () => {
         const { role } = this.state;
         const userId = this.props.match.params.userId;
         if (role === "petowner") this.props.fetchPetsOfOwner(userId);
-        else if (role === "caretaker") this.props.fetchServicesOfCaretaker(userId);
+        else if (role === "caretaker") { 
+          this.props.fetchServicesOfCaretaker(userId);
+          this.props.fetchRatingOfCaretaker(userId);
+        }
 
         const { user, isAuthenticated } = this.props.auth;
         // console.log("test", user.id, userId)
@@ -84,7 +89,7 @@ class UserProfileContainer extends Component {
       <>
       <GridContainer spacing={32}>
         <GridItem xs={12}>
-          <ProfileCard first_name={this.state.first_name} role={this.state.role} />
+          <ProfileCard first_name={this.state.first_name} role={this.state.role} rating={this.state.rating}/>
         </GridItem>
         <GridItem xs={12}>
         {
@@ -124,6 +129,7 @@ export default connect(
   {
     fetchPetsOfOwner,
     getUserProfileById,
-    fetchServicesOfCaretaker
+    fetchServicesOfCaretaker,
+    fetchRatingOfCaretaker
   }
 )(withRouter(UserProfileContainer));
