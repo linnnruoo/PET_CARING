@@ -115,6 +115,7 @@ class BrowseContainer extends Component {
       searchInput
     } = this.state;
     const { services } = this.props;
+    // console.log(services.pages)
     return (
       <GridContainer spacing={16}>
         <GridItem lg={3} md={3} xs={12}>
@@ -136,7 +137,7 @@ class BrowseContainer extends Component {
                 <ServiceList serviceListings={services.filteredServices} />
                 <PaginatorCenter
                   limit={limit}
-                  total={services.pages * limit}
+                  total={services.pageNum * limit}
                   currentPage={this.state.pageNum}
                   pageCount={5}
                   handlePageChange={this._handlePageChange}

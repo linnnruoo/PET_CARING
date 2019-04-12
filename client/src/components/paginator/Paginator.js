@@ -116,7 +116,7 @@ const styles = () => ({
     border: 'none',
     color: '#6F9283',
     cursor: 'pointer',
-    backgroundColor: '#ff9c00',
+    backgroundColor: 'green',
     '&:focus': {
       outline: 'none'
     }
@@ -138,7 +138,7 @@ const styles = () => ({
     fontFamily: '"Raleway", serif',
     padding: '7px',
     border: 'none',
-    color: '#ff9c00',
+    color: 'green',
     cursor: 'pointer',
     backgroundColor: '#cdc6a5',
     '&:focus': {
