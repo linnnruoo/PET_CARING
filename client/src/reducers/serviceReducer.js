@@ -43,13 +43,13 @@ export default (state = initialState, action) => {
     case FILTER_SERVICES:
       return {
         ...state,
-        filteredServices: action.payload,
+        filteredServices: action.payload.services,
         loading: false
       };
     case GET_FILTER_PAGE:
       return {
         ...state,
-        pageNum: action.payload,
+        pageNum: action.payload.pages,
         loading: false
       };
     case GET_SINGLE_SERVICE:

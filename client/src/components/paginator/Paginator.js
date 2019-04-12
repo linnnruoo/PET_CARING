@@ -114,7 +114,7 @@ const styles = () => ({
     fontFamily: '"Raleway", serif',
     padding: '10px',
     border: 'none',
-    color: '#ffffff',
+    color: '#6F9283',
     cursor: 'pointer',
     backgroundColor: '#ff9c00',
     '&:focus': {
@@ -128,7 +128,7 @@ const styles = () => ({
     border: 'none',
     color: '#d0cfcf',
     cursor: 'pointer',
-    backgroundColor: 'transparent',
+    backgroundColor: '#cdc6a5',
     '&:focus': {
       outline: 'none'
     }
@@ -140,7 +140,7 @@ const styles = () => ({
     border: 'none',
     color: '#ff9c00',
     cursor: 'pointer',
-    backgroundColor: 'transparent',
+    backgroundColor: '#cdc6a5',
     '&:focus': {
       outline: 'none'
     }

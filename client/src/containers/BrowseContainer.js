@@ -10,13 +10,14 @@ import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string'
 import Loader from "../components/loader/Loader";
+import PaginatorCenter from "../components/paginator/PaginatorCenter";
 
 class BrowseContainer extends Component {
   constructor() {
     super();
     this.state = {
       total: 0,
-      currentPage: 1,
+      // currentPage: 1,
       searchInput: "",
       serviceListings: [],
       // commitmentLevel: new Map(),
@@ -25,7 +26,7 @@ class BrowseContainer extends Component {
       // preferredDate: new Map(),
       endTime: '',
       startTime: '',
-      pageNum: 0,
+      pageNum: 1,
     };
     this._decodeQueryString = this._decodeQueryString.bind(this);
     this._formQueryString = this._formQueryString.bind(this);
@@ -33,6 +34,7 @@ class BrowseContainer extends Component {
     this._onSearchFieldChange = this._onSearchFieldChange.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onSearchSubmit = this._onSearchSubmit.bind(this);
+    this._handlePageChange = this._handlePageChange.bind(this);
   }
   componentDidMount = () => {
     this._decodeQueryString();
@@ -63,12 +65,7 @@ class BrowseContainer extends Component {
 
     // console.log(petTypes);
 
-    const filter = {
-        // title: searchInput,
-        // startTime: startTime,
-        // endTime: endTime,
-        // petTypes: petTypes
-    }
+    const filter = {}
 
     if (_.size(searchInput) > 0) filter.title = searchInput;
     if (_.size(startTime) > 0) filter.startTime = startTime;
@@ -97,6 +94,13 @@ class BrowseContainer extends Component {
   _onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+  
+  _handlePageChange = (page) => {
+    this.setState({pageNum: page}, () => {
+      this.formQueryString();
+    });
+  };
+
   _onSearchSubmit = e => {
     e.preventDefault();
     this._formQueryString();
@@ -104,7 +108,6 @@ class BrowseContainer extends Component {
 
   render() {
     const {
-      serviceListings,
       petType,
       endTime,
       startTime,
@@ -126,17 +129,26 @@ class BrowseContainer extends Component {
           />
         </GridItem>
         <GridItem lg={9} md={9} xs={12}>
-        {
-          (!services.loading) ?
-          <ServiceList serviceListings={serviceListings} />
-          :
-          <Loader />
-        }
+          {
+            (!services.loading) ?
+            <ServiceList serviceListings={services.filteredServices} />
+            :
+            <Loader />
+          }
+          <PaginatorCenter
+            limit={limit}
+            total={services.pages || this.state.total}
+            currentPage={this.state.pageNum}
+            handlePageChange={this._handlePageChange}
+            style="default"
+          />
         </GridItem>
       </GridContainer>
     );
   }
 }
+
+const limit = 20;
 
 const mapStateToProps = state => ({
   services: state.services,

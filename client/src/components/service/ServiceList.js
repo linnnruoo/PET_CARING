@@ -6,7 +6,7 @@ import { Typography } from "@material-ui/core";
 const ServiceList = ({ serviceListings }) => {
   const renderList = () => {
     return (
-      <div>
+      <div style={{ margin: 10}}>
         {serviceListings.map((item, index) => (
           <Service key={index} item={item} />
         ))}
