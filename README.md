@@ -9,12 +9,12 @@ $ cd PET_CARING
 To start the server on localhost:5000:
 ```
 $ cd server
-$ yarn install
+$ yarn
 $ yarn start
 ```
 To start the client on localhost:3000:
 ```
 $ cd client
-$ yarn install
+$ yarn
 $ yarn start
 ```
