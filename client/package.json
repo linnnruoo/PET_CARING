@@ -10,7 +10,7 @@
     "classnames": "^2.2.6",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.13",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "query-string": "^6.4.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
